@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="WebServers">
+    <option name="servers">
+      <webServer id="18634742-dbc4-4214-af85-a6c8f483e77c" name="ps-tracking.pea-meter.com">
+        <fileTransfer accessType="SFTP" host="ec2-52-77-242-26.ap-southeast-1.compute.amazonaws.com" port="22" sshConfigId="fa86a94f-bdfb-4146-9550-1f98a4c08431" sshConfig="ubuntu@ec2-52-77-242-26.ap-southeast-1.compute.amazonaws.com:22 key" keyPair="true">
+          <advancedOptions>
+            <advancedOptions dataProtectionLevel="Private" keepAliveTimeout="0" passiveMode="true" shareSSLContext="true" />
+          </advancedOptions>
+        </fileTransfer>
+      </webServer>
+    </option>
+  </component>
+</project>
