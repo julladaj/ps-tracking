@@ -16,9 +16,8 @@
               </div>
             </div>
             <div class="card-body">
-              <form class="mb-2" method="POST" action="{{ route('password.update') }}">
+              <form class="mb-2" method="POST" action="{{ route('post-reset-password') }}">
                 @csrf
-                <input type="hidden" name="token" value="{{ $token }}">
 
                 <div class="form-group">
                   <label class="text-bold-600" for="email">Email</label>

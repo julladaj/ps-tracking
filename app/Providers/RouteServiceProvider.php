@@ -37,16 +37,11 @@ class RouteServiceProvider extends ServiceProvider
     {
         $this->configureRateLimiting();
 
-        $this->routes(function () {
-            Route::prefix('api')
-                ->middleware('api')
-                ->namespace($this->namespace)
-                ->group(base_path('routes/api.php'));
+        $this->authenticatedRoutes();
 
-            Route::middleware('web')
-                ->namespace($this->namespace)
-                ->group(base_path('routes/web.php'));
-        });
+        $this->guestRoutes();
+
+        $this->apiRoutes();
     }
 
     /**
@@ -58,6 +53,45 @@ class RouteServiceProvider extends ServiceProvider
     {
         RateLimiter::for('api', function (Request $request) {
             return Limit::perMinute(60)->by(optional($request->user())->id ?: $request->ip());
+        });
+    }
+
+    /**
+     * All routes that need to be authenticated first.
+     *
+     * @return void
+     */
+    protected function authenticatedRoutes()
+    {
+        Route::middleware(['web', 'auth'])
+            ->namespace($this->namespace)
+            ->group(base_path('routes/web.php'));
+    }
+
+    /**
+     * All routes that allow access without login.
+     *
+     * @return void
+     */
+    protected function guestRoutes()
+    {
+        Route::middleware('web')
+            ->namespace($this->namespace)
+            ->group(base_path('routes/guest.php'));
+    }
+
+    /**
+     * All routes that allow access without login.
+     *
+     * @return void
+     */
+    protected function apiRoutes()
+    {
+        $this->routes(function () {
+            Route::prefix('api')
+                ->middleware('api')
+                ->namespace($this->namespace)
+                ->group(base_path('routes/api.php'));
         });
     }
 }

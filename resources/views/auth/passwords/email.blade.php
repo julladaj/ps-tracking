@@ -23,11 +23,11 @@
             <div class="form-group d-flex justify-content-between align-items-center mb-2">
               <div class="text-left">
                 <div class="ml-3 ml-md-2 mr-1">
-                  <a href="{{asset('login')}}"  class="card-link btn btn-outline-primary text-nowrap">Sign in</a>
+                  <a href="{{ route('auth-login') }}"  class="card-link btn btn-outline-primary text-nowrap">Sign in</a>
                 </div>
               </div>
               <div class="mr-3">
-                <a href="{{asset('register')}}" class="card-link btn btn-outline-primary text-nowrap">Sign up</a>
+                <a href="{{ route('auth-register') }}" class="card-link btn btn-outline-primary text-nowrap">Sign up</a>
               </div>
             </div>
             <div class="card-body">
@@ -52,19 +52,8 @@
               </form>
 
               <div class="text-center mb-2">
-                <a href="{{asset('login')}}">
+                <a href="{{ route('auth-login') }}">
                   <small class="text-muted">I remembered my password</small>
-                </a>
-              </div>
-              <div class="divider mb-2">
-                <div class="divider-text">Or Sign in as</div>
-              </div>
-              <div class="d-flex flex-md-row flex-column">
-                <a href="#" class="btn btn-social btn-google btn-block font-small-3 mb-1 mb-sm-1 mb-md-0 mr-md-1 text-center">
-                  <i class="bx bxl-google font-medium-3"></i><span class="pl-1">Google</span>
-                </a>
-                <a href="#" class="btn btn-social btn-facebook btn-block font-small-3 text-center mt-0">
-                  <i class="bx bxl-facebook-square font-medium-3"></i><span class="pl-1">Facebook</span>
                 </a>
               </div>
             </div>

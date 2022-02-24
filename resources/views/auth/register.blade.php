@@ -26,7 +26,7 @@
               </p>
             </div>
             <div class="card-body">
-              <form method="POST" action="{{ route('register') }}">
+              <form method="POST" action="{{ route('post-register') }}">
                 @csrf
                 <div class="form-group mb-50">
                   <label class="text-bold-600" for="name">Name</label>
