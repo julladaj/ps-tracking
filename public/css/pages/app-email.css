@@ -173,22 +173,22 @@
 
 .email-application .content-area-wrapper .content-right .email-app-list-wrapper .email-app-list .email-action .action-right .email-fixed-search input {
   border-color: #DFE3E7;
-  font-family: "IBM Plex Sans", Helvetica, Arial, serif;
+  font-family: "Prompt", Helvetica, Arial, serif;
 }
 
 .email-application .content-area-wrapper .content-right .email-app-list-wrapper .email-app-list .email-action .action-right .email-fixed-search input::-moz-placeholder {
   font-size: 1rem;
-  font-family: "IBM Plex Sans", Helvetica, Arial, serif;
+  font-family: "Prompt", Helvetica, Arial, serif;
 }
 
 .email-application .content-area-wrapper .content-right .email-app-list-wrapper .email-app-list .email-action .action-right .email-fixed-search input:-ms-input-placeholder {
   font-size: 1rem;
-  font-family: "IBM Plex Sans", Helvetica, Arial, serif;
+  font-family: "Prompt", Helvetica, Arial, serif;
 }
 
 .email-application .content-area-wrapper .content-right .email-app-list-wrapper .email-app-list .email-action .action-right .email-fixed-search input::placeholder {
   font-size: 1rem;
-  font-family: "IBM Plex Sans", Helvetica, Arial, serif;
+  font-family: "Prompt", Helvetica, Arial, serif;
 }
 
 .email-application .content-area-wrapper .content-right .email-app-list-wrapper .email-app-list .email-action .action-right .email-fixed-search .form-control-position {
@@ -25445,7 +25445,7 @@
 }
 
 .email-application .content-area-wrapper .attchement-text {
-  font-family: "IBM Plex Sans", Helvetica, Arial, serif;
+  font-family: "Prompt", Helvetica, Arial, serif;
 }
 
 .email-application .content-area-wrapper .action-icon {

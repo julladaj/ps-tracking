@@ -15,5 +15,12 @@ return [
 
     'failed' => 'These credentials do not match our records.',
     'throttle' => 'Too many login attempts. Please try again in :seconds seconds.',
-    'welcome_back' => 'ยินดีต้อนรับสมาชิก'
+    'welcome_back' => 'ยินดีต้อนรับสมาชิก',
+    'invalid_credential' => 'ข้อมูลในการเข้าสู่ระบบไม่ถูกต้อง',
+    'email' => 'อีเมล์',
+    'password' => 'รหัสผ่าน',
+    'remember_me' => 'จดจำไว้ในระบบ',
+    'forget_password' => 'ลืมรหัสผ่าน?',
+    'dont_have_account' => 'ไม่มีบัญชีผู้ใช้?',
+    'sign_up' => 'สมัครสมาชิก'
 ];

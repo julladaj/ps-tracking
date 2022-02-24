@@ -73,25 +73,25 @@
 .invoice-list-wrapper .dataTables_wrapper .top .action-filters .dataTables_filter label input {
   width: 99%;
   height: 38px;
-  font-family: "IBM Plex Sans", Helvetica, Arial, serif;
+  font-family: "Prompt", Helvetica, Arial, serif;
   padding-left: 2rem;
   font-size: 1rem;
 }
 
 .invoice-list-wrapper .dataTables_wrapper .top .action-filters .dataTables_filter label input::-moz-placeholder {
-  font-family: "IBM Plex Sans", Helvetica, Arial, serif;
+  font-family: "Prompt", Helvetica, Arial, serif;
   color: #828D99;
   font-size: 1rem;
 }
 
 .invoice-list-wrapper .dataTables_wrapper .top .action-filters .dataTables_filter label input:-ms-input-placeholder {
-  font-family: "IBM Plex Sans", Helvetica, Arial, serif;
+  font-family: "Prompt", Helvetica, Arial, serif;
   color: #828D99;
   font-size: 1rem;
 }
 
 .invoice-list-wrapper .dataTables_wrapper .top .action-filters .dataTables_filter label input::placeholder {
-  font-family: "IBM Plex Sans", Helvetica, Arial, serif;
+  font-family: "Prompt", Helvetica, Arial, serif;
   color: #828D99;
   font-size: 1rem;
 }

@@ -36,8 +36,8 @@
               <form method="POST" action="{{ route('post-login') }}">
                 @csrf
                 <div class="form-group mb-50">
-                  <label class="text-bold-600" for="email">Email address</label>
-                  <input id="email" type="email" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}"  autocomplete="email" autofocus placeholder="Email address">
+                  <label class="text-bold-600" for="email">{{ __('auth.email') }}</label>
+                  <input id="email" type="email" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}" autocomplete="email" autofocus placeholder="{{ __('auth.email') }}">
                   @error('email')
                     <span class="invalid-feedback" role="alert">
                       <strong>{{ $message }}</strong>
@@ -45,8 +45,8 @@
                   @enderror
                 </div>
                 <div class="form-group">
-                  <label class="text-bold-600" for="password">Password</label>
-                  <input id="password" type="password" class="form-control @error('password') is-invalid @enderror" name="password"  autocomplete="current-password" placeholder="Password">
+                  <label class="text-bold-600" for="password">{{ __('auth.password') }}</label>
+                  <input id="password" type="password" class="form-control @error('password') is-invalid @enderror" name="password" autocomplete="current-password" placeholder="{{ __('auth.password') }}">
                   @error('password')
                     <span class="invalid-feedback" role="alert">
                       <strong>{{ $message }}</strong>
@@ -58,12 +58,12 @@
                     <div class="checkbox checkbox-sm">
                       <input class="form-check-input" type="checkbox" name="remember" id="remember" {{ old('remember') ? 'checked' : '' }}>
                       <label class="form-check-label" for="remember">
-                        <small>Keep me logged in</small>
+                        <small>{{ __('auth.remember_me') }}</small>
                       </label>
                     </div>
                   </div>
                   <div class="text-right">
-                    <a href="{{ route('auth-forgot-password') }}" class="card-link"><small>Forgot Password?</small></a>
+                    <a href="{{ route('auth-forgot-password') }}" class="card-link"><small>{{ __('auth.forget_password') }}</small></a>
                   </div>
                 </div>
                 <button type="submit" class="btn btn-primary glow w-100 position-relative">{{ __('locale.Login') }}
@@ -72,8 +72,8 @@
               </form>
               <hr>
               <div class="text-center">
-                <small class="mr-25">Don't have an account?</small>
-                <a href="{{ route('auth-register') }}"><small>Sign up</small></a>
+                <small class="mr-25">{{ __('auth.dont_have_account') }}</small>
+                <a href="{{ route('auth-register') }}"><small>{{ __('auth.sign_up') }}</small></a>
               </div>
             </div>
           </div>

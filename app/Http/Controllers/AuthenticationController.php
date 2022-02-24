@@ -66,7 +66,7 @@ class AuthenticationController extends Controller
             return redirect(RouteServiceProvider::HOME);
         }
 
-        return back()->withErrors(['msg' => 'Invalid credential.']);
+        return back()->withErrors(['msg' => trans('auth.invalid_credential')]);
     }
 
     /**

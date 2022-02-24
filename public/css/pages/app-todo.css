@@ -264,7 +264,7 @@
 
 .todo-application .content-area-wrapper .content-right .todo-app-list-wrapper .todo-fixed-search input {
   border: 0;
-  font-family: "IBM Plex Sans", Helvetica, Arial, serif;
+  font-family: "Prompt", Helvetica, Arial, serif;
 }
 
 .todo-application .content-area-wrapper .content-right .todo-app-list-wrapper .todo-fixed-search input:focus {
