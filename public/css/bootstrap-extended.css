@@ -241,7 +241,7 @@ pre code {
 /*---------------*/
 .table th, .table td {
   /* default font-family to table data */
-  font-family: "Rubik", Helvetica, Arial, serif;
+  font-family: "Prompt", Helvetica, Arial, serif;
 }
 
 .table thead {
@@ -1284,7 +1284,7 @@ input[type=number]::-webkit-outer-spin-button {
 .header-navbar {
   padding: 0px;
   min-height: 4rem;
-  font-family: "Rubik", Helvetica, Arial, serif;
+  font-family: "Prompt", Helvetica, Arial, serif;
   transition: 100ms ease all, background 0s;
   z-index: 1000;
 }
@@ -2119,7 +2119,7 @@ input[type=number]::-webkit-outer-spin-button {
   font-weight: normal;
   color: #475F7B;
   padding: 1rem 1.9rem;
-  font-family: "Rubik", Helvetica, Arial, serif;
+  font-family: "Prompt", Helvetica, Arial, serif;
 }
 
 /* Card Column specific */
@@ -2263,7 +2263,7 @@ input[type=number]::-webkit-outer-spin-button {
 /*------------*/
 .badge {
   color: #FFFFFF;
-  font-family: "Rubik", Helvetica, Arial, serif;
+  font-family: "Prompt", Helvetica, Arial, serif;
   background-color: #5A8DEE;
   text-transform: uppercase;
 }
@@ -2722,7 +2722,7 @@ ul.list-inline.list-inline-pipe > li + li:before {
   padding: 1rem 1.7rem;
   border-radius: 0.267rem !important;
   font-size: 1.2rem;
-  font-family: "Rubik", Helvetica, Arial, serif;
+  font-family: "Prompt", Helvetica, Arial, serif;
   cursor: pointer;
 }
 
@@ -2895,7 +2895,7 @@ ul.list-inline.list-inline-pipe > li + li:before {
 }
 
 .modal .modal-content .modal-header .modal-title {
-  font-family: "Rubik", Helvetica, Arial, serif;
+  font-family: "Prompt", Helvetica, Arial, serif;
   font-weight: normal;
   font-size: 1.2rem;
 }

@@ -35,14 +35,8 @@ data-bgcolor="@if(isset($configData['navbarBgColor'])){{$configData['navbarBgCol
               <a class="dropdown-item" href="{{url('lang/en')}}" data-language="en">
                 <i class="flag-icon flag-icon-us mr-50"></i> English
               </a>
-              <a class="dropdown-item" href="{{url('lang/fr')}}" data-language="fr">
-                <i class="flag-icon flag-icon-fr mr-50"></i> French
-              </a>
-              <a class="dropdown-item" href="{{url('lang/de')}}" data-language="de">
-                <i class="flag-icon flag-icon-de mr-50"></i> German
-              </a>
-              <a class="dropdown-item" href="{{url('lang/pt')}}" data-language="pt">
-                <i class="flag-icon flag-icon-pt mr-50"></i> Portuguese
+              <a class="dropdown-item" href="{{url('lang/th')}}" data-language="th">
+                <i class="flag-icon flag-icon-th mr-50"></i> Thai
               </a>
             </div>
           </li>

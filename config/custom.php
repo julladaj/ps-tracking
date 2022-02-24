@@ -15,7 +15,7 @@ return [
     'isCustomizer' => true, //If True customizer available or false its not available
     'isCardShadow' => true, // Option: true(default) and false ( remove card shadow)
     'isScrollTop' => true, // Option: true and false (Hide Scroll To Top)
-    'defaultLanguage' => 'en', //set your default language Options: en(default),pt,fr,de
+    'defaultLanguage' => 'th', //set your default language Options: en(default),pt,th,de
     'direction' => env('MIX_CONTENT_DIRECTION', 'ltr'), // Page direction
   ]
 ];

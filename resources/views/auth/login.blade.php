@@ -20,7 +20,7 @@
           <div class="card disable-rounded-right mb-0 p-2 h-100 d-flex justify-content-center">
             <div class="card-header pb-1">
               <div class="card-title">
-                <h4 class="text-center mb-2">Welcome Back</h4>
+                <h4 class="text-center mb-2">{{ __('auth.welcome_back') }}</h4>
               </div>
             </div>
             <div class="card-body">
@@ -66,7 +66,7 @@
                     <a href="{{ route('auth-forgot-password') }}" class="card-link"><small>Forgot Password?</small></a>
                   </div>
                 </div>
-                <button type="submit" class="btn btn-primary glow w-100 position-relative">Login
+                <button type="submit" class="btn btn-primary glow w-100 position-relative">{{ __('locale.Login') }}
                   <i id="icon-arrow" class="bx bx-right-arrow-alt"></i>
                 </button>
               </form>

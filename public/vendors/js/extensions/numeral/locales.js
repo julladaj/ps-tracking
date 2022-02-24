@@ -333,7 +333,7 @@
 
 
 (function() {
-        numeral.register('locale', 'fr-ca', {
+        numeral.register('locale', 'th-ca', {
         delimiters: {
             thousands: ' ',
             decimal: ','
@@ -355,7 +355,7 @@
 
 
 (function() {
-        numeral.register('locale', 'fr-ch', {
+        numeral.register('locale', 'th-ch', {
         delimiters: {
             thousands: '\'',
             decimal: '.'

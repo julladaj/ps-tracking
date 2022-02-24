@@ -104,7 +104,7 @@ return [
     "Fixed layout" => "Fixed layout",
     "Static layout" => "Static layout",
     "Authentication" => "Authentication",
-    "Login" => "Login",
+    "Login" => "เข้าสู่ระบบ",
     "Register" => "Register",
     "Forgot Password" => "Forgot Password",
     "Reset Password" => "Reset Password",
