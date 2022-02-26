@@ -1,3 +1,4 @@
+@role('super-admin')
 <!-- widget chat demo footer button start -->
 <button class="btn btn-primary chat-demo-button glow px-1"><i class="livicon-evo"
     data-options="name: comments.svg; style: lines; size: 24px; strokeColor: #fff; autoPlay: true; repeat: loop;"></i></button>
@@ -62,3 +63,4 @@
   </div>
 </div>
 <!-- widget chat demo ends -->
+@endrole

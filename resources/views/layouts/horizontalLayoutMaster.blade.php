@@ -60,10 +60,12 @@ data-open="hover" data-menu="horizontal-menu" data-col="2-columns" data-framewor
   <!-- End: Customizer-->
 
   @endif
+  @role('super-admin')
   <!-- demo chat-->
   <div class="widget-chat-demo">
     @include('pages.widget-chat')
   </div>
+  @endrole
 
   <div class="sidenav-overlay"></div>
   <div class="drag-target"></div>

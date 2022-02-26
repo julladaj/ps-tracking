@@ -62,10 +62,12 @@ data-open="click" data-menu="vertical-menu-modern" data-col="2-columns" data-fra
   </div>
   <!-- End: Customizer-->
   @endif
+  @role('super-admin')
   <!-- demo chat-->
   <div class="widget-chat-demo">
     @include('pages.widget-chat')
   </div>
+  @endrole
 
   <div class="sidenav-overlay"></div>
   <div class="drag-target"></div>

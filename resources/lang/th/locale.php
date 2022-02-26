@@ -91,12 +91,12 @@ return [
     "User Profile" => "User Profile",
     "FAQ" => "FAQ",
     "Knowledge Base" => "Knowledge Base",
-    "Search" => "Search",
+    "Search" => "ค้นหา",
     "Account Settings" => "Account Settings",
-    "User" => "User",
-    "List" => "List",
-    "View" => "View",
-    "Edit" => "Edit",
+    "User" => "ผู้ใช้",
+    "List" => "รายการ",
+    "View" => "เรียกดู",
+    "Edit" => "แก้ไข",
     "Starter kit" => "Starter kit",
     "1 column" => "1 column",
     "2 columns" => "2 columns",
@@ -131,5 +131,6 @@ return [
     "Error" => "Error",
     "Access Control" => "Access Control",
     "Ratings" => "Ratings",
-    "message" => "Cake sesame snaps cupcake gingerbread danish I love gingerbread. Apple pie pie jujubes chupa chups muffin halvah lollipop. Chocolate cake oat cake tiramisu marzipan sugar plum. Donut sweet pie oat cake dragée fruitcake cotton candy lemon drops."
+    "message" => "Cake sesame snaps cupcake gingerbread danish I love gingerbread. Apple pie pie jujubes chupa chups muffin halvah lollipop. Chocolate cake oat cake tiramisu marzipan sugar plum. Donut sweet pie oat cake dragée fruitcake cotton candy lemon drops.",
+    'thai' => 'ไทย'
 ];

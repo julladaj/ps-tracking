@@ -4,7 +4,7 @@
         <div class="navbar-header">
             <ul class="nav navbar-nav flex-row">
                 <li class="nav-item mr-auto">
-                    <a class="navbar-brand" href="{{asset('/')}}">
+                    <a class="navbar-brand" href="{{ \App\Providers\RouteServiceProvider::HOME }}">
                         <div class="brand-logo">
                             <svg class="logo" width="26px" height="26px" viewbox="0 0 26 26" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
                                 <title>icon</title>
@@ -60,12 +60,12 @@
             <ul class="navigation navigation-main" id="main-menu-navigation" data-menu="menu-navigation" data-icon-style="lines">
                 @if(!empty($menuData[0]) && isset($menuData[0]))
                     @foreach ($menuData[0]->menu as $menu)
-                        @if(isset($menu->navheader))
-                            <li class="navigation-header text-truncate"><span>{{$menu->navheader}}</span></li>
-                        @else
-                            @can($menu->url)
-                                <li class="nav-item {{ Route::currentRouteName() === $menu->slug ? 'active' : '' }}">
-                                    <a href="@if(isset($menu->url)){{asset($menu->url)}} @endif" @if(isset($menu->newTab)){{"target=_blank"}}@endif>
+                        @if($isSuperAdmin || (isset($menu->roles) && $menu->roles && auth()->user()->hasRole($menu->roles)))
+                            @if(isset($menu->navheader))
+                                <li class="navigation-header text-truncate"><span>{{$menu->navheader}}</span></li>
+                            @else
+                                <li class="nav-item {{ $request->routeIs($menu->slug.'*') ? 'active' : '' }}">
+                                    <a href="{{ isset($menu->url)? asset($menu->url) : route($menu->slug) }}" @if(isset($menu->newTab)){{"target=_blank"}}@endif>
                                         @if(isset($menu->icon))
                                             <i class="menu-livicon" data-icon="{{$menu->icon}}"></i>
                                         @endif
@@ -80,7 +80,7 @@
                                         @include('panels.sidebar-submenu',['menu' => $menu->submenu])
                                     @endif
                                 </li>
-                            @endcan
+                            @endif
                         @endif
                     @endforeach
                 @endif
@@ -121,18 +121,17 @@
             <ul class="nav navbar-nav" id="main-menu-navigation" data-menu="menu-navigation" data-icon-style="filled">
                 @if(!empty($menuData[1]) && isset($menuData[1]))
                     @foreach ($menuData[1]->menu as $menu)
-                        @can($menu->url)
-                            <li class="@if(isset($menu->submenu)){{'dropdown'}} @endif nav-item" data-menu="dropdown">
-                                <a class="@if(isset($menu->submenu)){{'dropdown-toggle'}} @endif nav-link" href="{{asset($menu->url)}}"
-                                @if(isset($menu->submenu)){{'data-toggle=dropdown'}} @endif @if(isset($menu->newTab)){{"target=_blank"}}@endif>
-                                    <i class="menu-livicon" data-icon="{{$menu->icon}}"></i>
-                                    <span>{{ __('locale.'.$menu->name)}}</span>
-                                </a>
-                                @if(isset($menu->submenu))
-                                    @include('panels.sidebar-submenu',['menu'=>$menu->submenu])
-                                @endif
-                            </li>
-                        @endcan
+
+                        <li class="@if(isset($menu->submenu)){{'dropdown'}} @endif nav-item" data-menu="dropdown">
+                            <a class="@if(isset($menu->submenu)){{'dropdown-toggle'}} @endif nav-link" href="{{asset($menu->url)}}"
+                            @if(isset($menu->submenu)){{'data-toggle=dropdown'}} @endif @if(isset($menu->newTab)){{"target=_blank"}}@endif>
+                                <i class="menu-livicon" data-icon="{{$menu->icon}}"></i>
+                                <span>{{ __('locale.'.$menu->name)}}</span>
+                            </a>
+                            @if(isset($menu->submenu))
+                                @include('panels.sidebar-submenu',['menu'=>$menu->submenu])
+                            @endif
+                        </li>
                     @endforeach
                 @endif
             </ul>
@@ -166,13 +165,35 @@
         </div>
         <div class="shadow-bottom"></div>
         <div class="main-menu-content">
-            <ul class="navigation navigation-main" id="main-menu-navigation" data-menu="menu-navigation" data-icon-style="">
+            {{--            <ul class="navigation navigation-main" id="main-menu-navigation" data-menu="menu-navigation" data-icon-style="">--}}
+            {{--                <li class="navigation-header text-truncate"><span>Apps</span></li>--}}
+            {{--                <li class="nav-item {{ $request->routeIs('dashboard-*') ? 'active' : '' }}">--}}
+            {{--                    <a href="{{ route('dashboard-ecommerce') }}">--}}
+            {{--                        <i class="desktop"></i>--}}
+            {{--                        <span class="menu-title text-truncate">{{ __('locale.Dashboard')}}</span>--}}
+            {{--                        <span class="badge badge-light-danger badge-pill badge-round float-right mr-50 ml-auto">2</span>--}}
+            {{--                    </a>--}}
+            {{--                    <ul class="menu-content">--}}
+            {{--                        <li {{ $submenu->slug === Route::currentRouteName() ? 'class=active' : '' }}>--}}
+            {{--                            <a href="@isset($submenu->url) {{asset($submenu->url)}} @endisset"  class="d-flex align-items-center" @if(isset($submenu->newTab)){{"target=_blank"}}@endif>--}}
+            {{--                                <i class="bx bx-right-arrow-alt"></i>--}}
+            {{--                                <span class="menu-item text-truncate">{{ __('locale.'.$submenu->name)}}</span>--}}
+            {{--                            </a>--}}
+            {{--                            @if(isset($submenu->submenu))--}}
+            {{--                                @include('panels.sidebar-submenu',['menu'=>$submenu->submenu])--}}
+            {{--                            @endif--}}
+            {{--                        </li>--}}
+            {{--                    </ul>--}}
+            {{--                </li>--}}
+            {{--            </ul>--}}
+            <ul class="navigation navigation-main" id="admin-menu-navigation" data-menu="menu-navigation" data-icon-style="">
                 @if(!empty($menuData[2]) && isset($menuData[2]))
                     @foreach ($menuData[2]->menu as $menu)
-                        @if(isset($menu->navheader))
-                            <li class="navigation-header text-truncate"><span>{{$menu->navheader}}</span></li>
-                        @else
-                            @can($menu->url)
+                        @if(isset($menu->roles))
+                            {{ dd($menu->roles) }}
+                            @if(isset($menu->navheader))
+                                <li class="navigation-header text-truncate"><span>{{$menu->navheader}}</span></li>
+                            @else
                                 <li class="nav-item {{ Route::currentRouteName() === $menu->slug ? 'active' : '' }}">
                                     <a href="@if(isset($menu->url)){{asset($menu->url)}} @endif" @if(isset($menu->newTab)){{"target=_blank"}}@endif>
                                         @if(isset($menu->icon))
@@ -189,8 +210,10 @@
                                         @include('panels.sidebar-submenu',['menu' => $menu->submenu])
                                     @endif
                                 </li>
-                            @endcan
+
+                            @endif
                         @endif
+
                     @endforeach
                 @endif
             </ul>

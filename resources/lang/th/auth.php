@@ -30,5 +30,7 @@ return [
     'sign_in' => 'เข้าสู่ระบบ',
     'full_name' => 'ชื่อ - นามสกุล',
     'username_or_email' => 'ชื่อผู้ใช้ หรือ อีเมล์',
-    'send_password' => 'ส่งรหัสผ่าน'
+    'send_password' => 'ส่งรหัสผ่าน',
+    'edit_profile' => 'แก้ไขข้อมูลส่วนตัว',
+    'logout' => 'ออกจากระบบ'
 ];

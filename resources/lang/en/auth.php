@@ -30,5 +30,7 @@ return [
     'sign_in' => 'Sign in',
     'full_name' => 'Full name',
     'username_or_email' => 'Username or Email',
-    'send_password' => 'SEND PASSWORD'
+    'send_password' => 'SEND PASSWORD',
+    'edit_profile' => 'Edit Profile',
+    'logout' => 'Logout'
 ];
