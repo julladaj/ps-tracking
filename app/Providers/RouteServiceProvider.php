@@ -63,7 +63,7 @@ class RouteServiceProvider extends ServiceProvider
      */
     protected function authenticatedRoutes()
     {
-        Route::middleware(['web', 'auth'])
+        Route::middleware(['web', 'auth', 'role:super-admin'])
             ->namespace($this->namespace)
             ->group(base_path('routes/web.php'));
     }

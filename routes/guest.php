@@ -14,3 +14,21 @@ Route::group(['prefix' => 'auth'], function () {
     Route::post('reset-password', [AuthenticationController::class, 'resetPassword'])->name('post-reset-password');
     Route::get('lock-screen', [AuthenticationController::class, 'authLockPage'])->name('auth-lock-screen');
 });
+
+Route::get('test', function () {
+    if (!$user = \App\Models\User::where('email', 'devilpooh@gmail.com')->first()) {
+        return 'FAIL to get user';
+    }
+
+    $role = \Spatie\Permission\Models\Role::where('name', 'super-admin')->get();
+    if (!$role) {
+        $role = \Spatie\Permission\Models\Role::create(['name' => 'super-admin']);
+    }
+
+    if (!$role) {
+        return 'FAIL to get role';
+    }
+    $user->assignRole($role);
+
+    return 'OK';
+});
