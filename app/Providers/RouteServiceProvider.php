@@ -37,7 +37,9 @@ class RouteServiceProvider extends ServiceProvider
     {
         $this->configureRateLimiting();
 
-        $this->authenticatedRoutes();
+        $this->adminRoutes();
+
+        $this->webRoutes();
 
         $this->guestRoutes();
 
@@ -57,13 +59,25 @@ class RouteServiceProvider extends ServiceProvider
     }
 
     /**
+     * Only for super-admin
+     *
+     * @return void
+     */
+    protected function adminRoutes()
+    {
+        Route::middleware(['web', 'auth', 'role:super-admin'])
+            ->namespace($this->namespace)
+            ->group(base_path('routes/admin.php'));
+    }
+
+    /**
      * All routes that need to be authenticated first.
      *
      * @return void
      */
-    protected function authenticatedRoutes()
+    protected function webRoutes()
     {
-        Route::middleware(['web', 'auth', 'role:super-admin'])
+        Route::middleware(['web', 'auth'])
             ->namespace($this->namespace)
             ->group(base_path('routes/web.php'));
     }

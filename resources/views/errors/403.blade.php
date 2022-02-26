@@ -9,12 +9,9 @@
     <div class="card bg-transparent shadow-none">
       <div class="card-body text-center">
         <img src="{{asset('images/pages/not-authorized.png')}}" class="img-fluid" alt="not authorized" width="400">
-        <h1 class="my-2 error-title">You are not authorized!</h1>
-        <p>
-            You do not have permission to view this directory or page using
-            the credentials that you supplied.
-        </p>
-        <a href="{{asset('/')}}" class="btn btn-primary round glow mt-2">BACK TO HOME</a>
+        <h1 class="my-2 error-title">{{ __('role.not_authorized') }}</h1>
+        <p>{{ __('role.not_authorized_detail') }}</p>
+        <a href="{{ \App\Providers\RouteServiceProvider::HOME }}" class="btn btn-primary round glow mt-2">{{ __('role.back_to_home') }}</a>
       </div>
     </div>
   </div>
