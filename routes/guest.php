@@ -20,7 +20,7 @@ Route::group(['prefix' => 'auth'], function () {
 Route::get('lang/{locale}', [LanguageController::class, 'swap'])->name('lang-locale');
 
 
-Route::get('test', function () {
+//Route::get('test', function () {
 //    if (!$user = \App\Models\User::where('email', 'devilpooh@gmail.com')->first()) {
 //        return 'FAIL to get user';
 //    }
@@ -36,25 +36,27 @@ Route::get('test', function () {
 //    $user->assignRole($role);
 //
 //    dd($user, $role, $user->getRoleNames());
-
-    $role = \Spatie\Permission\Models\Role::where('name', 'visitor')->first();
-    if (!$role) {
-        $role = \Spatie\Permission\Models\Role::create(['name' => 'visitor']);
-    }
-
-    if (!$role) {
-        return 'FAIL to get role';
-    }
-
-    if (!$users = \App\Models\User::all()) {
-        return 'FAIL to get user';
-    }
-
-    $user = null;
-
-    foreach ($users as &$user){
-        $user->assignRole($role);
-    }
-
-    dd($user, $user->getRoleNames());
-});
+//});
+//
+//Route::get('addAllVisitorRole', function () {
+//    $role = \Spatie\Permission\Models\Role::where('name', 'visitor')->first();
+//    if (!$role) {
+//        $role = \Spatie\Permission\Models\Role::create(['name' => 'visitor']);
+//    }
+//
+//    if (!$role) {
+//        return 'FAIL to get role';
+//    }
+//
+//    if (!$users = \App\Models\User::all()) {
+//        return 'FAIL to get user';
+//    }
+//
+//    $user = null;
+//
+//    foreach ($users as &$user){
+//        $user->assignRole($role);
+//    }
+//
+//    dd($user, $user->getRoleNames());
+//});
