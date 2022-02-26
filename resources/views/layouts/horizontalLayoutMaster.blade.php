@@ -59,10 +59,6 @@ data-open="hover" data-menu="horizontal-menu" data-col="2-columns" data-framewor
   </div>
   <!-- End: Customizer-->
 
-  <!-- Buynow Button-->
-  <div class="buy-now">
-    @include('pages.buy-now')
-  </div>
   @endif
   <!-- demo chat-->
   <div class="widget-chat-demo">
