@@ -1,6 +1,14 @@
 {
   "menu": [
     {
+      "name": "User",
+      "slug": "users.index",
+      "icon": "bx bx-user-plus"
+    },
+    {
+      "navheader": "Super Admin"
+    },
+    {
       "url": "index",
       "name": "Dashboard",
       "slug": "dashboard",
@@ -97,7 +105,7 @@
      {
       "url": "#",
       "name": "User",
-      "slug": "user",
+      "slug": "app-user",
       "icon": "bx bx-user-plus",
       "submenu": [
         {

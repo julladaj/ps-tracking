@@ -13,7 +13,7 @@ return [
     |
     */
 
-    'previous' => '&laquo; Previous',
-    'next' => 'Next &raquo;',
-
+    'previous' => '&laquo; ก่อนหน้า',
+    'next' => 'ถัดไป &raquo;',
+    'showing_result' => 'แสดงผล :firstItem ถึง :lastItem จากทั้งหมด :total รายการ'
 ];

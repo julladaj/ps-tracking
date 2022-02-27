@@ -1,6 +1,14 @@
 {
   "menu": [
     {
+      "name": "User",
+      "slug": "users.index",
+      "icon": "users"
+    },
+    {
+      "navheader": "Super Admin"
+    },
+    {
       "url": "#",
       "name": "Dashboard",
       "slug": "dashboard",
@@ -93,7 +101,7 @@
      {
       "url": "#",
       "name": "User",
-      "slug": "user",
+      "slug": "app-users",
       "icon": "users",
       "submenu": [
         {

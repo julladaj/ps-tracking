@@ -4,13 +4,15 @@ namespace App\Models;
 
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Kyslik\ColumnSortable\Sortable;
 use Spatie\Permission\Traits\HasRoles;
 
 class User extends Authenticatable implements MustVerifyEmail
 {
-    use HasFactory, Notifiable, HasRoles;
+    use HasFactory, Notifiable, HasRoles, SoftDeletes, Sortable;
 
     /**
      * The attributes that are mass assignable.
@@ -22,7 +24,6 @@ class User extends Authenticatable implements MustVerifyEmail
         'email',
         'password',
     ];
-
     /**
      * The attributes that should be hidden for arrays.
      *
@@ -32,7 +33,6 @@ class User extends Authenticatable implements MustVerifyEmail
         'password',
         'remember_token',
     ];
-
     /**
      * The attributes that should be cast to native types.
      *
@@ -41,4 +41,9 @@ class User extends Authenticatable implements MustVerifyEmail
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    public function profiles()
+    {
+        return $this->hasOne(Profiles::class);
+    }
 }
