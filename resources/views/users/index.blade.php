@@ -37,7 +37,7 @@
                             @forelse($users as $user)
                                 <tr>
                                     <td>{{ $user->id }}</td>
-                                    <td><a href="{{ route('users.edit', $user) }}">{{ $user->pea_no }}</a></td>
+                                    <td><a href="{{ route('users.edit', $user) }}">{{ $user->profiles->pea_no?? '' }}</a></td>
                                     <td><a href="{{ route('users.edit', $user) }}">{{ $user->name }}</a></td>
                                     <td>{{ $user->telephone }}</td>
                                     <td>

@@ -39,17 +39,17 @@ class UsersController extends Controller
         $direction = $request->query('direction') ?: 'desc';
         $sort = $request->query('sort') ?: 'users.id';
 
+        $users = User::select('id', 'name', 'email')->with('profiles');
+
         if ($role) {
-            $users = User::role($role);
-        } else {
-            $users = User::select('id', 'name', 'email');
+            $users->role($role);
         }
 
-        $users->with([
-            'profiles' => function ($query) {
-                $query->get(['pea_no', 'telephone']);
-            }
-        ]);
+//        $users->with([
+//            'profiles' => function ($query) {
+//                $query->get(['pea_no', 'telephone']);
+//            }
+//        ]);
 
         if ($search) {
             $users
@@ -60,10 +60,6 @@ class UsersController extends Controller
                         ->orWhere('telephone', $search);
                 });
         }
-
-        //dd(User::with('profiles')->orderBy($sort, $direction)->get());
-
-        //$users->orderBy($sort, $direction);
 
         return view('users.index', [
             'users' => $users->sortable()->paginate($pageSize),
