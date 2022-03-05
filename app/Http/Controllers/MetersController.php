@@ -2,7 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\JobAmounts;
+use App\Models\JobStatuses;
+use App\Models\JobTypes;
 use App\Models\Meters;
+use App\Models\PeaStaffs;
+use App\Models\Transformers;
 use Illuminate\Http\Request;
 
 class MetersController extends Controller
@@ -12,22 +17,21 @@ class MetersController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(Request $request):\Illuminate\Contracts\View\View
+    public function index(Request $request): \Illuminate\Contracts\View\View
     {
         $pageSize = (int)$request->query('page_size', 10);
         $search = (string)$request->query('search', '');
 
-        $meters = Meters::with(['job_type', 'job_status', 'job_amount', 'transformer']);
+        $meters = Meters::with(['job_type', 'job_status', 'job_amount', 'transformer', 'pea_staff']);
 
         if ($search) {
             $meters
                 ->where('meters.document_number', 'like', '%' . $search . '%')
+                ->orWhere('meters.customer_name', 'like', '%' . $search . '%')
                 ->orWhereHas('job_status', function ($query) use ($search) {
                     return $query->where('description', 'like', '%' . $search . '%');
                 });
         }
-
-//        dd(\Carbon\Carbon::parse('2019-03-01')->translatedFormat('d F Y'), now()->subMinute(5)->diffForHumans());
 
         return view('meters.index', [
             'meters' => $meters->sortable()->paginate($pageSize),
@@ -39,22 +43,30 @@ class MetersController extends Controller
     /**
      * Show the form for creating a new resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|\Illuminate\Http\Response
      */
     public function create()
     {
-        //
+        return view('meters.edit', [
+            'isCreate' => true,
+            'job_amounts' => JobAmounts::all(),
+            'job_statuses' => JobStatuses::all(),
+            'job_types' => JobTypes::all(),
+            'pea_staffs' => PeaStaffs::all(),
+            'transformers' => Transformers::all()
+        ]);
     }
 
     /**
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Http\RedirectResponse|\Illuminate\Http\Response|\Illuminate\Routing\Redirector
      */
     public function store(Request $request)
     {
-        //
+        $meter = Meters::create($request->all());
+        return redirect(route('meters.edit', $meter))->with('success', 'บันทึกข้อมูลสำเร็จ');
     }
 
     /**
@@ -71,24 +83,35 @@ class MetersController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\Meters  $meters
-     * @return \Illuminate\Http\Response
+     * @param  \App\Models\Meters  $meter
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|\Illuminate\Http\Response
      */
-    public function edit(Meters $meters)
+    public function edit(Meters $meter)
     {
-        //
+        $meter->with(['job_type', 'job_status', 'job_amount', 'transformer', 'pea_staff']);
+
+        return view('meters.edit', [
+            'isCreate' => false,
+            'meter' => $meter,
+            'job_amounts' => JobAmounts::all(),
+            'job_statuses' => JobStatuses::all(),
+            'job_types' => JobTypes::all(),
+            'pea_staffs' => PeaStaffs::all(),
+            'transformers' => Transformers::all()
+        ]);
     }
 
     /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Meters  $meters
-     * @return \Illuminate\Http\Response
+     * @param  \App\Models\Meters  $meter
+     * @return \Illuminate\Http\RedirectResponse
      */
-    public function update(Request $request, Meters $meters)
+    public function update(Request $request, Meters $meter)
     {
-        //
+        $meter->update($request->all());
+        return back()->with('success', 'บันทึกข้อมูลสำเร็จ');
     }
 
     /**

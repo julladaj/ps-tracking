@@ -16,6 +16,9 @@
     <section class="users-list-wrapper">
         <div class="users-list-table">
             <div class="card">
+                <div class="card-header">
+                    <a href="{{ route('meters.create') }}" class="btn btn-primary mr-1"><i class="bx bx-plus"></i> เพิ่มข้อมูล</a>
+                </div>
                 <div class="card-body">
                     <!-- datatable start -->
                     <div class="table-responsive">
@@ -30,19 +33,24 @@
                                 <th>@sortablelink('customer_name', 'ชื่อ-นามสกุล', null, ['rel' => 'nofollow'])</th>
                                 <th>@sortablelink('customer_phone', 'เบอร์โทร', null, ['rel' => 'nofollow'])</th>
                                 <th>@sortablelink('job_type_id', 'ประเภทงาน', null, ['rel' => 'nofollow'])</th>
-                                <th>Actions</th>
+                                <th>@sortablelink('survey_user_id', 'ชื่อผู้สำรวจ', null, ['rel' => 'nofollow'])</th>
+                                <th>@sortablelink('job_status_id', 'สถานะงาน', null, ['rel' => 'nofollow'])</th>
+                                <th>@sortablelink('job_number', 'หมายเลขงาน', null, ['rel' => 'nofollow'])</th>
+                                <th></th>
                             </tr>
                             </thead>
                             <tbody>
                             @forelse($meters as $meter)
-
                                 <tr>
                                     <td><a href="{{ route('meters.edit', $meter) }}">{{ $meter->document_number?? '' }}</a></td>
-                                    <td>{{ $meter->document_date }}</td>
+                                    <td>{{ buddhismDate($meter->document_date) }}</td>
                                     <td>{{ $meter->customer_name }}</td>
                                     <td>{{ $meter->customer_phone }}</td>
                                     <td>{{ $meter->job_type->description }}</td>
-                                    <td><a href="{{ route('meters.edit', $meter) }}"><i class="bx bx-edit-alt"></i></a></td>
+                                    <td>{{ $meter->pea_staff->name }}</td>
+                                    <td>{{ $meter->job_status->description }}</td>
+                                    <td>{{ $meter->job_number }}</td>
+                                    <td><a href="{{ route('meters.edit', $meter) }}" class="btn btn-icon btn-outline-primary"><i class="bx bx-edit-alt"></i></a></td>
                                 </tr>
                             @empty
                                 <tr>

@@ -2,13 +2,9 @@
 
 namespace App\Models;
 
-use App\Casts\LocaleBuddhismDate;
-use App\Helpers\Helper;
 use Carbon\Carbon;
-use DateTimeInterface;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Facades\Config;
 use Kyslik\ColumnSortable\Sortable;
 
 class Meters extends Model
@@ -16,10 +12,11 @@ class Meters extends Model
     use HasFactory, Sortable;
 
     protected $guarded = [];
+//    protected $casts = [
+//        'document_date' => 'date'
+//    ];
 
-    protected $casts = [
-        'document_date' => LocaleBuddhismDate::class,
-    ];
+//    protected $dateFormat = 'Y-m-d';
 
     public function job_type()
     {
@@ -41,4 +38,13 @@ class Meters extends Model
         return $this->hasOne(Transformers::class, 'id', 'transformer_id');
     }
 
+    public function pea_staff()
+    {
+        return $this->hasOne(PeaStaffs::class, 'id', 'survey_user_id');
+    }
+
+    public function getDocumentDateAttribute($value)
+    {
+        return (new Carbon($value))->format('Y-m-d');
+    }
 }
