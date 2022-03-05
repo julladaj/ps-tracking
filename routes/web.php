@@ -1,6 +1,8 @@
 <?php
 
+use App\Http\Controllers\MetersController;
 use App\Http\Controllers\UsersController;
+use App\Providers\RouteServiceProvider;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\DashboardController;
 
@@ -19,7 +21,16 @@ Auth::routes(['verify' => true]);
 
 // dashboard Routes
 // Route::get('/', [DashboardController::class, 'dashboardEcommerce'])->name('dashboard-ecommerce')->middleware('verified');
-Route::get('/', [DashboardController::class, 'dashboardEcommerce'])->name('dashboard-ecommerce');
+//Route::get('/', [DashboardController::class, 'dashboardEcommerce'])->name('dashboard-ecommerce');
+
+Route::get('/', function() {
+    if (RouteServiceProvider::HOME !== '/') {
+        return redirect(RouteServiceProvider::HOME);
+    }
+    return redirect(route('meters.index'));
+});
+
+Route::resource('meters', MetersController::class);
 
 Route::group(['prefix' => 'dashboard'], function () {
     Route::get('ecommerce', [DashboardController::class, 'dashboardEcommerce'])->name('dashboard-ecommerce');

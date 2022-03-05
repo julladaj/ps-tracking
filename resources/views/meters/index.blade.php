@@ -1,6 +1,6 @@
 @extends('layouts.contentLayoutMaster')
 {{-- page title --}}
-@section('title','Users List')
+@section('title','Meter List')
 {{-- vendor styles --}}
 @section('vendor-styles')
     <link rel="stylesheet" type="text/css" href="{{asset('vendors/css/tables/datatable/dataTables.bootstrap4.min.css')}}">
@@ -9,7 +9,7 @@
 @endsection
 {{-- page styles --}}
 @section('page-styles')
-    <link rel="stylesheet" type="text/css" href="{{asset('css/pages/app-users.css')}}">
+    <link rel="stylesheet" type="text/css" href="{{ asset('css/pages/app-users.css') }}">
 @endsection
 @section('content')
     <!-- users list start -->
@@ -20,32 +20,29 @@
                     <!-- datatable start -->
                     <div class="table-responsive">
 
-                        @include('components.usersPageSizeSelector')
+                        @include('components.metersPageSizeSelector')
 
                         <table class="table">
                             <thead>
                             <tr>
-                                <th>@sortablelink('id', '#', null,  ['rel' => 'nofollow'])</th>
-                                <th>@sortablelink('profiles.pea_no', 'PEA NO', null,  ['rel' => 'nofollow'])</th>
-                                <th>@sortablelink('name', 'Name', null,  ['rel' => 'nofollow'])</th>
-                                <th>Phone No.</th>
-                                <th>Roles</th>
+                                <th>@sortablelink('document_number', 'เลขที่คำร้อง', null, ['rel' => 'nofollow'])</th>
+                                <th>@sortablelink('document_date', 'วันที่ยื่นคำร้อง', null, ['rel' => 'nofollow'])</th>
+                                <th>@sortablelink('customer_name', 'ชื่อ-นามสกุล', null, ['rel' => 'nofollow'])</th>
+                                <th>@sortablelink('customer_phone', 'เบอร์โทร', null, ['rel' => 'nofollow'])</th>
+                                <th>@sortablelink('job_type_id', 'ประเภทงาน', null, ['rel' => 'nofollow'])</th>
                                 <th>Actions</th>
                             </tr>
                             </thead>
                             <tbody>
-                            @forelse($users as $user)
+                            @forelse($meters as $meter)
+
                                 <tr>
-                                    <td>{{ $user->id }}</td>
-                                    <td><a href="{{ route('users.edit', $user) }}">{{ $user->profiles->pea_no?? '' }}</a></td>
-                                    <td><a href="{{ route('users.edit', $user) }}">{{ $user->name }}</a></td>
-                                    <td>{{ $user->telephone }}</td>
-                                    <td>
-                                        @foreach ($user->getRoleNames() as $role)
-                                            <div class="badge badge-light-primary">{{ $role }}</div>
-                                        @endforeach
-                                    </td>
-                                    <td><a href="{{ route('users.edit', $user) }}"><i class="bx bx-edit-alt"></i></a></td>
+                                    <td><a href="{{ route('meters.edit', $meter) }}">{{ $meter->document_number?? '' }}</a></td>
+                                    <td>{{ $meter->document_date }}</td>
+                                    <td>{{ $meter->customer_name }}</td>
+                                    <td>{{ $meter->customer_phone }}</td>
+                                    <td>{{ $meter->job_type->description }}</td>
+                                    <td><a href="{{ route('meters.edit', $meter) }}"><i class="bx bx-edit-alt"></i></a></td>
                                 </tr>
                             @empty
                                 <tr>
@@ -56,7 +53,7 @@
                         </table>
                     </div>
                     <!-- datatable ends -->
-{{--                    {{ $users->withQueryString()->links('components.pagination') }}--}}
+                    {{ $meters->withQueryString()->links('components.pagination') }}
                 </div>
             </div>
         </div>
