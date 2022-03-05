@@ -11,6 +11,12 @@
 ```sh
 composer require kyslik/column-sortable
 ```
+```sh
+php artisan migrate
+```
+```sh
+php artisan db:seed
+```
 
 ## First Installation
 Given below are the steps you need to follow, to install the frest-laravel-admin-template on your system:
