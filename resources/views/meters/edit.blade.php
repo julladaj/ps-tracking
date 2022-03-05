@@ -181,6 +181,14 @@
                                         </fieldset>
                                     </div>
                                 </div>
+                                <div class="row mt-1">
+                                    <div class="col-md-2 text-right vertical-middle">
+                                        <label>หมายเหตุ</label>
+                                    </div>
+                                    <div class="col-md-10 form-group vertical-middle">
+                                        <textarea class="form-control" rows="3" name="comment" placeholder="หมายเหตุ">{{ $meter->comment?? old('comment') }}</textarea>
+                                    </div>
+                                </div>
 
                                 <hr>
 
