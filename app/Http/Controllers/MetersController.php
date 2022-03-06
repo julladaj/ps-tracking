@@ -125,6 +125,7 @@ class MetersController extends Controller
             $electric_expands = ElectricExpands::find($request_meter['electric_expand_id']);
         } else {
             $electric_expands = ElectricExpands::create(['job_name' => '-']);
+            $request_meter['electric_expand_id'] = $electric_expands->id;
         }
 
         $meter->update($request_meter);
