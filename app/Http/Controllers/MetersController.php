@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\ElectricExpands;
 use App\Models\JobAmounts;
 use App\Models\JobStatuses;
 use App\Models\JobTypes;
@@ -65,7 +66,10 @@ class MetersController extends Controller
      */
     public function store(Request $request)
     {
-        $meter = Meters::create($request->all());
+        if (!$request->has('meters')) {
+            return back()->with('error', 'ข้อมูลไม่ครบถ้วน');
+        }
+        $meter = Meters::create($request->get('meters'));
         return redirect(route('meters.edit', $meter))->with('success', 'บันทึกข้อมูลสำเร็จ');
     }
 
@@ -88,7 +92,7 @@ class MetersController extends Controller
      */
     public function edit(Meters $meter)
     {
-        $meter->with(['job_type', 'job_status', 'job_amount', 'transformer', 'pea_staff']);
+        $meter->with(['job_type', 'job_status', 'job_amount', 'transformer', 'pea_staff', 'electric_expand']);
 
         return view('meters.edit', [
             'isCreate' => false,
@@ -110,7 +114,22 @@ class MetersController extends Controller
      */
     public function update(Request $request, Meters $meter)
     {
-        $meter->update($request->all());
+        if (!$request->has('meters')) {
+            return back()->with('error', 'ข้อมูลไม่ครบถ้วน');
+        }
+
+        $request_meter = $request->get('meters');
+        $request_electric_expands = $request->get('electric_expands');
+
+        if ($request_meter['electric_expand_id']) {
+            $electric_expands = ElectricExpands::find($request_meter['electric_expand_id']);
+        } else {
+            $electric_expands = ElectricExpands::create(['job_name' => '-']);
+        }
+
+        $meter->update($request_meter);
+        $electric_expands->update($request_electric_expands);
+
         return back()->with('success', 'บันทึกข้อมูลสำเร็จ');
     }
 

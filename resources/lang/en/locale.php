@@ -136,5 +136,6 @@ return [
     'reset' => 'Reset',
     'role' => 'Role',
     'any' => 'Any',
-    'page_size' => 'Page size'
+    'page_size' => 'Page size',
+    'Meters' => 'Meters'
 ];

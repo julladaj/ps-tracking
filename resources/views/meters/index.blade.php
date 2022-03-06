@@ -16,8 +16,11 @@
     <section class="users-list-wrapper">
         <div class="users-list-table">
             <div class="card">
-                <div class="card-header">
-                    <a href="{{ route('meters.create') }}" class="btn btn-primary mr-1"><i class="bx bx-plus"></i> เพิ่มข้อมูล</a>
+                <div class="card-header border-bottom">
+                    <h5 class="card-title">PS Tracking</h5>
+                    <div class="heading-elements">
+                        <a href="{{ route('meters.create') }}" class="btn btn-primary"><i class="bx bx-plus"></i> เพิ่มข้อมูล</a>
+                    </div>
                 </div>
                 <div class="card-body">
                     <!-- datatable start -->
@@ -50,7 +53,7 @@
                                     <td>{{ $meter->pea_staff->name }}</td>
                                     <td>{{ $meter->job_status->description }}</td>
                                     <td>{{ $meter->job_number }}</td>
-                                    <td><a href="{{ route('meters.edit', $meter) }}" class="btn btn-icon btn-outline-primary"><i class="bx bx-edit-alt"></i></a></td>
+                                    <td class="text-right p-0"><a href="{{ route('meters.edit', $meter) }}" class="btn btn-icon btn-outline-primary"><i class="bx bx-edit-alt"></i></a></td>
                                 </tr>
                             @empty
                                 <tr>

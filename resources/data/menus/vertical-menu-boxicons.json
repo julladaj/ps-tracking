@@ -1,6 +1,14 @@
 {
   "menu": [
     {
+      "name": "Meters",
+      "slug": "meters.index",
+      "icon": "bx bx-grid",
+      "roles": [
+        "visitor"
+      ]
+    },
+    {
       "name": "User",
       "slug": "users.index",
       "icon": "bx bx-user-plus"

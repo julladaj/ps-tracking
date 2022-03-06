@@ -43,6 +43,11 @@ class Meters extends Model
         return $this->hasOne(PeaStaffs::class, 'id', 'survey_user_id');
     }
 
+    public function electric_expand()
+    {
+        return $this->hasOne(ElectricExpands::class, 'id', 'electric_expand_id');
+    }
+
     public function getDocumentDateAttribute($value)
     {
         return (new Carbon($value))->format('Y-m-d');
