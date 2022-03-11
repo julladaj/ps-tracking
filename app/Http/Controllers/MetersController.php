@@ -163,7 +163,7 @@ class MetersController extends Controller
             $request_meter['electric_expand_id'] = $electric_expands->id;
         }
 
-        if ($request_meter['job_status_id'] !== $meter->job_status_id) {
+        if ((int)$request_meter['job_status_id'] !== $meter->job_status_id) {
             $jobStatusDurations = JobStatusDurations::where('meter_id', $meter->id)
                 ->orderBy('id', 'desc')
                 ->first();
