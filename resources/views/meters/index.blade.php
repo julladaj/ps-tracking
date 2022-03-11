@@ -16,147 +16,59 @@
     <!-- users list start -->
     <section class="users-list-wrapper">
         <div class="row">
-            <div class="col-xl-1"></div>
-
             <div class="col-sm-6 col-xl-2 col-12 mb-3">
                 <div class="card mb-0">
                     <div class="card-header pb-50">
-                        <h4 class="card-title">รอดำเนินการ</h4>
+                        <h4 class="card-title"><a href="{{ $report['all']['url'] }}">สถานะทั้งหมด</a></h4>
                     </div>
                     <div class="card-body py-1">
                         <div class="d-flex justify-content-between align-items-center mb-2">
                             <div class="sales-item-name">
                                 <p class="mb-0">จำนวนคำร้อง</p>
                             </div>
-                            <h6 class="mb-0">{{ $report['wait_for_action']['count'] }}</h6>
+                            <h6 class="mb-0"><a href="{{ $report['all']['url'] }}">{{ $report['all']['count'] }}</a></h6>
                         </div>
                         <div class="d-flex justify-content-between align-items-center mb-1">
                             <div class="sales-item-name">
                                 <p class="mb-0">ระยะเวลาเฉลี่ย</p>
                                 <small class="text-muted">ที่ใช้ในการดำเนินการแต่ละขั้นตอน (วัน)</small>
                             </div>
-                            <h6 class="mb-0">{{ $report['wait_for_action']['avg'] }}</h6>
-                        </div>
-                    </div>
-                    <div class="card-footer border-top">
-                        <div class="progress progress-bar-success progress-sm mt-50 mb-md-50">
-                            <div class="progress-bar" role="progressbar" aria-valuenow="{{ $report['wait_for_action']['count'] / $report['all'] * 100 }}" style="width:{{ $report['wait_for_action']['count'] / $report['all'] * 100 }}%"></div>
+                            <h6 class="mb-0">{{ $report['all']['avg'] }}</h6>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <div class="col-sm-6 col-xl-2 col-12 mb-3">
-                <div class="card mb-0">
-                    <div class="card-header pb-50">
-                        <h4 class="card-title">สำรวจ</h4>
-                    </div>
-                    <div class="card-body py-1">
-                        <div class="d-flex justify-content-between align-items-center mb-2">
-                            <div class="sales-item-name">
-                                <p class="mb-0">จำนวนคำร้อง</p>
-                            </div>
-                            <h6 class="mb-0">{{ $report['survey']['count'] }}</h6>
+            @foreach(array_slice($report, 1) as $key => $value)
+                <div class="col-sm-6 col-xl-2 col-12 mb-3">
+                    <div class="card mb-0">
+                        <div class="card-header pb-50">
+                            <h4 class="card-title"><a href="{{ $value['url'] }}">{{ __('meter.job_status.' . $key) }}</a></h4>
                         </div>
-                        <div class="d-flex justify-content-between align-items-center mb-1">
-                            <div class="sales-item-name">
-                                <p class="mb-0">ระยะเวลาเฉลี่ย</p>
-                                <small class="text-muted">ที่ใช้ในการดำเนินการแต่ละขั้นตอน (วัน)</small>
+                        <div class="card-body py-1">
+                            <div class="d-flex justify-content-between align-items-center mb-2">
+                                <div class="sales-item-name">
+                                    <p class="mb-0">จำนวนคำร้อง</p>
+                                </div>
+                                <h6 class="mb-0"><a href="{{ $value['url'] }}">{{ $value['count'] }}</a></h6>
                             </div>
-                            <h6 class="mb-0">{{ $report['survey']['avg'] }}</h6>
+                            <div class="d-flex justify-content-between align-items-center mb-1">
+                                <div class="sales-item-name">
+                                    <p class="mb-0">ระยะเวลาเฉลี่ย</p>
+                                    <small class="text-muted">ที่ใช้ในการดำเนินการแต่ละขั้นตอน (วัน)</small>
+                                </div>
+                                <h6 class="mb-0">{{ $value['avg'] }}</h6>
+                            </div>
                         </div>
-                    </div>
-                    <div class="card-footer border-top">
-                        <div class="progress progress-bar-info progress-sm mt-50 mb-md-50">
-                            <div class="progress-bar" role="progressbar" aria-valuenow="{{ $report['survey']['count'] / $report['all'] * 100 }}" style="width:{{ $report['survey']['count'] / $report['all'] * 100 }}%"></div>
+                        <div class="card-footer border-top">
+                            <div class="progress progress-bar-{{ $value['color'] }} progress-sm mt-50 mb-md-50">
+                                <div class="progress-bar" role="progressbar" aria-valuenow="{{ $value['count'] / $report['all']['count'] * 100 }}"
+                                     style="width:{{ $value['count'] / $report['all']['count'] * 100 }}%"></div>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
-
-            <div class="col-sm-6 col-xl-2 col-12 mb-3">
-                <div class="card mb-0">
-                    <div class="card-header pb-50">
-                        <h4 class="card-title">จัดทำแผนผัง/ประมาณการค่าใช้จ่าย</h4>
-                    </div>
-                    <div class="card-body py-1">
-                        <div class="d-flex justify-content-between align-items-center mb-2">
-                            <div class="sales-item-name">
-                                <p class="mb-0">จำนวนคำร้อง</p>
-                            </div>
-                            <h6 class="mb-0">{{ $report['estimate']['count'] }}</h6>
-                        </div>
-                        <div class="d-flex justify-content-between align-items-center mb-1">
-                            <div class="sales-item-name">
-                                <p class="mb-0">ระยะเวลาเฉลี่ย</p>
-                                <small class="text-muted">ที่ใช้ในการดำเนินการแต่ละขั้นตอน (วัน)</small>
-                            </div>
-                            <h6 class="mb-0">{{ $report['estimate']['avg'] }}</h6>
-                        </div>
-                    </div>
-                    <div class="card-footer border-top">
-                        <div class="progress progress-bar-warning progress-sm mt-50 mb-md-50">
-                            <div class="progress-bar" role="progressbar" aria-valuenow="{{ $report['estimate']['count'] / $report['all'] * 100 }}" style="width:{{ $report['estimate']['count'] / $report['all'] * 100 }}%"></div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="col-sm-6 col-xl-2 col-12 mb-3">
-                <div class="card mb-0">
-                    <div class="card-header pb-50">
-                        <h4 class="card-title">อนุมัติแจ้งค่าใช้จ่าย</h4>
-                    </div>
-                    <div class="card-body py-1">
-                        <div class="d-flex justify-content-between align-items-center mb-2">
-                            <div class="sales-item-name">
-                                <p class="mb-0">จำนวนคำร้อง</p>
-                            </div>
-                            <h6 class="mb-0">{{ $report['approve']['count'] }}</h6>
-                        </div>
-                        <div class="d-flex justify-content-between align-items-center mb-1">
-                            <div class="sales-item-name">
-                                <p class="mb-0">ระยะเวลาเฉลี่ย</p>
-                                <small class="text-muted">ที่ใช้ในการดำเนินการแต่ละขั้นตอน (วัน)</small>
-                            </div>
-                            <h6 class="mb-0">{{ $report['approve']['avg'] }}</h6>
-                        </div>
-                    </div>
-                    <div class="card-footer border-top">
-                        <div class="progress progress-bar-primary progress-sm mt-50 mb-md-50">
-                            <div class="progress-bar" role="progressbar" aria-valuenow="{{ $report['approve']['count'] / $report['all'] * 100 }}" style="width:{{ $report['approve']['count'] / $report['all'] * 100 }}%"></div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="col-sm-6 col-xl-2 col-12 mb-3">
-                <div class="card mb-0">
-                    <div class="card-header pb-50">
-                        <h4 class="card-title">อนุมัติแจ้งค่าใช้จ่าย</h4>
-                    </div>
-                    <div class="card-body py-1">
-                        <div class="d-flex justify-content-between align-items-center mb-2">
-                            <div class="sales-item-name">
-                                <p class="mb-0">รับชำระเงิน</p>
-                            </div>
-                            <h6 class="mb-0">{{ $report['payment']['count'] }}</h6>
-                        </div>
-                        <div class="d-flex justify-content-between align-items-center mb-1">
-                            <div class="sales-item-name">
-                                <p class="mb-0">ระยะเวลาเฉลี่ย</p>
-                                <small class="text-muted">ที่ใช้ในการดำเนินการแต่ละขั้นตอน (วัน)</small>
-                            </div>
-                            <h6 class="mb-0">{{ $report['payment']['avg'] }}</h6>
-                        </div>
-                    </div>
-                    <div class="card-footer border-top">
-                        <div class="progress progress-bar-danger progress-sm mt-50 mb-md-50">
-                            <div class="progress-bar" role="progressbar" aria-valuenow="{{ $report['payment']['count'] / $report['all'] * 100 }}" style="width:{{ $report['payment']['count'] / $report['all'] * 100 }}%"></div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            @endforeach
         </div>
 
         <div class="users-list-table">
@@ -202,7 +114,7 @@
                                 </tr>
                             @empty
                                 <tr>
-                                    <td colspan="6">No records</td>
+                                    <td colspan="6">{{ __('meter.no_record') }}</td>
                                 </tr>
                             @endforelse
                             </tbody>
@@ -229,7 +141,7 @@
 
     <script src="{{asset('js/scripts/datatables/datatable.js')}}"></script>
 
-{{--    <script src="{{asset('js/scripts/pages/dashboard-analytics.js')}}"></script>--}}
+    {{--    <script src="{{asset('js/scripts/pages/dashboard-analytics.js')}}"></script>--}}
 @endsection
 
 @push('scripts')
