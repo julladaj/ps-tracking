@@ -17,7 +17,7 @@ FROM `job_status_durations`
 WHERE `job_status_id` = {$job_status_id}
 GROUP BY `meter_id`
 ORDER BY SUM(`duration`) DESC
-FETCH FIRST 1 ROW ONLY;
+LIMIT 1;
 SQL;
 
         $avg = DB::select($sql_command);
