@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Helpers\MeterHelper;
 use App\Models\ElectricExpands;
 use App\Models\JobAmounts;
+use App\Models\JobStatusDurations;
 use App\Models\JobStatuses;
 use App\Models\JobTypes;
 use App\Models\Meters;
@@ -36,11 +38,26 @@ class MetersController extends Controller
         }
 
         $report = [
-            'wait_for_action' => Meters::where('job_status_id', 1)->count(),
-            'survey' => Meters::where('job_status_id', 2)->count(),
-            'estimate' => Meters::where('job_status_id', 3)->count(),
-            'approve' => Meters::where('job_status_id', 4)->count(),
-            'payment' => Meters::where('job_status_id', 5)->count(),
+            'wait_for_action' => [
+                'count' => Meters::where('job_status_id', 1)->count(),
+                'avg' => MeterHelper::getStatusAverageDay(1)
+            ],
+            'survey' => [
+                'count' => Meters::where('job_status_id', 2)->count(),
+                'avg' => MeterHelper::getStatusAverageDay(2)
+            ],
+            'estimate' => [
+                'count' => Meters::where('job_status_id', 3)->count(),
+                'avg' => MeterHelper::getStatusAverageDay(3)
+            ],
+            'approve' => [
+                'count' => Meters::where('job_status_id', 4)->count(),
+                'avg' => MeterHelper::getStatusAverageDay(4)
+            ],
+            'payment' => [
+                'count' => Meters::where('job_status_id', 5)->count(),
+                'avg' => MeterHelper::getStatusAverageDay(5)
+            ],
             'all' => Meters::count()
         ];
 
@@ -80,7 +97,14 @@ class MetersController extends Controller
         if (!$request->has('meters')) {
             return back()->with('error', 'ข้อมูลไม่ครบถ้วน');
         }
-        $meter = Meters::create($request->get('meters'));
+        $request_meter = $request->get('meters');
+        $meter = Meters::create($request_meter);
+
+        JobStatusDurations::create([
+            'meter_id' => $meter->id,
+            'job_status_id' => $request_meter['job_status_id']
+        ]);
+
         return redirect(route('meters.edit', $meter))->with('success', 'บันทึกข้อมูลสำเร็จ');
     }
 
@@ -137,6 +161,24 @@ class MetersController extends Controller
         } else {
             $electric_expands = ElectricExpands::create(['job_name' => '-']);
             $request_meter['electric_expand_id'] = $electric_expands->id;
+        }
+
+        if ($request_meter['job_status_id'] !== $meter->job_status_id) {
+            $jobStatusDurations = JobStatusDurations::where('meter_id', $meter->id)
+                ->orderBy('id', 'desc')
+                ->first();
+
+            if ($jobStatusDurations) {
+                $duration = $jobStatusDurations->created_at->diffInSeconds(now());
+                $jobStatusDurations->update([
+                    'duration' => $duration
+                ]);
+            }
+
+            JobStatusDurations::create([
+                'meter_id' => $meter->id,
+                'job_status_id' => $request_meter['job_status_id']
+            ]);
         }
 
         $meter->update($request_meter);
