@@ -26,7 +26,7 @@
     <script src="{{asset('js/scripts/customizer.js')}}"></script>
     <script src="{{asset('assets/js/scripts.js')}}"></script>
     <!-- END: Theme JS-->
-
+    @stack('scripts')
     <!-- BEGIN: Page JS-->
     @yield('page-scripts')
     <!-- END: Page JS-->

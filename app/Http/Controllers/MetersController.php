@@ -23,7 +23,8 @@ class MetersController extends Controller
         $pageSize = (int)$request->query('page_size', 10);
         $search = (string)$request->query('search', '');
 
-        $meters = Meters::with(['job_type', 'job_status', 'job_amount', 'transformer', 'pea_staff']);
+        $meters = Meters::with(['job_type', 'job_status', 'job_amount', 'transformer', 'pea_staff'])
+            ->orderBy('id', 'desc');
 
         if ($search) {
             $meters
@@ -34,10 +35,20 @@ class MetersController extends Controller
                 });
         }
 
+        $report = [
+            'wait_for_action' => Meters::where('job_status_id', 1)->count(),
+            'survey' => Meters::where('job_status_id', 2)->count(),
+            'estimate' => Meters::where('job_status_id', 3)->count(),
+            'approve' => Meters::where('job_status_id', 4)->count(),
+            'payment' => Meters::where('job_status_id', 5)->count(),
+            'all' => Meters::count()
+        ];
+
         return view('meters.index', [
             'meters' => $meters->sortable()->paginate($pageSize),
             'pageSize' => $pageSize,
-            'search' => $search
+            'search' => $search,
+            'report' => $report
         ]);
     }
 

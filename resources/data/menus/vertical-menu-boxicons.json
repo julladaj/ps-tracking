@@ -25,7 +25,7 @@
       "tagcustom": "badge badge-light-danger badge-pill badge-round float-right mr-50",
       "submenu": [
         {
-          "url": "/",
+          "url": "dashboard/ecommerce",
           "name": "eCommerce",
           "icon": "bx bx-right-arrow-alt",
           "slug": "dashboard-ecommerce"
