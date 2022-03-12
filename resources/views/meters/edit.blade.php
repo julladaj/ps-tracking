@@ -49,8 +49,8 @@
                             </div>
                             <div class="card-footer border-top">
                                 <div class="progress progress-bar-{{ $value['color'] }} progress-sm mt-50 mb-md-50">
-                                    <div class="progress-bar" role="progressbar" aria-valuenow="{{ $value['avg'] / $over_report['job_status_avg'] * 100 }}"
-                                         style="width:{{ $value['avg'] / $over_report['job_status_avg'] * 100 }}%"></div>
+                                    <div class="progress-bar" role="progressbar" aria-valuenow="{{ ($over_report['job_status_avg'])? $value['avg'] / $over_report['job_status_avg'] * 100 : 0 }}"
+                                         style="width:{{ ($over_report['job_status_avg'])? $value['avg'] / $over_report['job_status_avg'] * 100 : 0 }}%"></div>
                                 </div>
                             </div>
                         </div>
