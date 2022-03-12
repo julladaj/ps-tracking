@@ -333,6 +333,9 @@ class MetersController extends Controller
             ]);
         }
 
+        $request_meter['has_payment'] = $request_meter['has_payment'] ?? 0;
+        $request_meter['paid'] = $request_meter['paid'] ?? 0;
+
         $meter->update($request_meter);
         $electric_expands->update($request_electric_expands);
 
