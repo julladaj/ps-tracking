@@ -4,14 +4,21 @@ namespace App\Http\Controllers;
 
 use App\Helpers\MeterHelper;
 use App\Models\ElectricExpands;
+use App\Models\EnvCommunities;
+use App\Models\EnvEarths;
+use App\Models\EnvTrees;
+use App\Models\Geos;
 use App\Models\JobAmounts;
 use App\Models\JobStatusDurations;
 use App\Models\JobStatuses;
 use App\Models\JobTypes;
 use App\Models\Meters;
 use App\Models\PeaStaffs;
+use App\Models\ReservedForests;
+use App\Models\Stations;
 use App\Models\Transformers;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
 
 class MetersController extends Controller
 {
@@ -97,13 +104,25 @@ class MetersController extends Controller
      */
     public function create()
     {
+        $seconds = 24 * 60 * 60;
+
         return view('meters.edit', [
             'isCreate' => true,
-            'job_amounts' => JobAmounts::all(),
-            'job_statuses' => JobStatuses::all(),
-            'job_types' => JobTypes::all(),
-            'pea_staffs' => PeaStaffs::all(),
-            'transformers' => Transformers::all()
+            'job_amounts' => Cache::remember('job_amounts', $seconds, function () {
+                return JobAmounts::all();
+            }),
+            'job_statuses' => Cache::remember('job_statuses', $seconds, function () {
+                return JobStatuses::all();
+            }),
+            'job_types' => Cache::remember('job_types', $seconds, function () {
+                return JobTypes::all();
+            }),
+            'pea_staffs' => Cache::remember('pea_staffs', $seconds, function () {
+                return PeaStaffs::all();
+            }),
+            'transformers' => Cache::remember('transformers', $seconds, function () {
+                return Transformers::all();
+            })
         ]);
     }
 
@@ -150,14 +169,83 @@ class MetersController extends Controller
     {
         $meter->with(['job_type', 'job_status', 'job_amount', 'transformer', 'pea_staff', 'electric_expand']);
 
+        $meter_edit_url = route('meters.edit', $meter);
+
+        $report = [
+            'all' => [
+                'url' => MeterHelper::buildJobStatusFilterUrl($meter_edit_url, 0),
+                'avg' => MeterHelper::getStatusAverageDay(0, $meter->id),
+                'color' => 'success'
+            ],
+            'wait_for_action' => [
+                'url' => MeterHelper::buildJobStatusFilterUrl($meter_edit_url, 1),
+                'avg' => MeterHelper::getStatusAverageDay(1, $meter->id),
+                'color' => 'success'
+            ],
+            'survey' => [
+                'url' => MeterHelper::buildJobStatusFilterUrl($meter_edit_url, 2),
+                'avg' => MeterHelper::getStatusAverageDay(2, $meter->id),
+                'color' => 'info'
+            ],
+            'estimate' => [
+                'url' => MeterHelper::buildJobStatusFilterUrl($meter_edit_url, 3),
+                'avg' => MeterHelper::getStatusAverageDay(3, $meter->id),
+                'color' => 'warning'
+            ],
+            'approve' => [
+                'url' => MeterHelper::buildJobStatusFilterUrl($meter_edit_url, 4),
+                'avg' => MeterHelper::getStatusAverageDay(4, $meter->id),
+                'color' => 'primary'
+            ],
+            'payment' => [
+                'url' => MeterHelper::buildJobStatusFilterUrl($meter_edit_url, 5),
+                'avg' => MeterHelper::getStatusAverageDay(5, $meter->id),
+                'color' => 'danger'
+            ]
+        ];
+
+        $seconds = 24 * 60 * 60;
+
         return view('meters.edit', [
             'isCreate' => false,
             'meter' => $meter,
-            'job_amounts' => JobAmounts::all(),
-            'job_statuses' => JobStatuses::all(),
-            'job_types' => JobTypes::all(),
-            'pea_staffs' => PeaStaffs::all(),
-            'transformers' => Transformers::all()
+
+            'job_amounts' => Cache::remember('job_amounts', $seconds, function () {
+                return JobAmounts::all();
+            }),
+            'job_statuses' => Cache::remember('job_statuses', $seconds, function () {
+                return JobStatuses::all();
+            }),
+            'job_types' => Cache::remember('job_types', $seconds, function () {
+                return JobTypes::all();
+            }),
+            'pea_staffs' => Cache::remember('pea_staffs', $seconds, function () {
+                return PeaStaffs::all();
+            }),
+            'transformers' => Cache::remember('transformers', $seconds, function () {
+                return Transformers::all();
+            }),
+
+            'geos' => Cache::remember('geos', $seconds, function () {
+                return Geos::all();
+            }),
+            'env_earths' => Cache::remember('env_earths', $seconds, function () {
+                return EnvEarths::all();
+            }),
+            'env_trees' => Cache::remember('env_trees', $seconds, function () {
+                return EnvTrees::all();
+            }),
+            'reserved_forests' => Cache::remember('reserved_forests', $seconds, function () {
+                return ReservedForests::all();
+            }),
+            'env_communities' => Cache::remember('env_communities', $seconds, function () {
+                return EnvCommunities::all();
+            }),
+            'stations' => Cache::remember('stations', $seconds, function () {
+                return Stations::all();
+            }),
+
+            'report' => $report
         ]);
     }
 

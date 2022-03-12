@@ -12,6 +12,9 @@
 composer require kyslik/column-sortable
 ```
 ```sh
+composer require doctrine/dbal
+```
+```sh
 php artisan migrate
 ```
 ```sh

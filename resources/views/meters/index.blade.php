@@ -15,7 +15,7 @@
 @section('content')
     <!-- users list start -->
     <section class="users-list-wrapper">
-        <div class="row">
+        <div class="row match-height">
             <div class="col-sm-6 col-xl-2 col-12 mb-3">
                 <div class="card mb-0">
                     <div class="card-header pb-50">
@@ -96,6 +96,7 @@
                                 <th>@sortablelink('survey_user_id', 'ชื่อผู้สำรวจ', null, ['rel' => 'nofollow'])</th>
                                 <th>@sortablelink('job_status_id', 'สถานะงาน', null, ['rel' => 'nofollow'])</th>
                                 <th>@sortablelink('job_number', 'หมายเลขงาน', null, ['rel' => 'nofollow'])</th>
+                                <th>@sortablelink('comment', 'หมายเหตุ', null, ['rel' => 'nofollow'])</th>
                                 <th></th>
                             </tr>
                             </thead>
@@ -110,6 +111,7 @@
                                     <td>{{ $meter->pea_staff->name }}</td>
                                     <td>{{ $meter->job_status->description }}</td>
                                     <td>{{ $meter->job_number }}</td>
+                                    <td>{{ $meter->comment }}</td>
                                     <td class="text-right p-0"><a href="{{ route('meters.edit', $meter) }}" class="btn btn-icon btn-outline-primary"><i class="bx bx-edit-alt"></i></a></td>
                                 </tr>
                             @empty
