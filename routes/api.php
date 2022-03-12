@@ -2,6 +2,7 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -16,3 +17,16 @@ use Illuminate\Support\Facades\Route;
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
+
+
+Route::post('/convertLocaleDate', function (Request $request) {
+    if ($request->ajax() && $request->has('value')) {
+        return [
+            'localDate' => buddhismDate($request->get('value'))
+        ];
+    }
+
+    return [
+        'localDate' => $request->get('value')
+    ];
+})->name('api.convertLocaleDate');

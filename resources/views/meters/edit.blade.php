@@ -14,49 +14,49 @@
     <!-- Basic Horizontal form layout section start -->
     <section id="basic-horizontal-layouts">
         @if(!$isCreate)
-        <div class="row match-height">
-            <div class="col-sm-6 col-xl-2 col-12 mb-3">
-                <div class="card mb-0">
-                    <div class="card-header pb-50">
-                        <h4 class="card-title">สถานะทั้งหมด</h4>
-                    </div>
-                    <div class="card-body py-1">
-                        <div class="d-flex justify-content-between align-items-center mb-1">
-                            <div class="sales-item-name">
-                                <p class="mb-0">ระยะเวลารวม</p>
-                                <small class="text-muted">ที่ใช้ในการดำเนินการแต่ละขั้นตอน (วัน)</small>
-                            </div>
-                            <h6 class="mb-0">{{ $report['all']['avg'] }}</h6>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            @foreach(array_slice($report, 1) as $key => $value)
+            <div class="row match-height">
                 <div class="col-sm-6 col-xl-2 col-12 mb-3">
                     <div class="card mb-0">
                         <div class="card-header pb-50">
-                            <h4 class="card-title">{{ __('meter.job_status.' . $key) }}</h4>
+                            <h4 class="card-title">สถานะทั้งหมด</h4>
                         </div>
                         <div class="card-body py-1">
                             <div class="d-flex justify-content-between align-items-center mb-1">
                                 <div class="sales-item-name">
-                                    <p class="mb-0">ระยะเวลาเฉลี่ย</p>
+                                    <p class="mb-0">ระยะเวลารวม</p>
                                     <small class="text-muted">ที่ใช้ในการดำเนินการแต่ละขั้นตอน (วัน)</small>
                                 </div>
-                                <h6 class="mb-0">{{ $value['avg'] }}</h6>
-                            </div>
-                        </div>
-                        <div class="card-footer border-top">
-                            <div class="progress progress-bar-{{ $value['color'] }} progress-sm mt-50 mb-md-50">
-                                <div class="progress-bar" role="progressbar" aria-valuenow="{{ $value['avg'] / $report['all']['avg'] * 100 }}"
-                                     style="width:{{ $value['avg'] / $report['all']['avg'] * 100 }}%"></div>
+                                <h6 class="mb-0">{{ $report['all']['avg'] }}</h6>
                             </div>
                         </div>
                     </div>
                 </div>
-            @endforeach
-        </div>
+
+                @foreach(array_slice($report, 1) as $key => $value)
+                    <div class="col-sm-6 col-xl-2 col-12 mb-3">
+                        <div class="card mb-0">
+                            <div class="card-header pb-50">
+                                <h4 class="card-title">{{ __('meter.job_status.' . $key) }}</h4>
+                            </div>
+                            <div class="card-body py-1">
+                                <div class="d-flex justify-content-between align-items-center mb-1">
+                                    <div class="sales-item-name">
+                                        <p class="mb-0">ระยะเวลาเฉลี่ย</p>
+                                        <small class="text-muted">ที่ใช้ในการดำเนินการแต่ละขั้นตอน (วัน)</small>
+                                    </div>
+                                    <h6 class="mb-0">{{ $value['avg'] }}</h6>
+                                </div>
+                            </div>
+                            <div class="card-footer border-top">
+                                <div class="progress progress-bar-{{ $value['color'] }} progress-sm mt-50 mb-md-50">
+                                    <div class="progress-bar" role="progressbar" aria-valuenow="{{ $value['avg'] / $report['all']['avg'] * 100 }}"
+                                         style="width:{{ $value['avg'] / $report['all']['avg'] * 100 }}%"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                @endforeach
+            </div>
         @endif
 
         <div class="row">
@@ -97,7 +97,8 @@
                                         <label>วันที่ยื่นคำร้อง</label>
                                     </div>
                                     <div class="col-md-4 form-group vertical-middle">
-                                        <input type="date" class="form-control" name="meters[document_date]" placeholder="วันที่ยื่นคำร้อง" value="{{ $meter->document_date?? old('meters.document_date') }}">
+                                        <input type="date" class="form-control" name="meters[document_date]" placeholder="วันที่ยื่นคำร้อง" value="{{ $meter->document_date?? old('meters.document_date') }}" data-toggle="tooltip" data-placement="top"
+                                               data-original-title="{{ buddhismDate($meter->document_date?? old('meters.document_date')) }}">
                                     </div>
                                 </div>
                                 <div class="row mt-1">
@@ -120,7 +121,7 @@
                                         <label>ประเภทงาน</label>
                                     </div>
                                     <div class="col-md-4 form-group vertical-middle">
-                                        <select class="form-control" name="meters[job_type_id]">
+                                        <select class="form-control" name="meters[job_type_id]" id="job_type_id">
                                             @forelse($job_types as $job_type)
                                                 <option value="{{ $job_type->id }}" {{ ((isset($meter->job_type_id) && $meter->job_type_id === $job_type->id) || old('meters.job_type_id') === $job_type->id)? 'selected':'' }}>{{ $job_type->description }}</option>
                                             @empty
@@ -128,13 +129,28 @@
                                             @endforelse
                                         </select>
                                     </div>
-                                    <div class="col-md-2 text-right vertical-middle">
+                                    <div class="col-md-2 text-right vertical-middle meter-transformer">
                                         <label>หม้อแปลง ขนาด</label>
                                     </div>
-                                    <div class="col-md-4 form-group vertical-middle">
+                                    <div class="col-md-4 form-group vertical-middle meter-transformer">
                                         <select class="form-control" name="meters[transformer_id]">
                                             @forelse($transformers as $transformer)
                                                 <option value="{{ $transformer->id }}" {{ ((isset($meter->transformer_id) && $meter->transformer_id === $transformer->id) || old('meters.transformer_id') === $transformer->id)? 'selected':'' }}>{{ $transformer->description }}</option>
+                                            @empty
+                                                <option></option>
+                                            @endforelse
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="row mt-1">
+                                    <div class="col-md-2 text-right vertical-middle">
+                                        <label>สถานที่ขอใช้บริการ</label>
+                                    </div>
+                                    <div class="col-md-4 form-group vertical-middle">
+                                        <select class="form-control" name="meters[requested_place_id]" id="requested_place_id">
+                                            @forelse($requested_places as $requested_place)
+                                                <option value="{{ $requested_place->id }}"
+                                                        credit_terms="{{ $requested_place->credit_terms }}" {{ ((isset($meter->requested_place_id) && $meter->requested_place_id === $requested_place->id) || old('meters.requested_place_id') === $requested_place->id)? 'selected':'' }}>{{ $requested_place->description }}</option>
                                             @empty
                                                 <option></option>
                                             @endforelse
@@ -201,21 +217,24 @@
                                         <label>ลงวันที่</label>
                                     </div>
                                     <div class="col-md-4 form-group vertical-middle">
-                                        <input type="date" class="form-control" name="meters[approve_date]" placeholder="ลงวันที่" value="{{ $meter->approve_date?? old('meters.approve_date') }}">
+                                        <input type="date" class="form-control" id="approve_date" name="meters[approve_date]" placeholder="ลงวันที่" value="{{ $meter->approve_date?? old('meters.approve_date') }}" data-toggle="tooltip"
+                                               data-placement="top" data-original-title="{{ buddhismDate($meter->approve_date?? old('meters.approve_date')) }}">
                                     </div>
                                 </div>
                                 <div class="row mt-1">
                                     <div class="col-md-2 text-right vertical-middle">
-                                        <label>หมดกำหนดยื่นราคา</label>
+                                        <label>หมดกำหนดยืนราคา</label>
                                     </div>
                                     <div class="col-md-4 form-group vertical-middle">
-                                        <input type="date" class="form-control" name="meters[expires_quote_date]" placeholder="หมดกำหนดยื่นราคา" value="{{ $meter->expires_quote_date?? old('meters.expires_quote_date') }}">
+                                        <input type="date" class="form-control" id="expires_quote_date" name="meters[expires_quote_date]" placeholder="หมดกำหนดยื่นราคา" value="{{ $meter->expires_quote_date?? old('meters.expires_quote_date') }}"
+                                               readonly data-toggle="tooltip" data-placement="top" data-original-title="{{ buddhismDate($meter->expires_quote_date?? old('meters.expires_quote_date')) }}"/>
                                     </div>
                                     <div class="col-md-2 text-right vertical-middle">
                                         <label>วันที่ชำระเงิน</label>
                                     </div>
                                     <div class="col-md-4 form-group vertical-middle">
-                                        <input type="date" class="form-control" name="meters[payment_date]" placeholder="วันที่ชำระเงิน" value="{{ $meter->payment_date?? old('meters.payment_date') }}">
+                                        <input type="date" class="form-control" name="meters[payment_date]" placeholder="วันที่ชำระเงิน" value="{{ $meter->payment_date?? old('meters.payment_date') }}" data-toggle="tooltip" data-placement="top"
+                                               data-original-title="{{ buddhismDate($meter->payment_date?? old('meters.payment_date')) }}">
                                     </div>
                                 </div>
                                 <div class="row mt-1">
@@ -223,7 +242,8 @@
                                         <label>ผบค. ส่งงาน</label>
                                     </div>
                                     <div class="col-md-4 form-group vertical-middle">
-                                        <input type="date" class="form-control" name="meters[service_final_date]" placeholder="ผบค. ส่งงาน" value="{{ $meter->service_final_date?? old('meters.service_final_date') }}">
+                                        <input type="date" class="form-control" name="meters[service_final_date]" placeholder="ผบค. ส่งงาน" value="{{ $meter->service_final_date?? old('meters.service_final_date') }}" data-toggle="tooltip"
+                                               data-placement="top" data-original-title="{{ buddhismDate($meter->service_final_date?? old('meters.service_final_date')) }}">
                                     </div>
                                     <div class="col-md-2 text-right vertical-middle"></div>
                                     <div class="col-md-4 vertical-middle">
@@ -256,199 +276,201 @@
                             </div>
 
                             @if(!$isCreate)
-                            <hr>
-
-                            <div class="form-body">
-                                <input type="hidden" name="meters[electric_expand_id]" value="{{ $meter->electric_expand_id?? 0 }}">
-                                <div class="alert bg-rgba-primary mt-1 p-1">
-                                    <h4 class="text-primary">รายละเอียด</h4>
-                                    <p class="m-0">ขออนุมัติ<code class="highlighter-rouge">ขยายเขต/ย้ายแนว</code>ระบบจำหน่ายไฟฟ้า</p>
-                                </div>
-
-                                <div class="row mt-1">
-                                    <div class="col-md-2 text-right vertical-middle">
-                                        <label>ชื่องาน</label>
-                                    </div>
-                                    <div class="col-md-10 form-group vertical-middle">
-                                        <input type="text" class="form-control" name="electric_expands[job_name]" placeholder="ชื่องาน" value="{{ $meter->electric_expand->job_name?? old('electric_expands.job_name') }}">
-                                    </div>
-                                </div>
-                                <div class="row mt-1">
-                                    <div class="col-md-2 text-right vertical-middle">
-                                        <label>สถานที่ใช้ไฟฟ้า</label>
-                                    </div>
-                                    <div class="col-md-10 form-group vertical-middle">
-                                        <input type="text" class="form-control" name="electric_expands[location]" placeholder="สถานที่ใช้ไฟฟ้า" value="{{ $meter->electric_expand->location?? old('electric_expands.location') }}">
-                                    </div>
-                                </div>
-                                <div class="row mt-1">
-                                    <div class="col-md-2 text-right vertical-middle">
-                                        <label>ลักษณะการใช้พลังงานไฟฟ้า</label>
-                                    </div>
-                                    <div class="col-md-10 form-group vertical-middle">
-                                        <input type="text" class="form-control" name="electric_expands[consumer_type]" placeholder="ลักษณะการใช้พลังงานไฟฟ้า" value="{{ $meter->electric_expand->consumer_type?? old('electric_expands.consumer_type') }}">
-                                    </div>
-                                </div>
-                                <div class="row mt-1">
-                                    <div class="col-md-2 text-right vertical-middle">
-                                        <label>สภาพภูมิประเทศ</label>
-                                    </div>
-                                    <div class="col-md-10 form-group vertical-middle">
-                                        <select class="form-control" name="electric_expands[geo_id]">
-                                            @forelse($geos as $geo)
-                                                <option value="{{ $geo->id }}" {{ ((isset($meter->electric_expand->geo_id) && $meter->electric_expand->geo_id === $geo->id) || old('electric_expands.geo_id') === $geo->id)? 'selected':'' }}>{{ $geo->description }}</option>
-                                            @empty
-                                                <option></option>
-                                            @endforelse
-                                        </select>
-                                    </div>
-                                </div>
-                                <div class="row mt-1">
-                                    <div class="col-md-2 text-right vertical-middle">
-                                        <label>สภาพพื้นดิน</label>
-                                    </div>
-                                    <div class="col-md-10 form-group vertical-middle">
-                                        <select class="form-control" name="electric_expands[env_earth_id]">
-                                            @forelse($env_earths as $env_earth)
-                                                <option value="{{ $env_earth->id }}" {{ ((isset($meter->electric_expand->env_earth_id) && $meter->electric_expand->env_earth_id === $env_earth->id) || old('electric_expands.env_earth_id') === $env_earth->id)? 'selected':'' }}>{{ $env_earth->description }}</option>
-                                            @empty
-                                                <option></option>
-                                            @endforelse
-                                        </select>
-                                    </div>
-                                </div>
-                                <div class="row mt-1">
-                                    <div class="col-md-2 text-right vertical-middle">
-                                        <label>สภาพต้นไม้ตามแนวขยายเขต</label>
-                                    </div>
-                                    <div class="col-md-4 form-group vertical-middle">
-                                        <select class="form-control" name="electric_expands[env_tree_id]">
-                                            @forelse($env_trees as $env_tree)
-                                                <option value="{{ $env_tree->id }}" {{ ((isset($meter->electric_expand->env_tree_id) && $meter->electric_expand->env_tree_id === $env_tree->id) || old('electric_expands.env_tree_id') === $env_tree->id)? 'selected':'' }}>{{ $env_tree->description }}</option>
-                                            @empty
-                                                <option></option>
-                                            @endforelse
-                                        </select>
-                                    </div>
-                                    <div class="col-md-2 form-group vertical-middle">
-                                        <fieldset>
-                                            <div class="input-group">
-                                                <input type="number" class="form-control" name="electric_expands[env_tree_distant_km]" placeholder="กิโลเมตร" aria-describedby="env_tree_distant_km" value="{{ $meter->electric_expand->env_tree_distant_km?? old('electric_expands.env_tree_distant_km') }}">
-                                                <div class="input-group-append">
-                                                    <span class="input-group-text" id="env_tree_distant_km">กม.</span>
-                                                </div>
-                                            </div>
-                                        </fieldset>
-                                    </div>
-                                    <div class="col-md-1 text-right vertical-middle">
-                                        <label>ป่าสงวน</label>
-                                    </div>
-                                    <div class="col-md-3 form-group vertical-middle">
-                                        <select class="form-control" name="electric_expands[reserved_forest_id]">
-                                            @forelse($reserved_forests as $reserved_forest)
-                                                <option value="{{ $reserved_forest->id }}" {{ ((isset($meter->electric_expand->reserved_forest_id) && $meter->electric_expand->reserved_forest_id === $reserved_forest->id) || old('electric_expands.reserved_forest_id') === $reserved_forest->id)? 'selected':'' }}>{{ $reserved_forest->description }}</option>
-                                            @empty
-                                                <option></option>
-                                            @endforelse
-                                        </select>
-                                    </div>
-                                </div>
-                                <div class="row mt-1">
-                                    <div class="col-md-2 text-right vertical-middle">
-                                        <label>นำรถยนต์เข้าปฏิบัติงาน</label>
-                                    </div>
-                                    <div class="col-md-4 form-group vertical-middle">
-                                        <input type="text" class="form-control" name="electric_expands[working_with_car]" placeholder="นำรถยนต์เข้าปฏิบัติงาน" value="{{ $meter->electric_expand->working_with_car?? old('electric_expands.working_with_car') }}">
-                                    </div>
-                                    <div class="col-md-1 text-right vertical-middle">
-                                        <label>สภาพชุมชน</label>
-                                    </div>
-                                    <div class="col-md-5 form-group vertical-middle">
-                                        <select class="form-control" name="electric_expands[env_community_id]">
-                                            @forelse($env_communities as $env_community)
-                                                <option value="{{ $env_community->id }}" {{ ((isset($meter->electric_expand->env_community_id) && $meter->electric_expand->env_community_id === $env_community->id) || old('electric_expands.env_community_id') === $env_community->id)? 'selected':'' }}>{{ $env_community->description }}</option>
-                                            @empty
-                                                <option></option>
-                                            @endforelse
-                                        </select>
-                                    </div>
-                                </div>
-                                <div class="row mt-1">
-                                    <div class="col-md-2 text-right vertical-middle">
-                                        <label>รับพลังงานไฟฟ้าจากหม้อแปลง PEA</label>
-                                    </div>
-                                    <div class="col-md-4 form-group vertical-middle">
-                                        <input type="text" class="form-control" name="electric_expands[transformer_pea_no]" placeholder="รับพลังงานไฟฟ้าจากหม้อแปลง PEA" value="{{ $meter->electric_expand->transformer_pea_no?? old('electric_expands.transformer_pea_no') }}">
-                                    </div>
-                                    <div class="col-md-1 text-right vertical-middle">
-                                        <label>ขนาด</label>
-                                    </div>
-                                    <div class="col-md-1 form-group vertical-middle">
-                                        <select class="form-control" name="electric_expands[transformer_id]">
-                                            @forelse($transformers as $transformer)
-                                                <option value="{{ $transformer->id }}" {{ ((isset($meter->electric_expand->transformer_id) && $meter->electric_expand->transformer_id === $transformer->id) || old('electric_expands.transformer_id') === $transformer->id)? 'selected':'' }}>{{ $transformer->description }}</option>
-                                            @empty
-                                                <option></option>
-                                            @endforelse
-                                        </select>
-                                    </div>
-                                    <div class="col-md-1 text-right vertical-middle">
-                                        <label>ระบบ</label>
-                                    </div>
-                                    <div class="col-md-3 form-group vertical-middle">
-                                        <input type="text" class="form-control" name="electric_expands[transformer_type]" placeholder="ระบบ" value="{{ $meter->electric_expand->transformer_type?? old('electric_expands.transformer_type') }}">
-                                    </div>
-                                </div>
-                                <div class="row mt-1">
-                                    <div class="col-md-2 text-right vertical-middle">
-                                        <label>โวลท์ จากสถานี</label>
-                                    </div>
-                                    <div class="col-md-4 form-group vertical-middle">
-                                        <select class="form-control" name="electric_expands[station_id]">
-                                            @forelse($stations as $station)
-                                                <option value="{{ $station->id }}" {{ ((isset($meter->electric_expand->station_id) && $meter->electric_expand->station_id === $station->id) || old('electric_expands.station_id') === $station->id)? 'selected':'' }}>{{ $station->description }}</option>
-                                            @empty
-                                                <option></option>
-                                            @endforelse
-                                        </select>
-                                    </div>
-                                    <div class="col-md-1 text-right vertical-middle">
-                                        <label>ฟีดเดอร์</label>
-                                    </div>
-                                    <div class="col-md-1 form-group vertical-middle">
-                                        <input type="text" class="form-control" name="electric_expands[feeder]" placeholder="ฟีดเดอร์" value="{{ $meter->electric_expand->feeder?? old('electric_expands.feeder') }}">
-                                    </div>
-                                    <div class="col-md-2 text-right vertical-middle">
-                                        <label>ระยะห่างจากสถานีตามระบบจำหน่าย</label>
-                                    </div>
-                                    <div class="col-md-2 form-group vertical-middle">
-                                        <fieldset>
-                                            <div class="input-group">
-                                                <input type="number" class="form-control" name="electric_expands[feeder_distant_km]" placeholder="กิโลเมตร" aria-describedby="feeder_distant_km" value="{{ $meter->electric_expand->feeder_distant_km?? old('electric_expands.feeder_distant_km') }}">
-                                                <div class="input-group-append">
-                                                    <span class="input-group-text" id="feeder_distant_km">กม.</span>
-                                                </div>
-                                            </div>
-                                        </fieldset>
-                                    </div>
-                                </div>
-
                                 <hr>
 
-                                <div class="row mt-1">
-                                    <div class="col-sm-12 d-flex justify-content-end">
-                                        <a href="{{ route('meters.index') }}" class="btn btn-secondary mr-1"><i class="bx bx-arrow-back"></i> ย้อนกลับหน้าหลัก</a>
-                                        <button type="reset" class="btn btn-light-secondary mr-1">คืนค่าเริ่มต้น</button>
-                                        <button type="submit" class="btn btn-primary"><i class="bx bx-save"></i> บันทึกข้อมูล</button>
+                                <div class="form-body">
+                                    <input type="hidden" name="meters[electric_expand_id]" value="{{ $meter->electric_expand_id?? 0 }}">
+                                    <div class="alert bg-rgba-primary mt-1 p-1">
+                                        <h4 class="text-primary">รายละเอียด</h4>
+                                        <p class="m-0">ขออนุมัติ<code class="highlighter-rouge">ขยายเขต/ย้ายแนว</code>ระบบจำหน่ายไฟฟ้า</p>
+                                    </div>
+
+                                    <div class="row mt-1">
+                                        <div class="col-md-2 text-right vertical-middle">
+                                            <label>ชื่องาน</label>
+                                        </div>
+                                        <div class="col-md-10 form-group vertical-middle">
+                                            <input type="text" class="form-control" name="electric_expands[job_name]" placeholder="ชื่องาน" value="{{ $meter->electric_expand->job_name?? old('electric_expands.job_name') }}">
+                                        </div>
+                                    </div>
+                                    <div class="row mt-1">
+                                        <div class="col-md-2 text-right vertical-middle">
+                                            <label>สถานที่ใช้ไฟฟ้า</label>
+                                        </div>
+                                        <div class="col-md-10 form-group vertical-middle">
+                                            <input type="text" class="form-control" name="electric_expands[location]" placeholder="สถานที่ใช้ไฟฟ้า" value="{{ $meter->electric_expand->location?? old('electric_expands.location') }}">
+                                        </div>
+                                    </div>
+                                    <div class="row mt-1">
+                                        <div class="col-md-2 text-right vertical-middle">
+                                            <label>ลักษณะการใช้พลังงานไฟฟ้า</label>
+                                        </div>
+                                        <div class="col-md-10 form-group vertical-middle">
+                                            <input type="text" class="form-control" name="electric_expands[consumer_type]" placeholder="ลักษณะการใช้พลังงานไฟฟ้า"
+                                                   value="{{ $meter->electric_expand->consumer_type?? old('electric_expands.consumer_type') }}">
+                                        </div>
+                                    </div>
+                                    <div class="row mt-1">
+                                        <div class="col-md-2 text-right vertical-middle">
+                                            <label>สภาพภูมิประเทศ</label>
+                                        </div>
+                                        <div class="col-md-10 form-group vertical-middle">
+                                            <select class="form-control" name="electric_expands[geo_id]">
+                                                @forelse($geos as $geo)
+                                                    <option value="{{ $geo->id }}" {{ ((isset($meter->electric_expand->geo_id) && $meter->electric_expand->geo_id === $geo->id) || old('electric_expands.geo_id') === $geo->id)? 'selected':'' }}>{{ $geo->description }}</option>
+                                                @empty
+                                                    <option></option>
+                                                @endforelse
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="row mt-1">
+                                        <div class="col-md-2 text-right vertical-middle">
+                                            <label>สภาพพื้นดิน</label>
+                                        </div>
+                                        <div class="col-md-10 form-group vertical-middle">
+                                            <select class="form-control" name="electric_expands[env_earth_id]">
+                                                @forelse($env_earths as $env_earth)
+                                                    <option value="{{ $env_earth->id }}" {{ ((isset($meter->electric_expand->env_earth_id) && $meter->electric_expand->env_earth_id === $env_earth->id) || old('electric_expands.env_earth_id') === $env_earth->id)? 'selected':'' }}>{{ $env_earth->description }}</option>
+                                                @empty
+                                                    <option></option>
+                                                @endforelse
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="row mt-1">
+                                        <div class="col-md-2 text-right vertical-middle">
+                                            <label>สภาพต้นไม้ตามแนวขยายเขต</label>
+                                        </div>
+                                        <div class="col-md-4 form-group vertical-middle">
+                                            <select class="form-control" name="electric_expands[env_tree_id]">
+                                                @forelse($env_trees as $env_tree)
+                                                    <option value="{{ $env_tree->id }}" {{ ((isset($meter->electric_expand->env_tree_id) && $meter->electric_expand->env_tree_id === $env_tree->id) || old('electric_expands.env_tree_id') === $env_tree->id)? 'selected':'' }}>{{ $env_tree->description }}</option>
+                                                @empty
+                                                    <option></option>
+                                                @endforelse
+                                            </select>
+                                        </div>
+                                        <div class="col-md-2 form-group vertical-middle">
+                                            <fieldset>
+                                                <div class="input-group">
+                                                    <input type="number" class="form-control" name="electric_expands[env_tree_distant_km]" placeholder="กิโลเมตร" aria-describedby="env_tree_distant_km"
+                                                           value="{{ $meter->electric_expand->env_tree_distant_km?? old('electric_expands.env_tree_distant_km') }}">
+                                                    <div class="input-group-append">
+                                                        <span class="input-group-text" id="env_tree_distant_km">กม.</span>
+                                                    </div>
+                                                </div>
+                                            </fieldset>
+                                        </div>
+                                        <div class="col-md-1 text-right vertical-middle">
+                                            <label>ป่าสงวน</label>
+                                        </div>
+                                        <div class="col-md-3 form-group vertical-middle">
+                                            <select class="form-control" name="electric_expands[reserved_forest_id]">
+                                                @forelse($reserved_forests as $reserved_forest)
+                                                    <option value="{{ $reserved_forest->id }}" {{ ((isset($meter->electric_expand->reserved_forest_id) && $meter->electric_expand->reserved_forest_id === $reserved_forest->id) || old('electric_expands.reserved_forest_id') === $reserved_forest->id)? 'selected':'' }}>{{ $reserved_forest->description }}</option>
+                                                @empty
+                                                    <option></option>
+                                                @endforelse
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="row mt-1">
+                                        <div class="col-md-2 text-right vertical-middle">
+                                            <label>นำรถยนต์เข้าปฏิบัติงาน</label>
+                                        </div>
+                                        <div class="col-md-4 form-group vertical-middle">
+                                            <input type="text" class="form-control" name="electric_expands[working_with_car]" placeholder="นำรถยนต์เข้าปฏิบัติงาน"
+                                                   value="{{ $meter->electric_expand->working_with_car?? old('electric_expands.working_with_car') }}">
+                                        </div>
+                                        <div class="col-md-1 text-right vertical-middle">
+                                            <label>สภาพชุมชน</label>
+                                        </div>
+                                        <div class="col-md-5 form-group vertical-middle">
+                                            <select class="form-control" name="electric_expands[env_community_id]">
+                                                @forelse($env_communities as $env_community)
+                                                    <option value="{{ $env_community->id }}" {{ ((isset($meter->electric_expand->env_community_id) && $meter->electric_expand->env_community_id === $env_community->id) || old('electric_expands.env_community_id') === $env_community->id)? 'selected':'' }}>{{ $env_community->description }}</option>
+                                                @empty
+                                                    <option></option>
+                                                @endforelse
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="row mt-1">
+                                        <div class="col-md-2 text-right vertical-middle">
+                                            <label>รับพลังงานไฟฟ้าจากหม้อแปลง PEA</label>
+                                        </div>
+                                        <div class="col-md-4 form-group vertical-middle">
+                                            <input type="text" class="form-control" name="electric_expands[transformer_pea_no]" placeholder="รับพลังงานไฟฟ้าจากหม้อแปลง PEA"
+                                                   value="{{ $meter->electric_expand->transformer_pea_no?? old('electric_expands.transformer_pea_no') }}">
+                                        </div>
+                                        <div class="col-md-1 text-right vertical-middle">
+                                            <label>ขนาด</label>
+                                        </div>
+                                        <div class="col-md-1 form-group vertical-middle">
+                                            <select class="form-control" name="electric_expands[transformer_id]">
+                                                @forelse($transformers as $transformer)
+                                                    <option value="{{ $transformer->id }}" {{ ((isset($meter->electric_expand->transformer_id) && $meter->electric_expand->transformer_id === $transformer->id) || old('electric_expands.transformer_id') === $transformer->id)? 'selected':'' }}>{{ $transformer->description }}</option>
+                                                @empty
+                                                    <option></option>
+                                                @endforelse
+                                            </select>
+                                        </div>
+                                        <div class="col-md-1 text-right vertical-middle">
+                                            <label>ระบบ</label>
+                                        </div>
+                                        <div class="col-md-3 form-group vertical-middle">
+                                            <input type="text" class="form-control" name="electric_expands[transformer_type]" placeholder="ระบบ" value="{{ $meter->electric_expand->transformer_type?? old('electric_expands.transformer_type') }}">
+                                        </div>
+                                    </div>
+                                    <div class="row mt-1">
+                                        <div class="col-md-2 text-right vertical-middle">
+                                            <label>โวลท์ จากสถานี</label>
+                                        </div>
+                                        <div class="col-md-4 form-group vertical-middle">
+                                            <select class="form-control" name="electric_expands[station_id]">
+                                                @forelse($stations as $station)
+                                                    <option value="{{ $station->id }}" {{ ((isset($meter->electric_expand->station_id) && $meter->electric_expand->station_id === $station->id) || old('electric_expands.station_id') === $station->id)? 'selected':'' }}>{{ $station->description }}</option>
+                                                @empty
+                                                    <option></option>
+                                                @endforelse
+                                            </select>
+                                        </div>
+                                        <div class="col-md-1 text-right vertical-middle">
+                                            <label>ฟีดเดอร์</label>
+                                        </div>
+                                        <div class="col-md-1 form-group vertical-middle">
+                                            <input type="text" class="form-control" name="electric_expands[feeder]" placeholder="ฟีดเดอร์" value="{{ $meter->electric_expand->feeder?? old('electric_expands.feeder') }}">
+                                        </div>
+                                        <div class="col-md-2 text-right vertical-middle">
+                                            <label>ระยะห่างจากสถานีตามระบบจำหน่าย</label>
+                                        </div>
+                                        <div class="col-md-2 form-group vertical-middle">
+                                            <fieldset>
+                                                <div class="input-group">
+                                                    <input type="number" class="form-control" name="electric_expands[feeder_distant_km]" placeholder="กิโลเมตร" aria-describedby="feeder_distant_km"
+                                                           value="{{ $meter->electric_expand->feeder_distant_km?? old('electric_expands.feeder_distant_km') }}">
+                                                    <div class="input-group-append">
+                                                        <span class="input-group-text" id="feeder_distant_km">กม.</span>
+                                                    </div>
+                                                </div>
+                                            </fieldset>
+                                        </div>
+                                    </div>
+
+                                    <hr>
+
+                                    <div class="row mt-1">
+                                        <div class="col-sm-12 d-flex justify-content-end">
+                                            <a href="{{ route('meters.index') }}" class="btn btn-secondary mr-1"><i class="bx bx-arrow-back"></i> ย้อนกลับหน้าหลัก</a>
+                                            <button type="reset" class="btn btn-light-secondary mr-1">คืนค่าเริ่มต้น</button>
+                                            <button type="submit" class="btn btn-primary"><i class="bx bx-save"></i> บันทึกข้อมูล</button>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
                             @endif
                         </form>
                     </div>
-{{--                    <div class="card-footer border-top text-right">--}}
-{{--                        <button type="button" submit="form_meter" class="btn btn-primary submit-button"><i class="bx bx-save"></i> บันทึกข้อมูล</button>--}}
-{{--                    </div>--}}
                 </div>
             </div>
         </div>
@@ -466,6 +488,65 @@
                     $('#' + form).submit();
                 }
             });
+
+            $(document).on('change', '#job_type_id', function () {
+                check_job_type_id($(this).val());
+            });
+
+            $(document).on('change', '#requested_place_id', function () {
+                update_credit_term($('option:selected', this).attr('credit_terms'));
+            });
+
+            $(document).on('change', '#approve_date', function () {
+                update_credit_term($('option:selected', '#requested_place_id').attr('credit_terms'));
+            });
+
+            $(document).on('change', 'input[type="date"]', function () {
+                const $this = $(this);
+                $.ajax({
+                    type: "POST",
+                    url: "{{ route('api.convertLocaleDate') }}",
+                    data: {
+                        _token: "{{ csrf_token() }}",
+                        value: $this.val()
+                    },
+                    dataType: 'json',
+                    success: function (data) {
+                        $this.attr('data-original-title', data.localDate)
+                    },
+                    error: function (data) {
+                        console.log(data);
+                    }
+                });
+            });
+
+            function check_job_type_id(job_type_id) {
+                if (job_type_id === "4" || job_type_id === "5") {
+                    $('.meter-transformer').show();
+                } else {
+                    $('.meter-transformer').hide();
+                }
+            }
+
+            function update_credit_term(credit_terms) {
+                const date = new Date($("#approve_date").val()), days = parseInt(credit_terms, 10);
+
+                if (!isNaN(date.getTime())) {
+                    date.setDate(date.getDate() + days);
+                    $("#expires_quote_date").val(date.toInputFormat());
+                    $("#expires_quote_date").trigger('change');
+                }
+            }
+
+            Date.prototype.toInputFormat = function () {
+                const yyyy = this.getFullYear().toString();
+                const mm = (this.getMonth() + 1).toString(); // getMonth() is zero-based
+                const dd = this.getDate().toString();
+                return yyyy + "-" + (mm[1] ? mm : "0" + mm[0]) + "-" + (dd[1] ? dd : "0" + dd[0]); // padding
+            };
+
+            check_job_type_id($('#job_type_id').val());
+            update_credit_term($('option:selected', '#requested_place_id').attr('credit_terms'));
         });
     </script>
 @endsection

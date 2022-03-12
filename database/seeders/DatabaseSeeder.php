@@ -19,12 +19,13 @@ class DatabaseSeeder extends Seeder
 //            JobTypesSeeder::class,
 //            PeaStaffsSeeder::class,
 //            TransformersSeeder::class,
-            EnvCommunitiesSeeder::class,
-            EnvEarthsSeeder::class,
-            EnvTreesSeeder::class,
-            GeosSeeder::class,
-            ReservedForestsSeeder::class,
-            StationsSeeder::class
+//            EnvCommunitiesSeeder::class,
+//            EnvEarthsSeeder::class,
+//            EnvTreesSeeder::class,
+//            GeosSeeder::class,
+//            ReservedForestsSeeder::class,
+//            StationsSeeder::class,
+            RequestedPlacesSeeder::class
         ]);
     }
 }

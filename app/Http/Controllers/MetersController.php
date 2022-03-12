@@ -14,6 +14,7 @@ use App\Models\JobStatuses;
 use App\Models\JobTypes;
 use App\Models\Meters;
 use App\Models\PeaStaffs;
+use App\Models\RequestedPlaces;
 use App\Models\ReservedForests;
 use App\Models\Stations;
 use App\Models\Transformers;
@@ -122,6 +123,9 @@ class MetersController extends Controller
             }),
             'transformers' => Cache::remember('transformers', $seconds, function () {
                 return Transformers::all();
+            }),
+            'requested_places' => Cache::remember('requested_places', $seconds, function () {
+                return RequestedPlaces::all();
             })
         ]);
     }
@@ -225,6 +229,10 @@ class MetersController extends Controller
             'transformers' => Cache::remember('transformers', $seconds, function () {
                 return Transformers::all();
             }),
+            'requested_places' => Cache::remember('requested_places', $seconds, function () {
+                return RequestedPlaces::all();
+            }),
+
 
             'geos' => Cache::remember('geos', $seconds, function () {
                 return Geos::all();

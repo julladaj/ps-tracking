@@ -2,7 +2,7 @@
 <project version="4">
   <component name="SshConfigs">
     <configs>
-      <sshConfig host="ec2-52-77-242-26.ap-southeast-1.compute.amazonaws.com" id="fa86a94f-bdfb-4146-9550-1f98a4c08431" keyPath="$USER_HOME$/Julladaj_20211016.pem" port="22" nameFormat="DESCRIPTIVE" username="ubuntu" useOpenSSHConfig="true" />
+      <sshConfig host="ec2-52-221-252-205.ap-southeast-1.compute.amazonaws.com" id="fa86a94f-bdfb-4146-9550-1f98a4c08431" keyPath="$USER_HOME$/Julladaj_20211016.pem" port="22" nameFormat="DESCRIPTIVE" username="ubuntu" useOpenSSHConfig="true" />
     </configs>
   </component>
 </project>

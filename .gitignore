@@ -20,3 +20,5 @@ supervisord.log
 supervisord.pid
 /.git
 /.idea
+composer.json
+composer.lock
