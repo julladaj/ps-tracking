@@ -26,13 +26,13 @@
                                     <p class="mb-0">ระยะเวลารวม</p>
                                     <small class="text-muted">ที่ใช้ในการดำเนินการแต่ละขั้นตอน (วัน)</small>
                                 </div>
-                                <h6 class="mb-0">{{ $report['all']['avg'] }}</h6>
+                                <h6 class="mb-0">{{ $over_report['job_status_avg'] }}</h6>
                             </div>
                         </div>
                     </div>
                 </div>
 
-                @foreach(array_slice($report, 1) as $key => $value)
+                @foreach($job_status_report as $key => $value)
                     <div class="col-sm-6 col-xl-2 col-12 mb-3">
                         <div class="card mb-0">
                             <div class="card-header pb-50">
@@ -49,8 +49,8 @@
                             </div>
                             <div class="card-footer border-top">
                                 <div class="progress progress-bar-{{ $value['color'] }} progress-sm mt-50 mb-md-50">
-                                    <div class="progress-bar" role="progressbar" aria-valuenow="{{ $value['avg'] / $report['all']['avg'] * 100 }}"
-                                         style="width:{{ $value['avg'] / $report['all']['avg'] * 100 }}%"></div>
+                                    <div class="progress-bar" role="progressbar" aria-valuenow="{{ $value['avg'] / $over_report['job_status_avg'] * 100 }}"
+                                         style="width:{{ $value['avg'] / $over_report['job_status_avg'] * 100 }}%"></div>
                                 </div>
                             </div>
                         </div>

@@ -16,30 +16,68 @@
     <!-- users list start -->
     <section class="users-list-wrapper">
         <div class="row match-height">
+            <div class="col-xl-4 col-md-12 col-sm-12">
+                <div class="card">
+                    <div class="card-body d-flex align-items-center justify-content-between" style="position: relative;">
+                        <div class="d-flex align-items-center">
+                            <div class="avatar bg-rgba-{{ $over_report['color'] }} m-0 p-25 mr-75 mr-xl-2">
+                                <div class="avatar-content">
+                                    <i class="bx bxs-error text-{{ $over_report['color'] }} font-medium-2"></i>
+                                </div>
+                            </div>
+                            <div class="total-amount">
+                                <h5 class="mb-0">0 คำร้อง</h5>
+                                <small class="text-muted">จัดทำแผนผัง/ประมาณการค่าใช้จ่าย <code>เกินกำหนด</code></small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-xl-4 col-md-12 col-sm-12">
+                <div class="card">
+                    <div class="card-body d-flex align-items-center justify-content-between" style="position: relative;">
+                        <div class="d-flex align-items-center">
+                            <div class="avatar bg-rgba-{{ $over_report['color'] }} m-0 p-25 mr-75 mr-xl-2">
+                                <div class="avatar-content">
+                                    <i class="bx bxs-error text-{{ $over_report['color'] }} font-medium-2"></i>
+                                </div>
+                            </div>
+                            <div class="total-amount">
+                                <h5 class="mb-0"><a href="{{ $over_report['overdue_url'] }}">{{ $over_report['overdue'] }} คำร้อง</a></h5>
+                                <small class="text-muted"><code>หมดกำหนด</code> ยืนราคา @if($request->get('overdue')) ( <a href="{{ route('meters.index') }}">แสดงทั้งหมด</a> ) @endif</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row match-height">
             <div class="col-sm-6 col-xl-2 col-12 mb-3">
                 <div class="card mb-0">
                     <div class="card-header pb-50">
-                        <h4 class="card-title"><a href="{{ $report['all']['url'] }}">สถานะทั้งหมด</a></h4>
+                        <h4 class="card-title"><a href="{{ $over_report['job_status_url'] }}">สถานะทั้งหมด</a></h4>
                     </div>
                     <div class="card-body py-1">
                         <div class="d-flex justify-content-between align-items-center mb-2">
                             <div class="sales-item-name">
                                 <p class="mb-0">จำนวนคำร้อง</p>
                             </div>
-                            <h6 class="mb-0"><a href="{{ $report['all']['url'] }}">{{ $report['all']['count'] }}</a></h6>
+                            <h6 class="mb-0"><a href="{{ $over_report['job_status_url'] }}">{{ $over_report['count'] }}</a></h6>
                         </div>
                         <div class="d-flex justify-content-between align-items-center mb-1">
                             <div class="sales-item-name">
                                 <p class="mb-0">ระยะเวลาเฉลี่ย</p>
                                 <small class="text-muted">ที่ใช้ในการดำเนินการแต่ละขั้นตอน (วัน)</small>
                             </div>
-                            <h6 class="mb-0">{{ $report['all']['avg'] }}</h6>
+                            <h6 class="mb-0">{{ $over_report['job_status_avg'] }}</h6>
                         </div>
                     </div>
                 </div>
             </div>
 
-            @foreach(array_slice($report, 1) as $key => $value)
+            @foreach($job_status_report as $key => $value)
                 <div class="col-sm-6 col-xl-2 col-12 mb-3">
                     <div class="card mb-0">
                         <div class="card-header pb-50">
@@ -62,8 +100,8 @@
                         </div>
                         <div class="card-footer border-top">
                             <div class="progress progress-bar-{{ $value['color'] }} progress-sm mt-50 mb-md-50">
-                                <div class="progress-bar" role="progressbar" aria-valuenow="{{ $value['count'] / $report['all']['count'] * 100 }}"
-                                     style="width:{{ $value['count'] / $report['all']['count'] * 100 }}%"></div>
+                                <div class="progress-bar" role="progressbar" aria-valuenow="{{ $value['count'] / $over_report['count'] * 100 }}"
+                                     style="width:{{ $value['count'] / $over_report['count'] * 100 }}%"></div>
                             </div>
                         </div>
                     </div>

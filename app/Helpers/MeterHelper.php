@@ -40,15 +40,13 @@ LIMIT 1;";
 
     /**
      * @param  string  $base_url
-     * @param  int  $job_status_id
+     * @param  array|null  $param
      * @return string
      */
-    public static function buildJobStatusFilterUrl(string $base_url, int $job_status_id): string
+    public static function buildJobStatusFilterUrl(string $base_url, ?array $param = []): string
     {
         parse_str($_SERVER['QUERY_STRING'], $query_string);
-        $query_string = array_merge($query_string, [
-            'job_status_id' => $job_status_id
-        ]);
+        $query_string = array_merge($query_string, $param);
         return $base_url . '?' . http_build_query($query_string);
     }
 }
