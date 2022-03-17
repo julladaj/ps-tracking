@@ -3,9 +3,18 @@
 @section('title','แก้ไขข้อมูล')
 
 @section('page-styles')
+    <link rel="stylesheet" type="text/css" href="{{asset('css/plugins/forms/wizard.css')}}">
     <style>
         .vertical-middle {
             margin: auto 0;
+        }
+        .wizard .steps ul li a .step {
+            position: absolute;
+            margin-left: auto;
+            margin-right: auto;
+            left: 0;
+            right: 0;
+            text-align: center;
         }
     </style>
 @endsection
@@ -58,6 +67,32 @@
                 @endforeach
             </div>
         @endif
+
+        <div class="wizard">
+            <div class="steps clearfix">
+                <ul role="tablist">
+                    <li role="tab" class="first done" aria-disabled="false" aria-selected="false">
+                        <a id="steps-uid-3-t-0" href="#steps-uid-3-h-0" aria-controls="steps-uid-3-p-0">
+                            <span class="current-info audible">current step: </span>
+                            <span class="step"><i class="step-icon bx-check-circle bx"></i></span>
+                            <span>Baisc Information</span>
+                        </a>
+                    </li>
+                    <li role="tab" class="current" aria-disabled="false" aria-selected="true">
+                        <a id="steps-uid-3-t-1" href="#steps-uid-3-h-1" aria-controls="steps-uid-3-p-1">
+                            <span class="step"><i class="step-icon bx bx-check-circle"></i></span>
+                            <span>Job Details</span>
+                        </a>
+                    </li>
+                    <li role="tab" class="disabled last" aria-disabled="true">
+                        <a id="steps-uid-3-t-2" href="#steps-uid-3-h-2" aria-controls="steps-uid-3-p-2">
+                            <span class="step"><i class="step-icon"></i></span>
+                            <span>Event Details</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
 
         <div class="row">
             <div class="col-12">
