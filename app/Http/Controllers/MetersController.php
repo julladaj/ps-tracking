@@ -70,6 +70,7 @@ class MetersController extends Controller
 
         $job_status_report = [
             'wait_for_action' => [
+                'id' => 1,
                 'url' => MeterHelper::buildJobStatusFilterUrl($meter_index_url, [
                     'job_status_id' => 1
                 ]),
@@ -78,6 +79,7 @@ class MetersController extends Controller
                 'color' => 'success'
             ],
             'survey' => [
+                'id' => 2,
                 'url' => MeterHelper::buildJobStatusFilterUrl($meter_index_url, [
                     'job_status_id' => 2
                 ]),
@@ -86,6 +88,7 @@ class MetersController extends Controller
                 'color' => 'info'
             ],
             'estimate' => [
+                'id' => 3,
                 'url' => MeterHelper::buildJobStatusFilterUrl($meter_index_url, [
                     'job_status_id' => 3
                 ]),
@@ -94,6 +97,7 @@ class MetersController extends Controller
                 'color' => 'warning'
             ],
             'approve' => [
+                'id' => 4,
                 'url' => MeterHelper::buildJobStatusFilterUrl($meter_index_url, [
                     'job_status_id' => 4
                 ]),
@@ -102,6 +106,7 @@ class MetersController extends Controller
                 'color' => 'primary'
             ],
             'payment' => [
+                'id' => 5,
                 'url' => MeterHelper::buildJobStatusFilterUrl($meter_index_url, [
                     'job_status_id' => 5
                 ]),
@@ -201,48 +206,65 @@ class MetersController extends Controller
             'url' => MeterHelper::buildJobStatusFilterUrl($meter_edit_url, [
                 'job_status_id' => 0
             ]),
-            'job_status_avg' => MeterHelper::getStatusAverageDay(0, $meter->id)
+            'job_status_avg' => MeterHelper::getStatusAverageDay(0, $meter)
         ];
 
         $job_status_report = [
             'wait_for_action' => [
+                'id' => 1,
                 'url' => MeterHelper::buildJobStatusFilterUrl($meter_edit_url, [
                     'job_status_id' => 1
                 ]),
-                'avg' => MeterHelper::getStatusAverageDay(1, $meter->id),
-                'color' => 'success'
+                'avg' => MeterHelper::getStatusAverageDay(1, $meter),
+                'color' => 'success',
+                'standard_days' => 3,
+                'payment' => false
             ],
             'survey' => [
+                'id' => 2,
                 'url' => MeterHelper::buildJobStatusFilterUrl($meter_edit_url, [
                     'job_status_id' => 2
                 ]),
-                'avg' => MeterHelper::getStatusAverageDay(2, $meter->id),
-                'color' => 'info'
+                'avg' => MeterHelper::getStatusAverageDay(2, $meter),
+                'color' => 'info',
+                'standard_days' => 3,
+                'payment' => false
             ],
             'estimate' => [
+                'id' => 3,
                 'url' => MeterHelper::buildJobStatusFilterUrl($meter_edit_url, [
                     'job_status_id' => 3
                 ]),
-                'avg' => MeterHelper::getStatusAverageDay(3, $meter->id),
-                'color' => 'warning'
+                'avg' => MeterHelper::getStatusAverageDay(3, $meter),
+                'color' => 'warning',
+                'standard_days' => 2,
+                'payment' => false
             ],
             'approve' => [
+                'id' => 4,
                 'url' => MeterHelper::buildJobStatusFilterUrl($meter_edit_url, [
                     'job_status_id' => 4
                 ]),
-                'avg' => MeterHelper::getStatusAverageDay(4, $meter->id),
-                'color' => 'primary'
+                'avg' => MeterHelper::getStatusAverageDay(4, $meter),
+                'color' => 'primary',
+                'standard_days' => 3,
+                'payment' => true
             ],
             'payment' => [
+                'id' => 5,
                 'url' => MeterHelper::buildJobStatusFilterUrl($meter_edit_url, [
                     'job_status_id' => 5
                 ]),
-                'avg' => MeterHelper::getStatusAverageDay(5, $meter->id),
-                'color' => 'danger'
+                'avg' => MeterHelper::getStatusAverageDay(5, $meter),
+                'color' => 'danger',
+                'standard_days' => 3,
+                'payment' => true
             ]
         ];
 
         $seconds = 24 * 60 * 60;
+
+        Cache::forget('transformers');
 
         return view('meters.edit', [
             'isCreate' => false,

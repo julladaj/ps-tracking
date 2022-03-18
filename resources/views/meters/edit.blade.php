@@ -8,6 +8,7 @@
         .vertical-middle {
             margin: auto 0;
         }
+
         .wizard .steps ul li a .step {
             position: absolute;
             margin-left: auto;
@@ -15,6 +16,14 @@
             left: 0;
             right: 0;
             text-align: center;
+        }
+
+        .wizard .steps ul li.overdue::after, .wizard .steps ul li.overdue::before {
+            background-color: #FDAC41 !important;
+        }
+
+        .wizard .steps ul li.overdue a {
+            color: #FDAC41 !important;
         }
     </style>
 @endsection
@@ -50,8 +59,8 @@
                             <div class="card-body py-1">
                                 <div class="d-flex justify-content-between align-items-center mb-1">
                                     <div class="sales-item-name">
-                                        <p class="mb-0">ระยะเวลาเฉลี่ย</p>
-                                        <small class="text-muted">ที่ใช้ในการดำเนินการแต่ละขั้นตอน (วัน)</small>
+                                        <p class="mb-0">ระยะเวลา</p>
+                                        <small class="text-muted">ที่ใช้ในการดำเนินการ (วัน)</small>
                                     </div>
                                     <h6 class="mb-0">{{ $value['avg'] }}</h6>
                                 </div>
@@ -68,49 +77,48 @@
             </div>
         @endif
 
-        <div class="wizard">
-            <div class="steps clearfix">
-                <ul role="tablist">
-                    <li role="tab" class="first done" aria-disabled="false" aria-selected="false">
-                        <a id="steps-uid-3-t-0" href="#steps-uid-3-h-0" aria-controls="steps-uid-3-p-0">
-                            <span class="current-info audible">current step: </span>
-                            <span class="step"><i class="step-icon bx-check-circle bx"></i></span>
-                            <span>Baisc Information</span>
-                        </a>
-                    </li>
-                    <li role="tab" class="current" aria-disabled="false" aria-selected="true">
-                        <a id="steps-uid-3-t-1" href="#steps-uid-3-h-1" aria-controls="steps-uid-3-p-1">
-                            <span class="step"><i class="step-icon bx bx-check-circle"></i></span>
-                            <span>Job Details</span>
-                        </a>
-                    </li>
-                    <li role="tab" class="disabled last" aria-disabled="true">
-                        <a id="steps-uid-3-t-2" href="#steps-uid-3-h-2" aria-controls="steps-uid-3-p-2">
-                            <span class="step"><i class="step-icon"></i></span>
-                            <span>Event Details</span>
-                        </a>
-                    </li>
-                </ul>
+        <form class="form form-horizontal" id="form_meter" method="POST" action="{{ ($isCreate)? route('meters.store') : route('meters.update', $meter) }}">
+            <div class="wizard">
+                <div class="steps clearfix">
+                    <ul role="tablist">
+                        @foreach($job_status_report as $key => $value)
+                            @if ($value['payment'] === false)
+                                <li role="tab"
+                                    class="{{ ($value['id'] === 1)? 'first' : '' }} {{ ($value['id'] === 4)? 'last' : '' }} {{ ($value['avg'] > $value['standard_days'])? 'overdue' : '' }} {{ ($is_current = ($meter->job_status_id === $value['id']))? 'current' : '' }} {{ ($is_pass = ($meter->job_status_id > $value['id']))? 'done' : '' }} {{ (!$is_current && !$is_pass)? 'disabled' : '' }}"
+                                    aria-disabled="{{ ($meter->job_status_id >= $value['id'])? 'false' : 'true' }}"
+                                    aria-selected="{{ ($meter->job_status_id >= $value['id'])? 'true' : 'false' }}"
+                                >
+                                    <a id="steps-uid-3-t-{{ $value['id'] }}"
+                                       href="#steps-uid-3-h-{{ $value['id'] }}"
+                                       aria-controls="steps-uid-3-p-{{ $value['id'] }}"
+                                    >
+                                        <span class="step"><i class="@if ($is_current) step-icon bx bx-time-five @elseif($meter->job_status_id > $value['id']) step-icon bx-check-circle bx @else step-icon @endif"></i></span>
+                                        <span>{{ __('meter.job_status.' . $key) }} {{ $value['avg'] }} วัน<br><small>เวลามาตรฐาน {{ $value['standard_days'] }} วัน</small></span>
+                                    </a>
+                                </li>
+                            @endif
+                        @endforeach
+                    </ul>
+                </div>
             </div>
-        </div>
 
-        <div class="row">
-            <div class="col-12">
-                <div class="card">
-                    <div class="card-header border-bottom">
-                        <h5 class="card-title">เพิ่ม/แก้ไขข้อมูล งานขยายเขตระบบจำหน่ายไฟฟ้า</h5>
-                        <div class="heading-elements">
-                            <button type="button" submit="form_meter" class="btn btn-primary submit-button"><i class="bx bx-save"></i> บันทึกข้อมูล</button>
-                        </div>
-                    </div>
-                    <div class="card-body">
-                        @if(session()->has('success'))
-                            <div class="alert alert-success alert-dismissible mb-2 mt-2" role="alert">
-                                <div class="d-flex align-items-center"><i class="bx bx-like"></i><span>{!! session()->get('success') !!}</span></div>
+            <div class="row">
+                <div class="col-12">
+                    <div class="card">
+                        <div class="card-header border-bottom">
+                            <h5 class="card-title">เพิ่ม/แก้ไขข้อมูล งานขยายเขตระบบจำหน่ายไฟฟ้า</h5>
+                            <div class="heading-elements">
+                                <button type="button" submit="form_meter" class="btn btn-primary submit-button"><i class="bx bx-save"></i> บันทึกข้อมูล</button>
                             </div>
-                        @endif
+                        </div>
+                        <div class="card-body">
+                            @if(session()->has('success'))
+                                <div class="alert alert-success alert-dismissible mb-2 mt-2" role="alert">
+                                    <div class="d-flex align-items-center"><i class="bx bx-like"></i><span>{!! session()->get('success') !!}</span></div>
+                                </div>
+                            @endif
 
-                        <form class="form form-horizontal" id="form_meter" method="POST" action="{{ ($isCreate)? route('meters.store') : route('meters.update', $meter) }}">
+
                             @csrf
                             @if(!$isCreate)
                                 @method('PUT')
@@ -300,10 +308,42 @@
                                     </div>
                                 </div>
                             </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
-                            @if(!$isCreate)
-                                <hr>
+            @if(!$isCreate)
+                @if($meter->job_status_id >= 4)
+                    <div class="wizard">
+                        <div class="steps clearfix">
+                            <ul role="tablist">
+                                @foreach($job_status_report as $key => $value)
+                                    @if ($value['payment'] === true)
+                                        <li role="tab"
+                                            class="{{ ($value['id'] === 4)? 'first' : '' }} {{ ($value['id'] === 5)? 'last' : '' }} {{ ($value['avg'] > $value['standard_days'])? 'overdue' : '' }} {{ ($is_current = ($meter->job_status_id === $value['id']))? 'current' : '' }} {{ ($is_pass = ($meter->job_status_id > $value['id']))? 'done' : '' }} {{ (!$is_current && !$is_pass)? 'disabled' : '' }}"
+                                            aria-disabled="{{ ($meter->job_status_id >= $value['id'])? 'false' : 'true' }}"
+                                            aria-selected="{{ ($meter->job_status_id >= $value['id'])? 'true' : 'false' }}"
+                                        >
+                                            <a id="steps-uid-3-t-{{ $value['id'] }}"
+                                               href="#steps-uid-3-h-{{ $value['id'] }}"
+                                               aria-controls="steps-uid-3-p-{{ $value['id'] }}"
+                                            >
+                                                <span class="step"><i class="@if ($is_current) step-icon bx bx-time-five @elseif($meter->job_status_id > $value['id']) step-icon bx-check-circle bx @else step-icon @endif"></i></span>
+                                                <span>{{ __('meter.job_status.' . $key) }} {{ $value['avg'] }} วัน</span>
+                                            </a>
+                                        </li>
+                                    @endif
+                                @endforeach
+                            </ul>
+                        </div>
+                    </div>
+                @endif
 
+                <div class="row">
+                    <div class="col-12">
+                        <div class="card">
+                            <div class="card-body">
                                 <div class="form-body">
                                     <input type="hidden" name="meters[electric_expand_id]" value="{{ $meter->electric_expand_id?? 0 }}">
                                     <div class="alert bg-rgba-primary mt-1 p-1">
@@ -436,7 +476,7 @@
                                         <div class="col-md-1 form-group vertical-middle">
                                             <select class="form-control" name="electric_expands[transformer_id]">
                                                 @forelse($transformers as $transformer)
-                                                    <option value="{{ $transformer->id }}" {{ ((isset($meter->electric_expand->transformer_id) && $meter->electric_expand->transformer_id === $transformer->id) || old('electric_expands.transformer_id') === $transformer->id)? 'selected':'' }}>{{ $transformer->description }}</option>
+                                                    <option value="{{ $transformer->id }}" {{ ((isset($meter->electric_expand->transformer_id) && $meter->electric_expand->transformer_id === $transformer->id) || old('electric_expands.transformer_id') === $transformer->id)? 'selected':'' }}>{{ $transformer->description }} kVA</option>
                                                 @empty
                                                     <option></option>
                                                 @endforelse
@@ -605,12 +645,12 @@
                                         </div>
                                     </div>
                                 </div>
-                            @endif
-                        </form>
+                            </div>
+                        </div>
                     </div>
+                    @endif
                 </div>
-            </div>
-        </div>
+        </form>
     </section>
     <!-- Basic Horizontal form layout section end -->
 @endsection

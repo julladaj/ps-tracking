@@ -2,16 +2,18 @@
 
 namespace App\Helpers;
 
+use App\Models\JobStatusDurations;
+use App\Models\Meters;
 use Illuminate\Support\Facades\DB;
 
 class MeterHelper
 {
     /**
      * @param  int  $job_status_id
-     * @param  int|null  $meter_id
+     * @param  Meters|null  $meter
      * @return float
      */
-    public static function getStatusAverageDay(int $job_status_id, ?int $meter_id = 0): float
+    public static function getStatusAverageDay(int $job_status_id, ?Meters $meter = null): float
     {
         $sql_command = "
 SELECT 
@@ -25,7 +27,7 @@ WHERE 1";
             $sql_command .= " AND `job_status_id` = {$job_status_id}";
         }
 
-        if ($meter_id) {
+        if ($meter_id = optional($meter)->id) {
             $sql_command .= " AND `meter_id` = {$meter_id}";
         }
 
@@ -35,7 +37,22 @@ ORDER BY SUM(`duration`) DESC
 LIMIT 1;";
 
         $avg = DB::select($sql_command);
-        return isset($avg[0]) ? round($avg[0]->avg_duration_of_status / 60 / 60 / 24, 2) : 0;
+
+        $duration = isset($avg[0]) ? round($avg[0]->avg_duration_of_status / 60 / 60 / 24, 2) : 0;
+        if (!$duration && $meter && $meter->job_status_id === $job_status_id) {
+            $last_step = JobStatusDurations::select('created_at')
+                ->where('meter_id', $meter->id)
+                ->where('job_status_id', $job_status_id)
+                ->orderBy('created_at', 'desc')
+                ->first();
+
+            if ($last_step) {
+                $duration = round(optional($last_step->created_at)->diffInSeconds(now()) / 60 / 60 / 24, 2);
+            } else {
+                $duration = round(optional($meter->created_at)->diffInSeconds(now()) / 60 / 60 / 24, 2);
+            }
+        }
+        return $duration;
     }
 
     /**
