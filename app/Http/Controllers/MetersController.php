@@ -264,7 +264,7 @@ class MetersController extends Controller
 
         $seconds = 24 * 60 * 60;
 
-        Cache::forget('transformers');
+//        Cache::forget('transformers');
 
         return view('meters.edit', [
             'isCreate' => false,

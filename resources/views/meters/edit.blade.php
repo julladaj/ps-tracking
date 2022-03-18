@@ -19,11 +19,15 @@
         }
 
         .wizard .steps ul li.overdue::after, .wizard .steps ul li.overdue::before {
-            background-color: #FDAC41 !important;
+            background-color: var(--warning) !important;
         }
 
         .wizard .steps ul li.overdue a {
-            color: #FDAC41 !important;
+            color: var(--warning) !important;
+        }
+
+        body.dark-layout .show_on_approve_date label, .show_on_approve_date label {
+            color: var(--danger);
         }
     </style>
 @endsection
@@ -78,29 +82,31 @@
         @endif
 
         <form class="form form-horizontal" id="form_meter" method="POST" action="{{ ($isCreate)? route('meters.store') : route('meters.update', $meter) }}">
-            <div class="wizard">
-                <div class="steps clearfix">
-                    <ul role="tablist">
-                        @foreach($job_status_report as $key => $value)
-                            @if ($value['payment'] === false)
-                                <li role="tab"
-                                    class="{{ ($value['id'] === 1)? 'first' : '' }} {{ ($value['id'] === 4)? 'last' : '' }} {{ ($value['avg'] > $value['standard_days'])? 'overdue' : '' }} {{ ($is_current = ($meter->job_status_id === $value['id']))? 'current' : '' }} {{ ($is_pass = ($meter->job_status_id > $value['id']))? 'done' : '' }} {{ (!$is_current && !$is_pass)? 'disabled' : '' }}"
-                                    aria-disabled="{{ ($meter->job_status_id >= $value['id'])? 'false' : 'true' }}"
-                                    aria-selected="{{ ($meter->job_status_id >= $value['id'])? 'true' : 'false' }}"
-                                >
-                                    <a id="steps-uid-3-t-{{ $value['id'] }}"
-                                       href="#steps-uid-3-h-{{ $value['id'] }}"
-                                       aria-controls="steps-uid-3-p-{{ $value['id'] }}"
+            @if(!$isCreate)
+                <div class="wizard">
+                    <div class="steps clearfix">
+                        <ul role="tablist">
+                            @foreach($job_status_report as $key => $value)
+                                @if ($value['payment'] === false)
+                                    <li role="tab"
+                                        class="{{ ($value['id'] === 1)? 'first' : '' }} {{ ($value['id'] === 4)? 'last' : '' }} {{ ($value['avg'] > $value['standard_days'])? 'overdue' : '' }} {{ ($is_current = ($meter->job_status_id === $value['id']))? 'current' : '' }} {{ ($is_pass = ($meter->job_status_id > $value['id']))? 'done' : '' }} {{ (!$is_current && !$is_pass)? 'disabled' : '' }}"
+                                        aria-disabled="{{ ($meter->job_status_id >= $value['id'])? 'false' : 'true' }}"
+                                        aria-selected="{{ ($meter->job_status_id >= $value['id'])? 'true' : 'false' }}"
                                     >
-                                        <span class="step"><i class="@if ($is_current) step-icon bx bx-time-five @elseif($meter->job_status_id > $value['id']) step-icon bx-check-circle bx @else step-icon @endif"></i></span>
-                                        <span>{{ __('meter.job_status.' . $key) }} {{ $value['avg'] }} วัน<br><small>เวลามาตรฐาน {{ $value['standard_days'] }} วัน</small></span>
-                                    </a>
-                                </li>
-                            @endif
-                        @endforeach
-                    </ul>
+                                        <a id="steps-uid-3-t-{{ $value['id'] }}"
+                                           href="#steps-uid-3-h-{{ $value['id'] }}"
+                                           aria-controls="steps-uid-3-p-{{ $value['id'] }}"
+                                        >
+                                            <span class="step"><i class="@if ($is_current) step-icon bx bx-time-five @elseif($meter->job_status_id > $value['id']) step-icon bx-check-circle bx @else step-icon @endif"></i></span>
+                                            <span>{{ __('meter.job_status.' . $key) }} {{ $value['avg'] }} วัน<br><small>เวลามาตรฐาน {{ $value['standard_days'] }} วัน</small></span>
+                                        </a>
+                                    </li>
+                                @endif
+                            @endforeach
+                        </ul>
+                    </div>
                 </div>
-            </div>
+            @endif
 
             <div class="row">
                 <div class="col-12">
@@ -240,7 +246,7 @@
                                         <label>สถานะงาน</label>
                                     </div>
                                     <div class="col-md-4 form-group vertical-middle">
-                                        <select class="form-control" name="meters[job_status_id]">
+                                        <select class="form-control" name="meters[job_status_id]" id="job_status_id">
                                             @forelse($job_statuses as $job_status)
                                                 <option value="{{ $job_status->id }}" {{ ((isset($meter->job_status_id) && $meter->job_status_id === $job_status->id) || old('meters.survey_user_id') === $job_status->id)? 'selected':'' }}>{{ $job_status->description }}</option>
                                             @empty
@@ -249,22 +255,23 @@
                                         </select>
                                     </div>
                                 </div>
-                                <div class="row mt-1">
+                                <div class="row mt-1 show_on_approve">
                                     <div class="col-md-2 text-right vertical-middle">
                                         <label>อนุมัติที่</label>
                                     </div>
                                     <div class="col-md-4 form-group vertical-middle">
-                                        <input type="text" class="form-control" name="meters[approve_location]" placeholder="อนุมัติที่" value="{{ $meter->approve_location?? old('meters.approve_location') }}">
+                                        <input type="text" class="form-control" name="meters[approve_location]" id="approve_location" placeholder="อนุมัติที่" value="{{ $meter->approve_location?? old('meters.approve_location') }}">
                                     </div>
                                     <div class="col-md-2 text-right vertical-middle">
                                         <label>ลงวันที่</label>
                                     </div>
                                     <div class="col-md-4 form-group vertical-middle">
-                                        <input type="date" class="form-control" id="approve_date" name="meters[approve_date]" placeholder="ลงวันที่" value="{{ $meter->approve_date?? old('meters.approve_date') }}" data-toggle="tooltip"
+                                        <input type="date" class="form-control" id="approve_date" name="meters[approve_date]" id="approve_date" placeholder="ลงวันที่" value="{{ $meter->approve_date?? old('meters.approve_date') }}"
+                                               data-toggle="tooltip"
                                                data-placement="top" data-original-title="{{ buddhismDate($meter->approve_date?? old('meters.approve_date')) }}">
                                     </div>
                                 </div>
-                                <div class="row mt-1">
+                                <div class="row mt-1 show_on_approve_date">
                                     <div class="col-md-2 text-right vertical-middle">
                                         <label>หมดกำหนดยืนราคา</label>
                                     </div>
@@ -276,15 +283,25 @@
                                         <label>วันที่ชำระเงิน</label>
                                     </div>
                                     <div class="col-md-4 form-group vertical-middle">
-                                        <input type="date" class="form-control" name="meters[payment_date]" placeholder="วันที่ชำระเงิน" value="{{ $meter->payment_date?? old('meters.payment_date') }}" data-toggle="tooltip" data-placement="top"
+                                        <input type="date" class="form-control" name="meters[payment_date]" id="payment_date" placeholder="วันที่ชำระเงิน" value="{{ $meter->payment_date?? old('meters.payment_date') }}" data-toggle="tooltip"
+                                               data-placement="top"
                                                data-original-title="{{ buddhismDate($meter->payment_date?? old('meters.payment_date')) }}">
                                     </div>
                                 </div>
-                                <div class="row mt-1">
-                                    <div class="col-md-2 text-right vertical-middle">
+                                <div class="row mt-1 show_on_approve">
+                                    <div class="col-md-2 text-right vertical-middle"></div>
+                                    <div class="col-md-4 form-group vertical-middle">
+                                        <fieldset>
+                                            <div class="checkbox">
+                                                <input type="checkbox" class="checkbox-input" id="has_no_payment" {{ ((isset($meter->has_payment) && !$meter->has_payment) || !old('meters.has_payment'))? 'checked' : '' }}>
+                                                <label for="has_no_payment">ไม่มีค่าใช้จ่ายเรียกเก็บ</label>
+                                            </div>
+                                        </fieldset>
+                                    </div>
+                                    <div class="col-md-2 text-right vertical-middle show_on_no_pending_payment">
                                         <label>ผบค. ส่งงาน</label>
                                     </div>
-                                    <div class="col-md-4 form-group vertical-middle">
+                                    <div class="col-md-4 form-group vertical-middle show_on_no_pending_payment">
                                         <input type="date" class="form-control" name="meters[service_final_date]" placeholder="ผบค. ส่งงาน" value="{{ $meter->service_final_date?? old('meters.service_final_date') }}" data-toggle="tooltip"
                                                data-placement="top" data-original-title="{{ buddhismDate($meter->service_final_date?? old('meters.service_final_date')) }}">
                                     </div>
@@ -476,7 +493,9 @@
                                         <div class="col-md-1 form-group vertical-middle">
                                             <select class="form-control" name="electric_expands[transformer_id]">
                                                 @forelse($transformers as $transformer)
-                                                    <option value="{{ $transformer->id }}" {{ ((isset($meter->electric_expand->transformer_id) && $meter->electric_expand->transformer_id === $transformer->id) || old('electric_expands.transformer_id') === $transformer->id)? 'selected':'' }}>{{ $transformer->description }} kVA</option>
+                                                    <option value="{{ $transformer->id }}" {{ ((isset($meter->electric_expand->transformer_id) && $meter->electric_expand->transformer_id === $transformer->id) || old('electric_expands.transformer_id') === $transformer->id)? 'selected':'' }}>{{ $transformer->description }}
+                                                        kVA
+                                                    </option>
                                                 @empty
                                                     <option></option>
                                                 @endforelse
@@ -670,6 +689,33 @@
                 check_job_type_id($(this).val());
             });
 
+            $(document).on('change', '#job_status_id', function () {
+                toggle_show_on_approve($(this).val());
+            });
+
+            $(document).on('change', '#approve_location', function () {
+                toggle_overdue_date();
+            });
+
+            $(document).on('change', '#approve_date', function () {
+                toggle_overdue_date();
+            });
+
+            $(document).on('change', '#has_no_payment', function () {
+                $('#has_payment').prop('checked', !$(this).is(':checked'));
+                toggle_service_final_date();
+            });
+
+            $(document).on('change', '#has_payment', function () {
+                $('#has_no_payment').prop('checked', !$(this).is(':checked'));
+                toggle_service_final_date();
+            });
+
+            $(document).on('change', '#payment_date', function () {
+                toggle_service_final_date();
+                toggle_service_final_date();
+            });
+
             $(document).on('change', '#requested_place_id', function () {
                 update_credit_term($('option:selected', this).attr('credit_terms'));
             });
@@ -715,6 +761,31 @@
                 }
             }
 
+            function toggle_show_on_approve(job_status_id) {
+                if (job_status_id === "4" || job_status_id === "5") {
+                    $('.show_on_approve').show();
+                } else {
+                    $('.show_on_approve').hide();
+                }
+                toggle_overdue_date();
+            }
+
+            function toggle_overdue_date() {
+                if ($('#approve_location').val() && $('#approve_date').val()) {
+                    $('.show_on_approve_date').show();
+                } else {
+                    $('.show_on_approve_date').hide();
+                }
+            }
+
+            function toggle_service_final_date() {
+                if ($('#has_no_payment').is(':checked') || $('#payment_date').val()) {
+                    $('.show_on_no_pending_payment').show();
+                } else {
+                    $('.show_on_no_pending_payment').hide();
+                }
+            }
+
             Date.prototype.toInputFormat = function () {
                 const yyyy = this.getFullYear().toString();
                 const mm = (this.getMonth() + 1).toString(); // getMonth() is zero-based
@@ -723,6 +794,7 @@
             };
 
             check_job_type_id($('#job_type_id').val());
+            toggle_show_on_approve($('#job_status_id').val());
             update_credit_term($('option:selected', '#requested_place_id').attr('credit_terms'));
         });
     </script>
