@@ -143,13 +143,13 @@
                                 <tr>
                                     <td><a href="{{ route('meters.edit', $meter) }}">{{ $meter->document_number?? '' }}</a></td>
                                     <td>{{ buddhismDate($meter->document_date) }}</td>
-                                    <td>{{ $meter->customer_name }}</td>
-                                    <td>{{ $meter->customer_phone }}</td>
-                                    <td>{{ $meter->job_type->description }}</td>
-                                    <td>{{ $meter->pea_staff->name }}</td>
-                                    <td>{{ $meter->job_status->description }}</td>
-                                    <td>{{ $meter->job_number }}</td>
-                                    <td>{{ $meter->comment }}</td>
+                                    <td>{{ $meter->customer_name ?? '' }}</td>
+                                    <td>{{ $meter->customer_phone ?? '' }}</td>
+                                    <td>{{ $meter->job_type->description ?? '' }}</td>
+                                    <td>{{ $meter->pea_staff->name ?? '' }}</td>
+                                    <td>{{ $meter->job_status->description ?? '' }}</td>
+                                    <td>{{ $meter->job_number ?? '' }}</td>
+                                    <td>{{ $meter->comment ?? '' }}</td>
                                     <td class="text-right p-0"><a href="{{ route('meters.edit', $meter) }}" class="btn btn-icon btn-outline-primary"><i class="bx bx-edit-alt"></i></a></td>
                                 </tr>
                             @empty

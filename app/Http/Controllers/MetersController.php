@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Helpers\MeterHelper;
+use App\Http\Requests\StoreMeterRequest;
 use App\Models\ElectricExpands;
 use App\Models\EnvCommunities;
 use App\Models\EnvEarths;
@@ -50,7 +51,7 @@ class MetersController extends Controller
         }
 
         if ($request->has('overdue') && $request->get('overdue')) {
-            $meters->where('expires_quote_date', '>', now());
+            $meters->where('expires_quote_date', '>', now())->where('job_status_id', 4);
         }
 
         $meter_index_url = route('meters.index');
@@ -61,7 +62,7 @@ class MetersController extends Controller
             ]),
             'count' => Meters::count(),
             'job_status_avg' => MeterHelper::getStatusAverageDay(0),
-            'overdue' => Meters::where('expires_quote_date', '>', now())->count(),
+            'overdue' => Meters::where('expires_quote_date', '>', now())->where('job_status_id', 4)->count(),
             'overdue_url' => MeterHelper::buildJobStatusFilterUrl($meter_index_url, [
                 'overdue' => 1
             ]),
@@ -163,7 +164,7 @@ class MetersController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Http\RedirectResponse|\Illuminate\Http\Response|\Illuminate\Routing\Redirector
      */
-    public function store(Request $request)
+    public function store(StoreMeterRequest $request)
     {
         if (!$request->has('meters')) {
             return back()->with('error', 'ข้อมูลไม่ครบถ้วน');

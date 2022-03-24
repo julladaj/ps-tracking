@@ -146,6 +146,9 @@ return [
     |
     */
 
-    'attributes' => [],
+    'attributes' => [
+        'meters.document_number' => 'Document NO.',
+        'meters.customer_name' => 'Customer Name'
+    ],
 
 ];

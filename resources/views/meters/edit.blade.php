@@ -4,6 +4,7 @@
 
 @section('page-styles')
     <link rel="stylesheet" type="text/css" href="{{asset('css/plugins/forms/wizard.css')}}">
+    <link rel="stylesheet" type="text/css" href="{{asset('css/plugins/forms/validation/form-validation.css')}}">
     <style>
         .vertical-middle {
             margin: auto 0;
@@ -114,6 +115,8 @@
                         <div class="card-header border-bottom">
                             <h5 class="card-title">เพิ่ม/แก้ไขข้อมูล งานขยายเขตระบบจำหน่ายไฟฟ้า</h5>
                             <div class="heading-elements">
+                                <a href="{{ route('meters.index') }}" class="btn btn-secondary mr-1"><i class="bx bx-arrow-back"></i> ย้อนกลับหน้าหลัก</a>
+                                <button type="reset" class="btn btn-light-secondary mr-1">คืนค่าเริ่มต้น</button>
                                 <button type="button" submit="form_meter" class="btn btn-primary submit-button"><i class="bx bx-save"></i> บันทึกข้อมูล</button>
                             </div>
                         </div>
@@ -123,7 +126,6 @@
                                     <div class="d-flex align-items-center"><i class="bx bx-like"></i><span>{!! session()->get('success') !!}</span></div>
                                 </div>
                             @endif
-
 
                             @csrf
                             @if(!$isCreate)
@@ -139,15 +141,17 @@
                                         <label>เลขที่คำร้อง</label>
                                     </div>
                                     <div class="col-md-4 form-group vertical-middle">
-                                        <input type="text" class="form-control" name="meters[document_number]" placeholder="เลขที่คำร้อง" value="{{ $meter->document_number?? old('meters.document_number') }}">
+                                        <input type="text" class="form-control @error('meters.document_number') error @enderror" id="document_number" name="meters[document_number]" placeholder="เลขที่คำร้อง" value="{{ $meter->document_number?? old('meters.document_number') }}">
+                                        @error('meters.document_number')<span class="error">{{ $message }}</span>@enderror
                                     </div>
 
                                     <div class="col-md-2 text-right vertical-middle">
                                         <label>วันที่ยื่นคำร้อง</label>
                                     </div>
                                     <div class="col-md-4 form-group vertical-middle">
-                                        <input type="date" class="form-control" name="meters[document_date]" placeholder="วันที่ยื่นคำร้อง" value="{{ $meter->document_date?? old('meters.document_date') }}" data-toggle="tooltip" data-placement="top"
+                                        <input type="date" class="form-control @error('meters.document_date') error @enderror" name="meters[document_date]" placeholder="วันที่ยื่นคำร้อง" value="{{ $meter->document_date?? old('meters.document_date') }}" data-toggle="tooltip" data-placement="top"
                                                data-original-title="{{ buddhismDate($meter->document_date?? old('meters.document_date')) }}">
+                                        @error('meters.document_date')<span class="error">{{ $message }}</span>@enderror
                                     </div>
                                 </div>
                                 <div class="row mt-1">
@@ -155,7 +159,8 @@
                                         <label>ชื่อ-นามสกุล</label>
                                     </div>
                                     <div class="col-md-4 form-group vertical-middle">
-                                        <input type="text" class="form-control" name="meters[customer_name]" placeholder="ชื่อ-นามสกุล" value="{{ $meter->customer_name?? old('meters.customer_name') }}">
+                                        <input type="text" class="form-control @error('meters.customer_name') error @enderror" id="customer_name" name="meters[customer_name]" placeholder="ชื่อ-นามสกุล" value="{{ $meter->customer_name?? old('meters.customer_name') }}">
+                                        @error('meters.customer_name')<span class="error">{{ $message }}</span>@enderror
                                     </div>
 
                                     <div class="col-md-2 text-right vertical-middle">
@@ -221,10 +226,10 @@
                                     </div>
                                     <div class="col-md-4 form-group vertical-middle">
                                         <select class="form-control" name="meters[survey_user_id]">
+                                            <option></option>
                                             @forelse($pea_staffs as $pea_staff)
                                                 <option value="{{ $pea_staff->id }}" {{ ((isset($meter->survey_user_id) && $meter->survey_user_id === $pea_staff->id) || old('meters.survey_user_id') === $pea_staff->id)? 'selected':'' }}>{{ $pea_staff->name }}</option>
                                             @empty
-                                                <option></option>
                                             @endforelse
                                         </select>
                                     </div>
