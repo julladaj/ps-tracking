@@ -51,7 +51,7 @@ class MetersController extends Controller
         }
 
         if ($request->has('overdue') && $request->get('overdue')) {
-            $meters->where('expires_quote_date', '>', now())->where('job_status_id', 4);
+            $meters->where('expires_quote_date', '<', now())->where('job_status_id', 4);
         }
 
         $meter_index_url = route('meters.index');
@@ -62,7 +62,7 @@ class MetersController extends Controller
             ]),
             'count' => Meters::count(),
             'job_status_avg' => MeterHelper::getStatusAverageDay(0),
-            'overdue' => Meters::where('expires_quote_date', '>', now())->where('job_status_id', 4)->count(),
+            'overdue' => Meters::where('expires_quote_date', '<', now())->where('job_status_id', 4)->count(),
             'overdue_url' => MeterHelper::buildJobStatusFilterUrl($meter_index_url, [
                 'overdue' => 1
             ]),
