@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Helpers\MeterHelper;
 use App\Http\Requests\StoreMeterRequest;
+use App\Http\Requests\UpdateMeterRequest;
 use App\Models\ElectricExpands;
 use App\Models\EnvCommunities;
 use App\Models\EnvEarths;
@@ -322,7 +323,7 @@ class MetersController extends Controller
      * @param  \App\Models\Meters  $meter
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function update(Request $request, Meters $meter)
+    public function update(UpdateMeterRequest $request, Meters $meter)
     {
         if (!$request->has('meters')) {
             return back()->with('error', 'ข้อมูลไม่ครบถ้วน');
