@@ -35,8 +35,7 @@ class MetersController extends Controller
         $pageSize = (int)$request->query('page_size', 10);
         $search = (string)$request->query('search', '');
 
-        $meters = Meters::with(['job_type', 'job_status', 'job_amount', 'transformer', 'pea_staff'])
-            ->orderBy('id', 'desc');
+        $meters = Meters::with(['job_type', 'job_status', 'job_amount', 'transformer', 'pea_staff']);
 
         if ($search) {
             $meters
