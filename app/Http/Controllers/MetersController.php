@@ -14,6 +14,7 @@ use App\Models\JobAmounts;
 use App\Models\JobStatusDurations;
 use App\Models\JobStatuses;
 use App\Models\JobTypes;
+use App\Models\MeterExtraGroups;
 use App\Models\MeterExtraKeys;
 use App\Models\Meters;
 use App\Models\PeaStaffs;
@@ -271,6 +272,7 @@ class MetersController extends Controller
         return view('meters.edit', [
             'isCreate' => false,
             'meter' => $meter,
+            'meter_extra' => $meter->meter_extra_keys(),
 
             'job_amounts' => Cache::remember('job_amounts', $seconds, function () {
                 return JobAmounts::all();
@@ -363,16 +365,29 @@ class MetersController extends Controller
         $meter->update($request_meter);
         $electric_expands->update($request_electric_expands);
 
+
+        if ($request->has('meter_extra') && $request_meter_extra = $request->get('meter_extra')) {
+            foreach ($request_meter_extra as $key_name => $key_value) {
+                if ($key_value) {
+                    MeterExtraKeys::upsert([
+                        'meter_id' => $meter->id,
+                        'key_name' => $key_name,
+                        'key_value' => $key_value
+                    ], ['key_value', 'meter_id'], ['key_value']);
+                }
+            }
+        }
+
         if ($request->has('meter_extra_keys') && $request_meter_extra_keys = $request->get('meter_extra_keys')) {
             $data = [];
-            foreach ($request_meter_extra_keys as $type_name => $type_list) {
-                foreach ($type_list as $type_id => $key_list) {
+            foreach ($request_meter_extra_keys as $group_name => $group_list) {
+                foreach ($group_list as $group_id => $key_list) {
                     foreach ($key_list as $key_name => $key_value) {
                         if ($key_value) {
                             $data[] = [
                                 'meter_id' => $meter->id,
-                                'type_name' => $type_name,
-                                'type_id' => $type_id,
+                                'group_name' => $group_name,
+                                'group_id' => $group_id,
                                 'key_name' => $key_name,
                                 'key_value' => $key_value
                             ];
@@ -382,8 +397,8 @@ class MetersController extends Controller
             }
 
             if ($data) {
-                MeterExtraKeys::where('meter_id', $meter->id)->delete();
-                MeterExtraKeys::insert($data);
+                MeterExtraGroups::where('meter_id', $meter->id)->delete();
+                MeterExtraGroups::insert($data);
             }
         }
 

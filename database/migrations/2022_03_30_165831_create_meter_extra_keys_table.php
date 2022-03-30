@@ -14,12 +14,10 @@ class CreateMeterExtraKeysTable extends Migration
     public function up()
     {
         Schema::create('meter_extra_keys', function (Blueprint $table) {
-            $table->id();
             $table->foreignId('meter_id')->constrained('meters');
-            $table->string('type_name');
-            $table->integer('type_id');
             $table->string('key_name');
             $table->string('key_value');
+            $table->primary(['meter_id', 'key_name']);
         });
     }
 

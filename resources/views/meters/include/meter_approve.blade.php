@@ -222,9 +222,9 @@
                                 <label>ระบบ</label>
                             </div>
                             <div class="col-md-4 form-group vertical-middle">
-                                <select class="form-control" name="high_voltage[phase]">
-                                    <option value="1" {{ ((isset($meter->high_voltage->phase) && $meter->high_voltage->phase === 1) || old('high_voltage.phase') === 1)? 'selected':'' }}>1 เฟส</option>
-                                    <option value="3" {{ ((isset($meter->high_voltage->phase) && $meter->high_voltage->phase === 3) || old('high_voltage.phase') === 3)? 'selected':'' }}>3 เฟส</option>
+                                <select class="form-control" name="meter_extra[high_voltage_phase]">
+                                    <option value="1" {{ ((isset($meter_extra['high_voltage_phase']) && $meter_extra['high_voltage_phase'] === '1') || old('meter_extra.high_voltage_phase') === '1')? 'selected':'' }}>1 เฟส</option>
+                                    <option value="3" {{ ((isset($meter_extra['high_voltage_phase']) && $meter_extra['high_voltage_phase'] === '3') || old('meter_extra.high_voltage_phase') === '3')? 'selected':'' }}>3 เฟส</option>
                                 </select>
                             </div>
                             <div class="col-md-2 text-right vertical-middle">
@@ -233,7 +233,7 @@
                             <div class="col-md-4 form-group vertical-middle">
                                 <fieldset>
                                     <div class="input-group">
-                                        <input type="number" class="form-control" name="high_voltage[voltage]" placeholder="แรงดัน" aria-describedby="high_voltage_voltage" value="{{ $meter->high_voltage->voltage?? old('high_voltage.voltage') }}">
+                                        <input type="number" class="form-control" name="meter_extra[high_voltage]" placeholder="แรงดัน" aria-describedby="high_voltage_voltage" value="{{ $meter_extra['high_voltage']?? old('meter_extra.high_voltage') }}">
                                         <div class="input-group-append">
                                             <span class="input-group-text" id="high_voltage_voltage">เควี</span>
                                         </div>
@@ -245,7 +245,7 @@
                         {{-- REPEATER - START --}}
                         <div id="high_voltage_pole_repeater">
                             <div data-repeater-list="meter_extra_keys[high_voltage_pole]">
-                                @foreach($meter->meter_extra_keys('high_voltage_pole') as $data)
+                                @foreach($meter->meter_extra_groups('high_voltage_pole') as $data)
                                     <div class="row mt-1" data-repeater-item>
                                         <div class="col-md-2 text-right vertical-middle">
                                             <code><i class="cursor-pointer bx bx-map text-muted align-middle"></i> รื้อถอน/ปักเสา</code>
@@ -325,7 +325,7 @@
                         {{-- REPEATER - START --}}
                         <div id="high_voltage_cable_repeater">
                             <div data-repeater-list="meter_extra_keys[high_voltage_cable]">
-                                @foreach($meter->meter_extra_keys('high_voltage_cable') as $data)
+                                @foreach($meter->meter_extra_groups('high_voltage_cable') as $data)
                                     <div class="row mt-1" data-repeater-item>
                                         <div class="col-md-2 text-right vertical-middle">
                                             <code><i class="cursor-pointer bx bx-map text-muted align-middle"></i> รื้อถอน/พาดสาย</code>
