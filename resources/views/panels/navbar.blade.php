@@ -43,6 +43,8 @@ data-bgcolor="@if(isset($configData['navbarBgColor'])){{$configData['navbarBgCol
             </div>
           </li>
           <li class="nav-item d-none d-lg-block"><a class="nav-link nav-link-expand"><i class="ficon bx bx-fullscreen"></i></a></li>
+
+          @role('super-admin')
           <li class="nav-item nav-search"><a class="nav-link nav-link-search"><i class="ficon bx bx-search"></i></a>
             <div class="search-input">
               <div class="search-input-icon"><i class="bx bx-search primary"></i></div>
@@ -51,7 +53,6 @@ data-bgcolor="@if(isset($configData['navbarBgColor'])){{$configData['navbarBgCol
               <ul class="search-list"></ul>
             </div>
           </li>
-          @role('super-admin')
           <li class="dropdown dropdown-notification nav-item"><a class="nav-link nav-link-label" href="#" data-toggle="dropdown"><i class="ficon bx bx-bell bx-tada bx-flip-horizontal"></i><span class="badge badge-pill badge-danger badge-up">5</span></a>
             <ul class="dropdown-menu dropdown-menu-media dropdown-menu-right">
               <li class="dropdown-menu-header">

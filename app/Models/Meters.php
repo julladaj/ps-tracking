@@ -48,6 +48,20 @@ class Meters extends Model
         return $this->hasOne(ElectricExpands::class, 'id', 'electric_expand_id');
     }
 
+    public function meter_extra_keys(string $type_name)
+    {
+        $result = [];
+        $this
+            ->hasMany(MeterExtraKeys::class, 'meter_id', 'id')
+            ->where('type_name', $type_name)
+            ->get(['type_id', 'key_name', 'key_value'])
+            ->map(function ($item) use (&$result) {
+                $result[$item->type_id][$item->key_name] = $item->key_value;
+            });
+
+        return collect($result);
+    }
+
     public function getDocumentDateAttribute($value)
     {
         return (new Carbon($value))->format('Y-m-d');

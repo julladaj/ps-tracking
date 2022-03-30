@@ -14,6 +14,7 @@ use App\Models\JobAmounts;
 use App\Models\JobStatusDurations;
 use App\Models\JobStatuses;
 use App\Models\JobTypes;
+use App\Models\MeterExtraKeys;
 use App\Models\Meters;
 use App\Models\PeaStaffs;
 use App\Models\RequestedPlaces;
@@ -361,6 +362,30 @@ class MetersController extends Controller
 
         $meter->update($request_meter);
         $electric_expands->update($request_electric_expands);
+
+        if ($request->has('meter_extra_keys') && $request_meter_extra_keys = $request->get('meter_extra_keys')) {
+            $data = [];
+            foreach ($request_meter_extra_keys as $type_name => $type_list) {
+                foreach ($type_list as $type_id => $key_list) {
+                    foreach ($key_list as $key_name => $key_value) {
+                        if ($key_value) {
+                            $data[] = [
+                                'meter_id' => $meter->id,
+                                'type_name' => $type_name,
+                                'type_id' => $type_id,
+                                'key_name' => $key_name,
+                                'key_value' => $key_value
+                            ];
+                        }
+                    }
+                }
+            }
+
+            if ($data) {
+                MeterExtraKeys::where('meter_id', $meter->id)->delete();
+                MeterExtraKeys::insert($data);
+            }
+        }
 
         return back()->with('success', 'บันทึกข้อมูลสำเร็จ');
     }
