@@ -163,7 +163,7 @@
                 <label>อัตราค่าไฟฟ้า</label>
             </div>
             <div class="col-md-10 vertical-middle">
-                <select class="form-control" name="meter_extra[payment_rate_id]">
+                <select class="form-control" id="payment_rate_id" name="meter_extra[payment_rate_id]">
                     @foreach($payment_rates as $payment_rate)
                         <option value="{{ $payment_rate->id }}" factor="{{ $payment_rate->payment_factor }}"
                                 {{ ((isset($meter_extra['payment_rate_id']) && $meter_extra['payment_rate_id'] === (string)$payment_rate->id) || old('meter_extra.payment_rate_id') === $payment_rate->id)? 'selected':'' }}>{{ $payment_rate->description }}</option>
@@ -248,6 +248,7 @@
         $(document).ready(function () {
 
             const payment_transformer_installation = $('#payment_transformer_installation');
+            const payment_rate_id = $('#payment_rate_id');
             const price_of_indoor_checking = $('#price_of_indoor_checking');
             const price_of_guarantee = $('#price_of_guarantee');
             const price_of_grand_total = $('#price_of_grand_total');
@@ -257,6 +258,10 @@
             });
 
             $(document).on('input', '#payment_transformer_installation', function () {
+                calculate_payment_price();
+            });
+
+            $(document).on('change', '#payment_rate_id', function () {
                 calculate_payment_price();
             });
 
@@ -276,7 +281,8 @@
 
             function calculate_payment_price() {
                 let indoor_checking = get_installation_survey_price(parseInt(payment_transformer_installation.val()));
-                let guarantee = get_installation_guarantee_price(parseInt(payment_transformer_installation.val()));
+                let factor = parseInt($('option:selected', payment_rate_id).attr('factor'));
+                let guarantee = get_installation_guarantee_price(parseInt(payment_transformer_installation.val())) * factor;
 
                 price_of_indoor_checking.val(moneyFormat(indoor_checking));
                 price_of_guarantee.val(moneyFormat(guarantee));
