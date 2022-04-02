@@ -221,19 +221,19 @@
                             <div class="col-md-2 text-right vertical-middle">
                                 <label>ระบบ</label>
                             </div>
-                            <div class="col-md-4 form-group vertical-middle">
+                            <div class="col-md-2 form-group vertical-middle">
                                 <select class="form-control" name="meter_extra[high_voltage_phase]">
                                     <option value="1" {{ ((isset($meter_extra['high_voltage_phase']) && $meter_extra['high_voltage_phase'] === '1') || old('meter_extra.high_voltage_phase') === '1')? 'selected':'' }}>1 เฟส</option>
                                     <option value="3" {{ ((isset($meter_extra['high_voltage_phase']) && $meter_extra['high_voltage_phase'] === '3') || old('meter_extra.high_voltage_phase') === '3')? 'selected':'' }}>3 เฟส</option>
                                 </select>
                             </div>
-                            <div class="col-md-2 text-right vertical-middle">
+                            <div class="col-md-1 text-right vertical-middle">
                                 <label>แรงดัน</label>
                             </div>
-                            <div class="col-md-4 form-group vertical-middle">
+                            <div class="col-md-2 form-group vertical-middle">
                                 <fieldset>
                                     <div class="input-group">
-                                        <input type="number" class="form-control" name="meter_extra[high_voltage]" placeholder="แรงดัน" aria-describedby="high_voltage_voltage" value="{{ $meter_extra['high_voltage']?? old('meter_extra.high_voltage') }}">
+                                        <input type="number" class="form-control" name="meter_extra[high_voltage]" placeholder="แรงดัน" aria-describedby="high_voltage_voltage" value="{{ $meter_extra['high_voltage']?? 22 }}">
                                         <div class="input-group-append">
                                             <span class="input-group-text" id="high_voltage_voltage">เควี</span>
                                         </div>
@@ -243,181 +243,197 @@
                         </div>
 
                         {{-- REPEATER - START --}}
-                        <div id="high_voltage_pole_repeater">
-                            <div data-repeater-list="meter_extra_keys[high_voltage_pole]">
-                                @foreach($meter->meter_extra_groups('high_voltage_pole') as $data)
-                                    <div class="row mt-1" data-repeater-item>
-                                        <div class="col-md-2 text-right vertical-middle">
-                                            <code><i class="cursor-pointer bx bx-map text-muted align-middle"></i> รื้อถอน/ปักเสา</code>
-                                        </div>
-                                        <div class="col-md-2 text-right vertical-middle">
-                                            <label>คอร. ขนาด</label>
-                                        </div>
-                                        <div class="col-md-2 form-group vertical-middle">
-                                            <fieldset>
-                                                <div class="input-group">
-                                                    <input type="number" class="form-control" name="core_size" placeholder="คอร. ขนาด" value="{{ $data['core_size']?? 0 }}">
-                                                    <div class="input-group-append">
-                                                        <span class="input-group-text">เมตร</span>
-                                                    </div>
-                                                </div>
-                                            </fieldset>
-                                        </div>
-                                        <div class="col-md-2 text-right vertical-middle">
-                                            <label>จำนวน</label>
-                                        </div>
-                                        <div class="col-md-2 form-group vertical-middle">
-                                            <fieldset>
-                                                <div class="input-group">
-                                                    <input type="number" class="form-control" name="quantity" placeholder="จำนวน" value="{{ $data['quantity']?? 0 }}">
-                                                    <div class="input-group-append">
-                                                        <span class="input-group-text">ต้น</span>
-                                                    </div>
-                                                </div>
-                                            </fieldset>
-                                        </div>
-                                        <div class="col-md-2 form-group vertical-middle">
-                                            <button class="btn btn-icon rounded-circle btn-primary" type="button" data-repeater-create><i class="bx bx-plus"></i></button>
-                                            <button class="btn btn-icon btn-danger rounded-circle" type="button" data-repeater-delete><i class="bx bx-x"></i></button>
-                                        </div>
-                                    </div>
-                                @endforeach
-                                <div class="row mt-1" data-repeater-item>
-                                    <div class="col-md-2 text-right vertical-middle">
-                                        <code><i class="cursor-pointer bx bx-map text-muted align-middle"></i> รื้อถอน/ปักเสา</code>
-                                    </div>
-                                    <div class="col-md-2 text-right vertical-middle">
-                                        <label>คอร. ขนาด</label>
-                                    </div>
-                                    <div class="col-md-2 form-group vertical-middle">
-                                        <fieldset>
-                                            <div class="input-group">
-                                                <input type="number" class="form-control" name="core_size" placeholder="คอร. ขนาด" value="">
-                                                <div class="input-group-append">
-                                                    <span class="input-group-text">เมตร</span>
-                                                </div>
-                                            </div>
-                                        </fieldset>
-                                    </div>
-                                    <div class="col-md-2 text-right vertical-middle">
-                                        <label>จำนวน</label>
-                                    </div>
-                                    <div class="col-md-2 form-group vertical-middle">
-                                        <fieldset>
-                                            <div class="input-group">
-                                                <input type="number" class="form-control" name="quantity" placeholder="จำนวน" value="">
-                                                <div class="input-group-append">
-                                                    <span class="input-group-text">ต้น</span>
-                                                </div>
-                                            </div>
-                                        </fieldset>
-                                    </div>
-                                    <div class="col-md-2 form-group vertical-middle">
-                                        <button class="btn btn-icon rounded-circle btn-primary" type="button" data-repeater-create><i class="bx bx-plus"></i></button>
-                                        <button class="btn btn-icon btn-danger rounded-circle" type="button" data-repeater-delete><i class="bx bx-x"></i></button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <hr>
+                        @include('meters.include.form_repeater.high_voltage_pole_repeater')
                         {{-- REPEATER - END --}}
 
                         {{-- REPEATER - START --}}
-                        <div id="high_voltage_cable_repeater">
-                            <div data-repeater-list="meter_extra_keys[high_voltage_cable]">
-                                @foreach($meter->meter_extra_groups('high_voltage_cable') as $data)
-                                    <div class="row mt-1" data-repeater-item>
-                                        <div class="col-md-2 text-right vertical-middle">
-                                            <code><i class="cursor-pointer bx bx-map text-muted align-middle"></i> รื้อถอน/พาดสาย</code>
-                                        </div>
-                                        <div class="col-md-2 text-right vertical-middle">
-                                            <label>แรงสูงด้วยสาย</label>
-                                        </div>
-                                        <div class="col-md-6 form-group vertical-middle">
-                                            <input type="text" class="form-control" name="cable_type" placeholder="สาย" value="{{ $data['cable_type']?? '' }}">
-                                        </div>
-                                        <div class="col-md-2"></div>
-                                        <div class="col-md-2"></div>
-                                        <div class="col-md-2 text-right vertical-middle">
-                                            <label>ขนาด</label>
-                                        </div>
-                                        <div class="col-md-2 form-group vertical-middle">
-                                            <fieldset>
-                                                <div class="input-group">
-                                                    <input type="number" class="form-control" name="cable_size" placeholder="ขนาด" value="{{ $data['cable_size']?? 0 }}">
-                                                    <div class="input-group-append">
-                                                        <span class="input-group-text">ตร.มม.</span>
-                                                    </div>
-                                                </div>
-                                            </fieldset>
-                                        </div>
-                                        <div class="col-md-2 text-right vertical-middle">
-                                            <label>ระยะทาง</label>
-                                        </div>
-                                        <div class="col-md-2 form-group vertical-middle">
-                                            <fieldset>
-                                                <div class="input-group">
-                                                    <input type="number" class="form-control" name="length" placeholder="ระยะทาง" value="{{ $data['length']?? 0 }}">
-                                                    <div class="input-group-append">
-                                                        <span class="input-group-text">เมตร</span>
-                                                    </div>
-                                                </div>
-                                            </fieldset>
-                                        </div>
-                                        <div class="col-md-2 form-group vertical-middle">
-                                            <button class="btn btn-icon rounded-circle btn-primary" type="button" data-repeater-create><i class="bx bx-plus"></i></button>
-                                            <button class="btn btn-icon btn-danger rounded-circle" type="button" data-repeater-delete><i class="bx bx-x"></i></button>
+                        @include('meters.include.form_repeater.high_voltage_cable_repeater')
+                        {{-- REPEATER - END --}}
+
+                        <div class="row mt-1">
+                            <div class="col-md-2 text-right vertical-middle">
+                                <label>ติดตั้งชุดบัคอาร์ม จำนวน</label>
+                            </div>
+                            <div class="col-md-4 vertical-middle">
+                                <fieldset>
+                                    <div class="input-group">
+                                        <input type="number" class="form-control" name="meter_extra[buc_arm]" placeholder="ชุดบัคอาร์ม" aria-describedby="high_voltage_buc_arm" value="{{ $meter_extra['buc_arm']?? old('meter_extra.buc_arm') }}">
+                                        <div class="input-group-append">
+                                            <span class="input-group-text" id="high_voltage_buc_arm">ชุด</span>
                                         </div>
                                     </div>
-                                @endforeach
-                                <div class="row mt-1" data-repeater-item>
-                                    <div class="col-md-2 text-right vertical-middle">
-                                        <code><i class="cursor-pointer bx bx-map text-muted align-middle"></i> รื้อถอน/พาดสาย</code>
-                                    </div>
-                                    <div class="col-md-2 text-right vertical-middle">
-                                        <label>แรงสูงด้วยสาย</label>
-                                    </div>
-                                    <div class="col-md-6 form-group vertical-middle">
-                                        <input type="text" class="form-control" name="cable_type" placeholder="สาย" value="">
-                                    </div>
-                                    <div class="col-md-2"></div>
-                                    <div class="col-md-2"></div>
-                                    <div class="col-md-2 text-right vertical-middle">
-                                        <label>ขนาด</label>
-                                    </div>
-                                    <div class="col-md-2 form-group vertical-middle">
-                                        <fieldset>
-                                            <div class="input-group">
-                                                <input type="number" class="form-control" name="cable_size" placeholder="ขนาด" value="">
-                                                <div class="input-group-append">
-                                                    <span class="input-group-text">ตร.มม.</span>
-                                                </div>
-                                            </div>
-                                        </fieldset>
-                                    </div>
-                                    <div class="col-md-2 text-right vertical-middle">
-                                        <label>ระยะทาง</label>
-                                    </div>
-                                    <div class="col-md-2 form-group vertical-middle">
-                                        <fieldset>
-                                            <div class="input-group">
-                                                <input type="number" class="form-control" name="length" placeholder="ระยะทาง" value="">
-                                                <div class="input-group-append">
-                                                    <span class="input-group-text">เมตร</span>
-                                                </div>
-                                            </div>
-                                        </fieldset>
-                                    </div>
-                                    <div class="col-md-2 form-group vertical-middle">
-                                        <button class="btn btn-icon rounded-circle btn-primary" type="button" data-repeater-create><i class="bx bx-plus"></i></button>
-                                        <button class="btn btn-icon btn-danger rounded-circle" type="button" data-repeater-delete><i class="bx bx-x"></i></button>
-                                    </div>
-                                </div>
+                                </fieldset>
                             </div>
                         </div>
                         <hr>
+
+                        <div class="alert bg-rgba-primary mt-1 p-1">
+                            <p class="m-0">แผนก<code class="highlighter-rouge">หม้อแปลง</code></p>
+                        </div>
+                        {{-- REPEATER - START --}}
+                        @include('meters.include.form_repeater.transformer_repeater')
                         {{-- REPEATER - END --}}
 
+                        <div class="alert bg-rgba-primary mt-1 p-1">
+                            <p class="m-0">แผนก<code class="highlighter-rouge">แรงต่ำ</code></p>
+                        </div>
+                        {{-- REPEATER - START --}}
+                        @include('meters.include.form_repeater.low_voltage_pole_repeater')
+                        {{-- REPEATER - END --}}
+
+                        {{-- REPEATER - START --}}
+                        @include('meters.include.form_repeater.low_voltage_cable_repeater')
+                        {{-- REPEATER - END --}}
+
+                        <div class="alert bg-rgba-primary mt-1 p-1">
+                            <p class="m-0">แผนก<code class="highlighter-rouge">มิเตอร์</code></p>
+                        </div>
+                        {{-- REPEATER - START --}}
+                        @include('meters.include.form_repeater.meter_repeater')
+                        {{-- REPEATER - END --}}
+
+                        <div class="alert bg-rgba-primary mt-1 p-1">
+                            <p class="m-0">แผนก<code class="highlighter-rouge">ไฟสาธารณะ</code></p>
+                        </div>
+                        <div class="row mt-1">
+                            <div class="col-md-2 text-right vertical-middle">
+                                <code><i class="cursor-pointer bx bx-map text-muted align-middle"></i> รื้อถอน/พาด</code> <label>สายอลูมิเนียมหุ้มฉนวน ขนาด</label>
+                            </div>
+                            <div class="col-md-2 form-group vertical-middle">
+                                <fieldset>
+                                    <div class="input-group">
+                                        <input type="number" class="form-control" name="meter_extra[public_light_cable_size]" placeholder="ขนาด" value="{{ $meter_extra['public_light_cable_size']?? 0 }}">
+                                        <div class="input-group-append">
+                                            <span class="input-group-text">ตร.มม.</span>
+                                        </div>
+                                    </div>
+                                </fieldset>
+                            </div>
+                            <div class="col-md-2 text-right vertical-middle">
+                                <label>ระยะทางประมาณ</label>
+                            </div>
+                            <div class="col-md-2 form-group vertical-middle">
+                                <fieldset>
+                                    <div class="input-group">
+                                        <input type="number" class="form-control" name="meter_extra[public_light_cable_length]" placeholder="เมตร" value="{{ $meter_extra['public_light_cable_length']?? 0 }}">
+                                        <div class="input-group-append">
+                                            <span class="input-group-text">เมตร</span>
+                                        </div>
+                                    </div>
+                                </fieldset>
+                            </div>
+                        </div>
+                        <div class="row mt-1">
+                            <div class="col-md-2 text-right vertical-middle">
+                                <code><i class="cursor-pointer bx bx-map text-muted align-middle"></i> รื้อถอน/ติดตั้ง</code> <label>ชุดโคมไฟ ขนาด</label>
+                            </div>
+                            <div class="col-md-2 form-group vertical-middle">
+                                <fieldset>
+                                    <div class="input-group">
+                                        <input type="number" class="form-control" name="meter_extra[public_light_lamp_size]" placeholder="ขนาด" value="{{ $meter_extra['public_light_lamp_size']?? 0 }}">
+                                        <div class="input-group-append">
+                                            <span class="input-group-text">วัตต์</span>
+                                        </div>
+                                    </div>
+                                </fieldset>
+                            </div>
+                            <div class="col-md-2 text-right vertical-middle">
+                                <label>จำนวน</label>
+                            </div>
+                            <div class="col-md-2 form-group vertical-middle">
+                                <fieldset>
+                                    <div class="input-group">
+                                        <input type="number" class="form-control" name="meter_extra[public_light_lamp_quantity]" placeholder="ชุด" value="{{ $meter_extra['public_light_lamp_quantity']?? 0 }}">
+                                        <div class="input-group-append">
+                                            <span class="input-group-text">ชุด</span>
+                                        </div>
+                                    </div>
+                                </fieldset>
+                            </div>
+                            <div class="col-md-2 text-right vertical-middle">
+                                <label>สวิชต์ควบคุม จำนวน</label>
+                            </div>
+                            <div class="col-md-2 form-group vertical-middle">
+                                <fieldset>
+                                    <div class="input-group">
+                                        <input type="number" class="form-control" name="meter_extra[public_light_lamp_switch_quantity]" placeholder="ชุด" value="{{ $meter_extra['public_light_lamp_switch_quantity']?? 0 }}">
+                                        <div class="input-group-append">
+                                            <span class="input-group-text">ชุด</span>
+                                        </div>
+                                    </div>
+                                </fieldset>
+                            </div>
+                        </div>
+                        <hr>
+
+                        <div class="alert bg-rgba-warning mt-1 p-1">
+                            <h4 class="text-warning">ส่วนของผู้ใช้ไฟดำเนินการเอง</h4>
+                            <p class="m-0">แผนก<code class="highlighter-rouge">แรงสูง</code></p>
+                        </div>
+                        <div class="row mt-1">
+                            <div class="col-md-2 text-right vertical-middle">
+                                <label>ระบบ</label>
+                            </div>
+                            <div class="col-md-2 form-group vertical-middle">
+                                <select class="form-control" name="meter_extra[customer_high_voltage_phase]">
+                                    <option value="1" {{ ((isset($meter_extra['customer_high_voltage_phase']) && $meter_extra['customer_high_voltage_phase'] === '1') || old('meter_extra.customer_high_voltage_phase') === '1')? 'selected':'' }}>1 เฟส
+                                    </option>
+                                    <option value="3" {{ ((isset($meter_extra['customer_high_voltage_phase']) && $meter_extra['customer_high_voltage_phase'] === '3') || old('meter_extra.customer_high_voltage_phase') === '3')? 'selected':'' }}>3 เฟส
+                                    </option>
+                                </select>
+                            </div>
+                            <div class="col-md-1 text-right vertical-middle">
+                                <label>แรงดัน</label>
+                            </div>
+                            <div class="col-md-2 form-group vertical-middle">
+                                <fieldset>
+                                    <div class="input-group">
+                                        <input type="number" class="form-control" name="meter_extra[customer_high_voltage]" placeholder="แรงดัน" aria-describedby="customer_high_voltage_voltage"
+                                               value="{{ $meter_extra['customer_high_voltage']?? 22 }}">
+                                        <div class="input-group-append">
+                                            <span class="input-group-text" id="customer_high_voltage_voltage">เควี</span>
+                                        </div>
+                                    </div>
+                                </fieldset>
+                            </div>
+                        </div>
+                        {{-- REPEATER - START --}}
+                        @include('meters.include.form_repeater.customer_high_voltage_pole_repeater')
+                        {{-- REPEATER - END --}}
+
+                        {{-- REPEATER - START --}}
+                        @include('meters.include.form_repeater.customer_high_voltage_cable_repeater')
+                        {{-- REPEATER - END --}}
+
+                        <div class="alert bg-rgba-warning mt-1 p-1">
+                            <p class="m-0">แผนก<code class="highlighter-rouge">หม้อแปลง</code></p>
+                        </div>
+                        {{-- REPEATER - START --}}
+                        @include('meters.include.form_repeater.customer_transformer_repeater')
+                        {{-- REPEATER - END --}}
+
+                        <div class="row mt-1">
+                            <div class="col-sm-12 d-flex justify-content-end">
+                                <a href="{{ route('meters.index') }}" class="btn btn-secondary mr-1"><i class="bx bx-arrow-back"></i> ย้อนกลับหน้าหลัก</a>
+                                <button type="reset" class="btn btn-light-secondary mr-1">คืนค่าเริ่มต้น</button>
+                                <button type="submit" class="btn btn-primary"><i class="bx bx-save"></i> บันทึกข้อมูล</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-body">
+                    <div class="form-body">
+                        <div class="alert bg-rgba-primary mt-1 p-1">
+                            <h4 class="text-primary">รายละเอียด</h4>
+                            <p class="m-0">ขออนุมัติ<code class="highlighter-rouge">ขยายเขต/ย้ายแนว</code>ระบบจำหน่ายไฟฟ้า</p>
+                        </div>
                         <div class="row mt-1">
                             <div class="col-md-2 text-right vertical-middle">
                                 <label>เรียกเก็บจากผู้ใช้ไฟ</label>
@@ -441,10 +457,6 @@
                                         </div>
                                     </div>
                                 </fieldset>
-                            </div>
-
-                            <div class="col-md-2 text-right vertical-middle">
-                                <label>กำหนดยืนราคา</label>
                             </div>
                             <div class="col-md-4 vertical-middle">
                                 <fieldset>
@@ -541,6 +553,7 @@
             </div>
         </div>
     </div>
+    </div>
 @endif
 
 {{-- vendor scripts --}}
@@ -553,7 +566,7 @@
     <script>
         $(document).ready(function () {
 
-            $('#high_voltage_pole_repeater, #high_voltage_cable_repeater').repeater({
+            $('#high_voltage_pole_repeater, #high_voltage_cable_repeater, #transformer_repeater, #low_voltage_pole_repeater, #low_voltage_cable_repeater, #meter_repeater, #customer_high_voltage_pole_repeater, #customer_high_voltage_cable_repeater, #customer_transformer_repeater').repeater({
                 show: function () {
                     $(this).slideDown();
                 },
