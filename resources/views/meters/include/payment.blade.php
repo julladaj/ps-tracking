@@ -108,6 +108,129 @@
         </div>
     </div>
 
+    <div class="meter-transformer">
+        <div class="alert bg-rgba-primary mt-1 p-1">
+            <h4 class="text-primary">ค่าธรรมเนียม</h4>
+            <p class="m-0">การขอใช้ไฟฟ้า</p>
+        </div>
+        <div class="row mt-1">
+            <div class="col-md-2 text-right vertical-middle">
+                <label>ติดตั้งหม้อแปลงรวม</label>
+            </div>
+            <div class="col-md-4 vertical-middle">
+                <fieldset>
+                    <div class="input-group">
+                        <input type="number" class="form-control" id="payment_transformer_installation" name="meter_extra[payment_transformer_installation]" placeholder="kVA" aria-describedby="payment_transformer_installation"
+                               value="{{ $meter_extra['payment_transformer_installation']?? old('meter_extra.payment_transformer_installation', 0) }}">
+                        <div class="input-group-append">
+                            <span class="input-group-text" id="payment_transformer_installation">kVA</span>
+                        </div>
+                    </div>
+                </fieldset>
+            </div>
+        </div>
+
+        <div class="row mt-1">
+            <div class="col-md-2 text-right vertical-middle">
+                <label>ติดตั้งมิเตอร์</label>
+            </div>
+            <div class="col-md-10 vertical-middle">
+                <ul class="list-unstyled mb-0">
+                    <li class="d-inline-block mr-2">
+                        <fieldset>
+                            <div class="checkbox">
+                                <input type="checkbox" class="checkbox-input" id="payment_meter_low_voltage" name="meter_extra[payment_meter_low_voltage]" value="1"
+                                        {{ ((isset($meter_extra['payment_meter_low_voltage']) && $meter_extra['payment_meter_low_voltage']) || old('meter_extra.payment_meter_low_voltage'))? 'checked':'' }}>
+                                <label for="payment_meter_low_voltage">ประกอบ CT แรงต่ำ</label>
+                            </div>
+                        </fieldset>
+                    </li>
+                    <li class="d-inline-block mr-2">
+                        <fieldset>
+                            <div class="checkbox">
+                                <input type="checkbox" class="checkbox-input" id="payment_meter_high_voltage" name="meter_extra[payment_meter_high_voltage]" value="1"
+                                        {{ ((isset($meter_extra['payment_meter_high_voltage']) && $meter_extra['payment_meter_high_voltage']) || old('meter_extra.payment_meter_high_voltage'))? 'checked':'' }}>
+                                <label for="payment_meter_high_voltage">ประกอบ CT/VT แรงสูง</label>
+                            </div>
+                        </fieldset>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="row mt-1">
+            <div class="col-md-2 text-right vertical-middle">
+                <label>อัตราค่าไฟฟ้า</label>
+            </div>
+            <div class="col-md-10 vertical-middle">
+                <select class="form-control" name="meter_extra[payment_rate_id]">
+                    @foreach($payment_rates as $payment_rate)
+                        <option value="{{ $payment_rate->id }}" factor="{{ $payment_rate->payment_factor }}"
+                                {{ ((isset($meter_extra['payment_rate_id']) && $meter_extra['payment_rate_id'] === (string)$payment_rate->id) || old('meter_extra.payment_rate_id') === $payment_rate->id)? 'selected':'' }}>{{ $payment_rate->description }}</option>
+                    @endforeach
+                </select>
+
+            </div>
+        </div>
+
+        <div class="row mt-1">
+            <div class="col-md-2 text-right vertical-middle">
+            </div>
+            <div class="col-md-4 vertical-middle">
+                <label>1. ค่าตรวจสอบการติดตั้งอุปกรณ์ไฟฟ้าภายในอาคาร</label>
+            </div>
+            <div class="col-md-2 vertical-middle">
+                <fieldset>
+                    <div class="input-group">
+                        <input type="text" class="form-control text-right" id="price_of_indoor_checking" value="0" readonly>
+                        <div class="input-group-append">
+                            <span class="input-group-text">บาท</span>
+                        </div>
+                    </div>
+                </fieldset>
+            </div>
+            <div class="col-md-2 vertical-middle">
+                <label>(รวมภาษีมูลค่าเพิ่ม)</label>
+            </div>
+        </div>
+
+        <div class="row mt-1">
+            <div class="col-md-2 text-right vertical-middle">
+            </div>
+            <div class="col-md-4 vertical-middle">
+                <label>2. เงินประกันการใช้ไฟฟ้า</label>
+            </div>
+            <div class="col-md-2 vertical-middle">
+                <fieldset>
+                    <div class="input-group">
+                        <input type="text" class="form-control text-right" id="price_of_guarantee" value="0" readonly>
+                        <div class="input-group-append">
+                            <span class="input-group-text">บาท</span>
+                        </div>
+                    </div>
+                </fieldset>
+            </div>
+        </div>
+
+        <div class="row mt-1">
+            <div class="col-md-2 text-right vertical-middle">
+            </div>
+            <div class="col-md-4 vertical-middle">
+                <label><b>รวมเงินค่าใช้จ่าย</b> เป็นเงิน</label>
+            </div>
+            <div class="col-md-2 vertical-middle">
+                <fieldset>
+                    <div class="input-group">
+                        <input type="text" class="form-control text-right" id="price_of_grand_total" value="0" readonly>
+                        <div class="input-group-append">
+                            <span class="input-group-text">บาท</span>
+                        </div>
+                    </div>
+                </fieldset>
+            </div>
+        </div>
+    </div>
+
     <hr>
 
     <div class="row mt-1">
@@ -118,3 +241,86 @@
         </div>
     </div>
 </div>
+
+{{-- page scripts --}}
+@push('scripts')
+    <script>
+        $(document).ready(function () {
+
+            const payment_transformer_installation = $('#payment_transformer_installation');
+            const price_of_indoor_checking = $('#price_of_indoor_checking');
+            const price_of_guarantee = $('#price_of_guarantee');
+            const price_of_grand_total = $('#price_of_grand_total');
+
+            $(document).on('change', '#job_type_id', function () {
+                pre_select_transformer_size($(this).val());
+            });
+
+            $(document).on('input', '#payment_transformer_installation', function () {
+                calculate_payment_price();
+            });
+
+            function pre_select_transformer_size(job_type_id) {
+                if (job_type_id === "4") {
+                    payment_transformer_installation.val('30');
+                    payment_transformer_installation.attr('readonly', true);
+                }
+
+                if (job_type_id === "5") {
+                    payment_transformer_installation.val('50');
+                    payment_transformer_installation.attr('readonly', false);
+                }
+
+                calculate_payment_price();
+            }
+
+            function calculate_payment_price() {
+                let indoor_checking = get_installation_survey_price(parseInt(payment_transformer_installation.val()));
+                let guarantee = get_installation_guarantee_price(parseInt(payment_transformer_installation.val()));
+
+                price_of_indoor_checking.val(moneyFormat(indoor_checking));
+                price_of_guarantee.val(moneyFormat(guarantee));
+                price_of_grand_total.val(moneyFormat(indoor_checking + guarantee));
+            }
+
+            function get_installation_guarantee_price(transformer) {
+                if (transformer <= 30) {
+                    return 6000;
+                }
+                if (transformer <= 50) {
+                    return 12000;
+                }
+                if (transformer <= 250) {
+                    return transformer * 100;
+                }
+                if (transformer <= 1200) {
+                    return transformer * 300;
+                }
+                return transformer * 400;
+            }
+
+            function get_installation_survey_price(transformer) {
+                if (transformer <= 30) {
+                    return 749;
+                }
+                if (transformer <= 50) {
+                    return 1605;
+                }
+                if (transformer <= 250) {
+                    return 4494;
+                }
+                if (transformer <= 1200) {
+                    return 16050;
+                }
+                return 21400;
+            }
+
+            function moneyFormat(value){
+                return value.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,');
+            }
+
+            pre_select_transformer_size($('#job_type_id').val());
+
+        });
+    </script>
+@endpush

@@ -17,6 +17,7 @@ use App\Models\JobTypes;
 use App\Models\MeterExtraGroups;
 use App\Models\MeterExtraKeys;
 use App\Models\Meters;
+use App\Models\PaymentRates;
 use App\Models\PeaStaffs;
 use App\Models\RequestedPlaces;
 use App\Models\ReservedForests;
@@ -314,7 +315,9 @@ class MetersController extends Controller
             }),
 
             'over_report' => $over_report,
-            'job_status_report' => $job_status_report
+            'job_status_report' => $job_status_report,
+
+            'payment_rates' => PaymentRates::all()
         ]);
     }
 
@@ -367,13 +370,19 @@ class MetersController extends Controller
 
 
         if ($request->has('meter_extra') && $request_meter_extra = $request->get('meter_extra')) {
+            MeterExtraKeys::where('meter_id', $meter->id)->delete();
             foreach ($request_meter_extra as $key_name => $key_value) {
                 if ($key_value) {
-                    MeterExtraKeys::upsert([
+                    MeterExtraKeys::insert([
                         'meter_id' => $meter->id,
                         'key_name' => $key_name,
                         'key_value' => $key_value
-                    ], ['key_value', 'meter_id'], ['key_value']);
+                    ]);
+//                    MeterExtraKeys::upsert([
+//                        'meter_id' => $meter->id,
+//                        'key_name' => $key_name,
+//                        'key_value' => $key_value
+//                    ], ['key_value', 'meter_id'], ['key_value']);
                 }
             }
         }

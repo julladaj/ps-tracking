@@ -59,7 +59,7 @@
         <div class="col-md-4 form-group vertical-middle meter-transformer">
             <select class="form-control" name="meters[transformer_id]">
                 @forelse($transformers as $transformer)
-                    <option value="{{ $transformer->id }}" {{ ((isset($meter->transformer_id) && $meter->transformer_id === $transformer->id) || old('meters.transformer_id') === $transformer->id)? 'selected':'' }}>{{ $transformer->description }}</option>
+                    <option value="{{ $transformer->id }}" {{ ((isset($meter->transformer_id) && $meter->transformer_id === $transformer->id) || old('meters.transformer_id') === $transformer->id)? 'selected':'' }}>{{ $transformer->description }} kVA</option>
                 @empty
                     <option></option>
                 @endforelse
