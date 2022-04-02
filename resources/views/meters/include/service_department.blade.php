@@ -1,229 +1,202 @@
-<div class="row">
-    <div class="col-12">
-        <div class="card">
-            <div class="card-header border-bottom">
-                <h5 class="card-title">เพิ่ม/แก้ไขข้อมูล งานขยายเขตระบบจำหน่ายไฟฟ้า</h5>
-                <div class="heading-elements">
-                    <a href="{{ route('meters.index') }}" class="btn btn-secondary mr-1"><i class="bx bx-arrow-back"></i> ย้อนกลับหน้าหลัก</a>
-                    <button type="reset" class="btn btn-light-secondary mr-1">คืนค่าเริ่มต้น</button>
-                    <button type="button" submit="form_meter" class="btn btn-primary submit-button"><i class="bx bx-save"></i> บันทึกข้อมูล</button>
+<div class="form-body">
+    <div class="alert bg-rgba-primary mt-1 p-1">
+        <h4 class="text-primary">แผนกบริการลูกค้า</h4>
+        <p class="m-0">เพิ่ม/แก้ไขข้อมูล<code class="highlighter-rouge">งานขยายเขต</code>ระบบจำหน่ายไฟฟ้า</p>
+    </div>
+    <div class="row mt-1">
+        <div class="col-md-2 text-right vertical-middle">
+            <label>เลขที่คำร้อง</label>
+        </div>
+        <div class="col-md-4 form-group vertical-middle">
+            <input type="text" class="form-control @error('meters.document_number') error @enderror" id="document_number" name="meters[document_number]" placeholder="เลขที่คำร้อง"
+                   value="{{ $meter->document_number?? old('meters.document_number') }}">
+            @error('meters.document_number')<span class="error">{{ $message }}</span>@enderror
+        </div>
+
+        <div class="col-md-2 text-right vertical-middle">
+            <label>วันที่ยื่นคำร้อง</label>
+        </div>
+        <div class="col-md-4 form-group vertical-middle">
+            <input type="date" class="form-control @error('meters.document_date') error @enderror" name="meters[document_date]" placeholder="วันที่ยื่นคำร้อง" value="{{ $meter->document_date?? old('meters.document_date') }}"
+                   data-toggle="tooltip" data-placement="top"
+                   data-original-title="{{ buddhismDate($meter->document_date?? old('meters.document_date')) }}">
+            @error('meters.document_date')<span class="error">{{ $message }}</span>@enderror
+        </div>
+    </div>
+    <div class="row mt-1">
+        <div class="col-md-2 text-right vertical-middle">
+            <label>ชื่อ-นามสกุล</label>
+        </div>
+        <div class="col-md-4 form-group vertical-middle">
+            <input type="text" class="form-control @error('meters.customer_name') error @enderror" id="customer_name" name="meters[customer_name]" placeholder="ชื่อ-นามสกุล"
+                   value="{{ $meter->customer_name?? old('meters.customer_name') }}">
+            @error('meters.customer_name')<span class="error">{{ $message }}</span>@enderror
+        </div>
+
+        <div class="col-md-2 text-right vertical-middle">
+            <label>เบอร์โทรศัพท์</label>
+        </div>
+        <div class="col-md-4 form-group vertical-middle">
+            <input type="text" class="form-control" name="meters[customer_phone]" placeholder="เบอร์โทรศัพท์" value="{{ $meter->customer_phone?? old('meters.customer_phone') }}">
+        </div>
+    </div>
+    <div class="row mt-1">
+        <div class="col-md-2 text-right vertical-middle">
+            <label>ประเภทงาน</label>
+        </div>
+        <div class="col-md-4 form-group vertical-middle">
+            <select class="form-control" name="meters[job_type_id]" id="job_type_id">
+                @forelse($job_types as $job_type)
+                    <option value="{{ $job_type->id }}" {{ ((isset($meter->job_type_id) && $meter->job_type_id === $job_type->id) || old('meters.job_type_id') === $job_type->id)? 'selected':'' }}>{{ $job_type->description }}</option>
+                @empty
+                    <option></option>
+                @endforelse
+            </select>
+        </div>
+        <div class="col-md-2 text-right vertical-middle meter-transformer">
+            <label>หม้อแปลง ขนาด</label>
+        </div>
+        <div class="col-md-4 form-group vertical-middle meter-transformer">
+            <select class="form-control" name="meters[transformer_id]">
+                @forelse($transformers as $transformer)
+                    <option value="{{ $transformer->id }}" {{ ((isset($meter->transformer_id) && $meter->transformer_id === $transformer->id) || old('meters.transformer_id') === $transformer->id)? 'selected':'' }}>{{ $transformer->description }}</option>
+                @empty
+                    <option></option>
+                @endforelse
+            </select>
+        </div>
+    </div>
+    <div class="row mt-1">
+        <div class="col-md-2 text-right vertical-middle">
+            <label>สถานที่ขอใช้บริการ</label>
+        </div>
+        <div class="col-md-4 form-group vertical-middle">
+            <select class="form-control" name="meters[requested_place_id]" id="requested_place_id">
+                @forelse($requested_places as $requested_place)
+                    <option value="{{ $requested_place->id }}"
+                            credit_terms="{{ $requested_place->credit_terms }}" {{ ((isset($meter->requested_place_id) && $meter->requested_place_id === $requested_place->id) || old('meters.requested_place_id') === $requested_place->id)? 'selected':'' }}>{{ $requested_place->description }}</option>
+                @empty
+                    <option></option>
+                @endforelse
+            </select>
+        </div>
+    </div>
+
+    <hr>
+
+    <div class="row mt-1">
+        <div class="col-md-2 text-right vertical-middle">
+            <label>หมายเลขงาน</label>
+        </div>
+        <div class="col-md-4 form-group vertical-middle">
+            <input type="text" class="form-control" name="meters[job_number]" placeholder="หมายเลขงาน" value="{{ $meter->job_number?? old('meters.job_number') }}">
+        </div>
+        <div class="col-md-2 text-right vertical-middle">
+            <label>ชื่อผู้สำรวจ</label>
+        </div>
+        <div class="col-md-4 form-group vertical-middle">
+            <select class="form-control" name="meters[survey_user_id]">
+                <option></option>
+                @forelse($pea_staffs as $pea_staff)
+                    <option value="{{ $pea_staff->id }}" {{ ((isset($meter->survey_user_id) && $meter->survey_user_id === $pea_staff->id) || old('meters.survey_user_id') === $pea_staff->id)? 'selected':'' }}>{{ $pea_staff->name }}</option>
+                @empty
+                @endforelse
+            </select>
+        </div>
+    </div>
+    <div class="row mt-1">
+        <div class="col-md-2 text-right vertical-middle">
+            <label>ปริมาณงาน</label>
+        </div>
+        <div class="col-md-4 form-group vertical-middle">
+            <select class="form-control" name="meters[job_amount_id]">
+                @forelse($job_amounts as $job_amount)
+                    <option value="{{ $job_amount->id }}" {{ ((isset($meter->job_amount_id) && $meter->job_amount_id === $job_amount->id) || old('meters.job_amount_id') === $job_amount->id)? 'selected':'' }}>{{ $job_amount->description }}</option>
+                @empty
+                    <option></option>
+                @endforelse
+            </select>
+        </div>
+        <div class="col-md-2 text-right vertical-middle">
+            <label>สถานะงาน</label>
+        </div>
+        <div class="col-md-4 form-group vertical-middle">
+            <select class="form-control" name="meters[job_status_id]" id="job_status_id">
+                @forelse($job_statuses as $job_status)
+                    <option value="{{ $job_status->id }}" {{ ((isset($meter->job_status_id) && $meter->job_status_id === $job_status->id) || old('meters.survey_user_id') === $job_status->id)? 'selected':'' }}>{{ $job_status->description }}</option>
+                @empty
+                    <option></option>
+                @endforelse
+            </select>
+        </div>
+    </div>
+    <div class="row mt-1 show_on_approve">
+        <div class="col-md-2 text-right vertical-middle">
+            <label>อนุมัติที่</label>
+        </div>
+        <div class="col-md-4 form-group vertical-middle">
+            <input type="text" class="form-control" name="meters[approve_location]" id="approve_location" placeholder="อนุมัติที่" value="{{ $meter->approve_location?? old('meters.approve_location') }}">
+        </div>
+        <div class="col-md-2 text-right vertical-middle">
+            <label>ลงวันที่</label>
+        </div>
+        <div class="col-md-4 form-group vertical-middle">
+            <input type="date" class="form-control" id="approve_date" name="meters[approve_date]" id="approve_date" placeholder="ลงวันที่" value="{{ $meter->approve_date?? old('meters.approve_date') }}"
+                   data-toggle="tooltip"
+                   data-placement="top" data-original-title="{{ buddhismDate($meter->approve_date?? old('meters.approve_date')) }}">
+        </div>
+    </div>
+    <div class="row mt-1 show_on_approve_date">
+        <div class="col-md-2 text-right vertical-middle">
+            <label>หมดกำหนดยืนราคา</label>
+        </div>
+        <div class="col-md-4 form-group vertical-middle">
+            <input type="date" class="form-control" id="expires_quote_date" name="meters[expires_quote_date]" placeholder="หมดกำหนดยื่นราคา" value="{{ $meter->expires_quote_date?? old('meters.expires_quote_date') }}"
+                   readonly data-toggle="tooltip" data-placement="top" data-original-title="{{ buddhismDate($meter->expires_quote_date?? old('meters.expires_quote_date')) }}"/>
+        </div>
+        <div class="col-md-2 text-right vertical-middle">
+            <label>วันที่ชำระเงิน</label>
+        </div>
+        <div class="col-md-4 form-group vertical-middle">
+            <input type="date" class="form-control" name="meters[payment_date]" id="payment_date" placeholder="วันที่ชำระเงิน" value="{{ $meter->payment_date?? old('meters.payment_date') }}" data-toggle="tooltip"
+                   data-placement="top"
+                   data-original-title="{{ buddhismDate($meter->payment_date?? old('meters.payment_date')) }}">
+        </div>
+    </div>
+    <div class="row mt-1 show_on_approve">
+        <div class="col-md-2 text-right vertical-middle"></div>
+        <div class="col-md-4 form-group vertical-middle">
+            <fieldset>
+                <div class="checkbox">
+                    <input type="checkbox" class="checkbox-input" id="has_no_payment" {{ ((isset($meter->has_payment) && !$meter->has_payment) || !old('meters.has_payment'))? 'checked' : '' }}>
+                    <label for="has_no_payment">ไม่มีค่าใช้จ่ายเรียกเก็บ</label>
                 </div>
-            </div>
-            <div class="card-body">
-                @if(session()->has('success'))
-                    <div class="alert alert-success alert-dismissible mb-2 mt-2" role="alert">
-                        <div class="d-flex align-items-center"><i class="bx bx-like"></i><span>{!! session()->get('success') !!}</span></div>
-                    </div>
-                @endif
+            </fieldset>
+        </div>
+        <div class="col-md-2 text-right vertical-middle show_on_no_pending_payment">
+            <label>ผบค. ส่งงาน</label>
+        </div>
+        <div class="col-md-4 form-group vertical-middle show_on_no_pending_payment">
+            <input type="date" class="form-control" name="meters[service_final_date]" placeholder="ผบค. ส่งงาน" value="{{ $meter->service_final_date?? old('meters.service_final_date') }}" data-toggle="tooltip"
+                   data-placement="top" data-original-title="{{ buddhismDate($meter->service_final_date?? old('meters.service_final_date')) }}">
+        </div>
+    </div>
+    <div class="row mt-1">
+        <div class="col-md-2 text-right vertical-middle">
+            <label>หมายเหตุ</label>
+        </div>
+        <div class="col-md-10 form-group vertical-middle">
+            <textarea class="form-control" rows="3" name="meters[comment]" placeholder="หมายเหตุ">{{ $meter->comment?? old('meters.comment') }}</textarea>
+        </div>
+    </div>
 
-                @csrf
-                @if(!$isCreate)
-                    @method('PUT')
-                @endif
+    <hr>
 
-                <div class="form-body">
-                    <div class="alert bg-rgba-primary mt-1 p-1">
-                        <h4 class="text-primary">แผนกบริการลูกค้า</h4>
-                        <p class="m-0">เพิ่ม/แก้ไขข้อมูล<code class="highlighter-rouge">งานขยายเขต</code>ระบบจำหน่ายไฟฟ้า</p>
-                    </div>
-                    <div class="row mt-1">
-                        <div class="col-md-2 text-right vertical-middle">
-                            <label>เลขที่คำร้อง</label>
-                        </div>
-                        <div class="col-md-4 form-group vertical-middle">
-                            <input type="text" class="form-control @error('meters.document_number') error @enderror" id="document_number" name="meters[document_number]" placeholder="เลขที่คำร้อง"
-                                   value="{{ $meter->document_number?? old('meters.document_number') }}">
-                            @error('meters.document_number')<span class="error">{{ $message }}</span>@enderror
-                        </div>
-
-                        <div class="col-md-2 text-right vertical-middle">
-                            <label>วันที่ยื่นคำร้อง</label>
-                        </div>
-                        <div class="col-md-4 form-group vertical-middle">
-                            <input type="date" class="form-control @error('meters.document_date') error @enderror" name="meters[document_date]" placeholder="วันที่ยื่นคำร้อง" value="{{ $meter->document_date?? old('meters.document_date') }}"
-                                   data-toggle="tooltip" data-placement="top"
-                                   data-original-title="{{ buddhismDate($meter->document_date?? old('meters.document_date')) }}">
-                            @error('meters.document_date')<span class="error">{{ $message }}</span>@enderror
-                        </div>
-                    </div>
-                    <div class="row mt-1">
-                        <div class="col-md-2 text-right vertical-middle">
-                            <label>ชื่อ-นามสกุล</label>
-                        </div>
-                        <div class="col-md-4 form-group vertical-middle">
-                            <input type="text" class="form-control @error('meters.customer_name') error @enderror" id="customer_name" name="meters[customer_name]" placeholder="ชื่อ-นามสกุล"
-                                   value="{{ $meter->customer_name?? old('meters.customer_name') }}">
-                            @error('meters.customer_name')<span class="error">{{ $message }}</span>@enderror
-                        </div>
-
-                        <div class="col-md-2 text-right vertical-middle">
-                            <label>เบอร์โทรศัพท์</label>
-                        </div>
-                        <div class="col-md-4 form-group vertical-middle">
-                            <input type="text" class="form-control" name="meters[customer_phone]" placeholder="เบอร์โทรศัพท์" value="{{ $meter->customer_phone?? old('meters.customer_phone') }}">
-                        </div>
-                    </div>
-                    <div class="row mt-1">
-                        <div class="col-md-2 text-right vertical-middle">
-                            <label>ประเภทงาน</label>
-                        </div>
-                        <div class="col-md-4 form-group vertical-middle">
-                            <select class="form-control" name="meters[job_type_id]" id="job_type_id">
-                                @forelse($job_types as $job_type)
-                                    <option value="{{ $job_type->id }}" {{ ((isset($meter->job_type_id) && $meter->job_type_id === $job_type->id) || old('meters.job_type_id') === $job_type->id)? 'selected':'' }}>{{ $job_type->description }}</option>
-                                @empty
-                                    <option></option>
-                                @endforelse
-                            </select>
-                        </div>
-                        <div class="col-md-2 text-right vertical-middle meter-transformer">
-                            <label>หม้อแปลง ขนาด</label>
-                        </div>
-                        <div class="col-md-4 form-group vertical-middle meter-transformer">
-                            <select class="form-control" name="meters[transformer_id]">
-                                @forelse($transformers as $transformer)
-                                    <option value="{{ $transformer->id }}" {{ ((isset($meter->transformer_id) && $meter->transformer_id === $transformer->id) || old('meters.transformer_id') === $transformer->id)? 'selected':'' }}>{{ $transformer->description }}</option>
-                                @empty
-                                    <option></option>
-                                @endforelse
-                            </select>
-                        </div>
-                    </div>
-                    <div class="row mt-1">
-                        <div class="col-md-2 text-right vertical-middle">
-                            <label>สถานที่ขอใช้บริการ</label>
-                        </div>
-                        <div class="col-md-4 form-group vertical-middle">
-                            <select class="form-control" name="meters[requested_place_id]" id="requested_place_id">
-                                @forelse($requested_places as $requested_place)
-                                    <option value="{{ $requested_place->id }}"
-                                            credit_terms="{{ $requested_place->credit_terms }}" {{ ((isset($meter->requested_place_id) && $meter->requested_place_id === $requested_place->id) || old('meters.requested_place_id') === $requested_place->id)? 'selected':'' }}>{{ $requested_place->description }}</option>
-                                @empty
-                                    <option></option>
-                                @endforelse
-                            </select>
-                        </div>
-                    </div>
-
-                    <hr>
-
-                    <div class="row mt-1">
-                        <div class="col-md-2 text-right vertical-middle">
-                            <label>หมายเลขงาน</label>
-                        </div>
-                        <div class="col-md-4 form-group vertical-middle">
-                            <input type="text" class="form-control" name="meters[job_number]" placeholder="หมายเลขงาน" value="{{ $meter->job_number?? old('meters.job_number') }}">
-                        </div>
-                        <div class="col-md-2 text-right vertical-middle">
-                            <label>ชื่อผู้สำรวจ</label>
-                        </div>
-                        <div class="col-md-4 form-group vertical-middle">
-                            <select class="form-control" name="meters[survey_user_id]">
-                                <option></option>
-                                @forelse($pea_staffs as $pea_staff)
-                                    <option value="{{ $pea_staff->id }}" {{ ((isset($meter->survey_user_id) && $meter->survey_user_id === $pea_staff->id) || old('meters.survey_user_id') === $pea_staff->id)? 'selected':'' }}>{{ $pea_staff->name }}</option>
-                                @empty
-                                @endforelse
-                            </select>
-                        </div>
-                    </div>
-                    <div class="row mt-1">
-                        <div class="col-md-2 text-right vertical-middle">
-                            <label>ปริมาณงาน</label>
-                        </div>
-                        <div class="col-md-4 form-group vertical-middle">
-                            <select class="form-control" name="meters[job_amount_id]">
-                                @forelse($job_amounts as $job_amount)
-                                    <option value="{{ $job_amount->id }}" {{ ((isset($meter->job_amount_id) && $meter->job_amount_id === $job_amount->id) || old('meters.job_amount_id') === $job_amount->id)? 'selected':'' }}>{{ $job_amount->description }}</option>
-                                @empty
-                                    <option></option>
-                                @endforelse
-                            </select>
-                        </div>
-                        <div class="col-md-2 text-right vertical-middle">
-                            <label>สถานะงาน</label>
-                        </div>
-                        <div class="col-md-4 form-group vertical-middle">
-                            <select class="form-control" name="meters[job_status_id]" id="job_status_id">
-                                @forelse($job_statuses as $job_status)
-                                    <option value="{{ $job_status->id }}" {{ ((isset($meter->job_status_id) && $meter->job_status_id === $job_status->id) || old('meters.survey_user_id') === $job_status->id)? 'selected':'' }}>{{ $job_status->description }}</option>
-                                @empty
-                                    <option></option>
-                                @endforelse
-                            </select>
-                        </div>
-                    </div>
-                    <div class="row mt-1 show_on_approve">
-                        <div class="col-md-2 text-right vertical-middle">
-                            <label>อนุมัติที่</label>
-                        </div>
-                        <div class="col-md-4 form-group vertical-middle">
-                            <input type="text" class="form-control" name="meters[approve_location]" id="approve_location" placeholder="อนุมัติที่" value="{{ $meter->approve_location?? old('meters.approve_location') }}">
-                        </div>
-                        <div class="col-md-2 text-right vertical-middle">
-                            <label>ลงวันที่</label>
-                        </div>
-                        <div class="col-md-4 form-group vertical-middle">
-                            <input type="date" class="form-control" id="approve_date" name="meters[approve_date]" id="approve_date" placeholder="ลงวันที่" value="{{ $meter->approve_date?? old('meters.approve_date') }}"
-                                   data-toggle="tooltip"
-                                   data-placement="top" data-original-title="{{ buddhismDate($meter->approve_date?? old('meters.approve_date')) }}">
-                        </div>
-                    </div>
-                    <div class="row mt-1 show_on_approve_date">
-                        <div class="col-md-2 text-right vertical-middle">
-                            <label>หมดกำหนดยืนราคา</label>
-                        </div>
-                        <div class="col-md-4 form-group vertical-middle">
-                            <input type="date" class="form-control" id="expires_quote_date" name="meters[expires_quote_date]" placeholder="หมดกำหนดยื่นราคา" value="{{ $meter->expires_quote_date?? old('meters.expires_quote_date') }}"
-                                   readonly data-toggle="tooltip" data-placement="top" data-original-title="{{ buddhismDate($meter->expires_quote_date?? old('meters.expires_quote_date')) }}"/>
-                        </div>
-                        <div class="col-md-2 text-right vertical-middle">
-                            <label>วันที่ชำระเงิน</label>
-                        </div>
-                        <div class="col-md-4 form-group vertical-middle">
-                            <input type="date" class="form-control" name="meters[payment_date]" id="payment_date" placeholder="วันที่ชำระเงิน" value="{{ $meter->payment_date?? old('meters.payment_date') }}" data-toggle="tooltip"
-                                   data-placement="top"
-                                   data-original-title="{{ buddhismDate($meter->payment_date?? old('meters.payment_date')) }}">
-                        </div>
-                    </div>
-                    <div class="row mt-1 show_on_approve">
-                        <div class="col-md-2 text-right vertical-middle"></div>
-                        <div class="col-md-4 form-group vertical-middle">
-                            <fieldset>
-                                <div class="checkbox">
-                                    <input type="checkbox" class="checkbox-input" id="has_no_payment" {{ ((isset($meter->has_payment) && !$meter->has_payment) || !old('meters.has_payment'))? 'checked' : '' }}>
-                                    <label for="has_no_payment">ไม่มีค่าใช้จ่ายเรียกเก็บ</label>
-                                </div>
-                            </fieldset>
-                        </div>
-                        <div class="col-md-2 text-right vertical-middle show_on_no_pending_payment">
-                            <label>ผบค. ส่งงาน</label>
-                        </div>
-                        <div class="col-md-4 form-group vertical-middle show_on_no_pending_payment">
-                            <input type="date" class="form-control" name="meters[service_final_date]" placeholder="ผบค. ส่งงาน" value="{{ $meter->service_final_date?? old('meters.service_final_date') }}" data-toggle="tooltip"
-                                   data-placement="top" data-original-title="{{ buddhismDate($meter->service_final_date?? old('meters.service_final_date')) }}">
-                        </div>
-                    </div>
-                    <div class="row mt-1">
-                        <div class="col-md-2 text-right vertical-middle">
-                            <label>หมายเหตุ</label>
-                        </div>
-                        <div class="col-md-10 form-group vertical-middle">
-                            <textarea class="form-control" rows="3" name="meters[comment]" placeholder="หมายเหตุ">{{ $meter->comment?? old('meters.comment') }}</textarea>
-                        </div>
-                    </div>
-
-                    <hr>
-
-                    <div class="row mt-1">
-                        <div class="col-sm-12 d-flex justify-content-end">
-                            <a href="{{ route('meters.index') }}" class="btn btn-secondary mr-1"><i class="bx bx-arrow-back"></i> ย้อนกลับหน้าหลัก</a>
-                            <button type="reset" class="btn btn-light-secondary mr-1">คืนค่าเริ่มต้น</button>
-                            <button type="submit" class="btn btn-primary"><i class="bx bx-save"></i> บันทึกข้อมูล</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
+    <div class="row mt-1">
+        <div class="col-sm-12 d-flex justify-content-end">
+            <a href="{{ route('meters.index') }}" class="btn btn-secondary mr-1"><i class="bx bx-arrow-back"></i> ย้อนกลับหน้าหลัก</a>
+            <button type="reset" class="btn btn-light-secondary mr-1">คืนค่าเริ่มต้น</button>
+            <button type="submit" class="btn btn-primary"><i class="bx bx-save"></i> บันทึกข้อมูล</button>
         </div>
     </div>
 </div>

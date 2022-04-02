@@ -109,10 +109,91 @@
                 </div>
             @endif
 
-            @include('meters.include.service_department')
+            <div class="row">
+                <div class="col-12">
+                    <div class="card">
+                        <div class="card-body">
+                            @if(session()->has('success'))
+                                <div class="alert alert-success alert-dismissible mb-2 mt-2" role="alert">
+                                    <div class="d-flex align-items-center"><i class="bx bx-like"></i><span>{!! session()->get('success') !!}</span></div>
+                                </div>
+                            @endif
 
-            @include('meters.include.meter_approve')
+                            @csrf
+                            @if(!$isCreate)
+                                @method('PUT')
+                            @endif
 
+                            <ul class="nav nav-tabs" role="tablist">
+                                <li class="nav-item">
+                                    <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" aria-controls="home" role="tab"
+                                       aria-selected="true">
+                                        <i class="bx bx-home align-middle"></i>
+                                        <span class="align-middle">แผนกบริการลูกค้า</span>
+                                    </a>
+                                </li>
+                                @if(!$isCreate)
+                                    <li class="nav-item">
+                                        <a class="nav-link" id="profile-tab" data-toggle="tab" href="#profile" aria-controls="profile" role="tab"
+                                           aria-selected="false">
+                                            <i class="bx bx-user align-middle"></i>
+                                            <span class="align-middle">ขออนุมัติ</span>
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" id="about-tab" data-toggle="tab" href="#about" aria-controls="about" role="tab"
+                                           aria-selected="false">
+                                            <i class="bx bx-message-square align-middle"></i>
+                                            <span class="align-middle">แจ้งค่าใช้จ่าย</span>
+                                        </a>
+                                    </li>
+                                @endif
+                            </ul>
+                            <div class="tab-content">
+                                <div class="tab-pane active" id="home" aria-labelledby="home-tab" role="tabpanel">
+                                    @include('meters.include.service_department')
+                                </div>
+                                @if(!$isCreate)
+                                    <div class="tab-pane" id="profile" aria-labelledby="profile-tab" role="tabpanel">
+                                        @include('meters.include.meter_approve')
+                                    </div>
+                                    <div class="tab-pane" id="about" aria-labelledby="about-tab" role="tabpanel">
+                                        @include('meters.include.payment')
+                                    </div>
+                                @endif
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            @if(!$isCreate)
+                @if($meter->job_status_id >= 4)
+                    <div class="wizard">
+                        <div class="steps clearfix">
+                            <ul role="tablist">
+                                @foreach($job_status_report as $key => $value)
+                                    @if ($value['payment'] === true)
+                                        <li role="tab"
+                                            class="{{ ($value['id'] === 4)? 'first' : '' }} {{ ($value['id'] === 5)? 'last' : '' }} {{ ($value['avg'] > $value['standard_days'])? 'overdue' : '' }} {{ ($is_current = ($meter->job_status_id === $value['id']))? 'current' : '' }} {{ ($is_pass = ($meter->job_status_id > $value['id']))? 'done' : '' }} {{ (!$is_current && !$is_pass)? 'disabled' : '' }}"
+                                            aria-disabled="{{ ($meter->job_status_id >= $value['id'])? 'false' : 'true' }}"
+                                            aria-selected="{{ ($meter->job_status_id >= $value['id'])? 'true' : 'false' }}"
+                                        >
+                                            <a id="steps-uid-3-t-{{ $value['id'] }}"
+                                               href="#steps-uid-3-h-{{ $value['id'] }}"
+                                               aria-controls="steps-uid-3-p-{{ $value['id'] }}"
+                                            >
+                                                <span class="step"><i class="@if ($is_current) step-icon bx bx-time-five @elseif($meter->job_status_id > $value['id']) step-icon bx-check-circle bx @else step-icon @endif"></i></span>
+                                                <span>{{ __('meter.job_status.' . $key) }} {{ $value['avg'] }} วัน</span>
+                                            </a>
+                                        </li>
+                                    @endif
+                                @endforeach
+                            </ul>
+                        </div>
+                    </div>
+                @endif
+            @endif
         </form>
     </section>
     <!-- Basic Horizontal form layout section end -->
