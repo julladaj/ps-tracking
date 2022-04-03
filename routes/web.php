@@ -38,3 +38,5 @@ Route::group(['prefix' => 'dashboard'], function () {
 });
 
 Route::resource('users', UsersController::class);
+
+Route::get('pdf/{meter}', [\App\Http\Controllers\PDFController::class, 'show'])->name('meter-pdf');
