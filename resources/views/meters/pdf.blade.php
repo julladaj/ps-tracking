@@ -277,9 +277,9 @@
             <td colspan="1"></td>
             <td colspan="11">
                 <span>2.1 แผนกแรงสูง ระบบ</span>
-                <span class="m-0 pl-5 pr-5 red bx-border-bottom"> {{ $meter_extra['high_voltage_phase'] }} </span>
+                <span class="m-0 pl-5 pr-5 red bx-border-bottom"> {{ $meter_extra['high_voltage_phase']?? 1 }} </span>
                 <span>เฟส แรงดัน</span>
-                <span class="m-0 pl-5 pr-5 red bx-border-bottom"> {{ $meter_extra['high_voltage'] }} </span>
+                <span class="m-0 pl-5 pr-5 red bx-border-bottom"> {{ $meter_extra['high_voltage']?? '-' }} </span>
                 <span>เควี. ปักเสา คอร. ขนาด</span>
                 <span class="m-0 pl-5 pr-5 red bx-border-bottom"> - </span>
                 <span>เมตร จำนวน</span>
