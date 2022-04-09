@@ -97,12 +97,24 @@
             white-space: nowrap;
         }
 
+        .text-right {
+            text-align: right;
+        }
+
         input {
             width: 13px;
             height: 13px;
             padding: 0;
             margin: 0;
             vertical-align: middle;
+        }
+
+        table {
+            width: 100%;
+        }
+
+        .table_price td, .table_price th {
+            padding: 0 5px;
         }
 
         .pl-5 {
@@ -134,7 +146,7 @@
 
 <!-- Wrap the content of your PDF inside a main tag -->
 <main>
-    <table border="0" cellpadding="2" cellspacing="0">
+    <table border="0" cellpadding="2" cellspacing="0" class="page-break">
         <tr>
             <td colspan="1">จาก</td>
             <td colspan="5">ผบค.กฟอ.หางดง</td>
@@ -381,6 +393,61 @@
                 <span>ชุด</span>
             </td>
         </tr>
+    </table>
+
+    <table border="1" cellpadding="2" cellspacing="0" class="table_price">
+        <thead>
+        <tr>
+            <th>ชื่อประเภทงาน</th>
+            <th class="text-right">กฟภ. ลงทุน (บาท)</th>
+            <th class="text-right">ทำการ (บาท)</th>
+            <th class="text-right">ผู้ใช้ไฟ (บาท)</th>
+            <th class="text-right">รวมทั้งสิ้น (บาท)</th>
+        </tr>
+        </thead>
+        <tbody>
+        @php($i = 1)
+        @php($vat_rate = 7)
+        @php($sum_net_pea_invest = 0)
+        @php($sum_net_action = 0)
+        @php($sum_net_customer = 0)
+        @php($sum_net_summary = 0)
+        @foreach(__('payment_type') as $row)
+            <tr>
+                <td>{!! $row !!}</td>
+                <td class="text-right">@if ($payment_manual_net_pea_invest = ($meter_extra['payment_manual_pea_invest_'.$i]?? 0)) {{ number_format($payment_manual_net_pea_invest, 2) }} @endif</td>
+                <td class="text-right">@if ($payment_manual_net_action = ($meter_extra['payment_manual_action_'.$i]?? 0)) {{ number_format($payment_manual_net_action, 2) }} @endif</td>
+                <td class="text-right">@if ($payment_manual_net_customer = ($meter_extra['payment_manual_customer_'.$i]?? 0)) {{ number_format($payment_manual_net_customer, 2) }} @endif</td>
+                <td class="text-right">@if ($payment_manual_net_summary = ($payment_manual_net_pea_invest + $payment_manual_net_action + $payment_manual_net_customer)) {{ number_format($payment_manual_net_summary, 2) }} @endif</td>
+            </tr>
+            @php($i++)
+            @php($sum_net_pea_invest += $payment_manual_net_pea_invest)
+            @php($sum_net_action += $payment_manual_net_action)
+            @php($sum_net_customer += $payment_manual_net_customer)
+            @php($sum_net_summary += $payment_manual_net_summary)
+        @endforeach
+        <tr style="font-weight: bold;">
+            <td>รวมเงินลงทุนทั้งหมด</td>
+            <td class="text-right">{{ number_format($sum_net_pea_invest, 2) }}</td>
+            <td class="text-right">{{ number_format($sum_net_action, 2) }}</td>
+            <td class="text-right">{{ number_format($sum_net_customer, 2) }}</td>
+            <td class="text-right">{{ number_format($sum_net_summary, 2) }}</td>
+        </tr>
+        <tr style="font-weight: bold;">
+            <td>ภาษีมูลค่าเพิ่ม {{ $vat_rate }}%</td>
+            <td class="text-right">{{ number_format($tax_net_pea_invest = $sum_net_pea_invest * $vat_rate / 100, 2) }}</td>
+            <td class="text-right">{{ number_format($tax_net_action = $sum_net_action * $vat_rate / 100, 2) }}</td>
+            <td class="text-right">{{ number_format($tax_net_customer = $sum_net_customer * $vat_rate / 100, 2) }}</td>
+            <td class="text-right">{{ number_format($tax_net_summary = $sum_net_summary * $vat_rate / 100, 2) }}</td>
+        </tr>
+        <tr style="font-weight: bold;">
+            <td>รวมเป็นเงินทั้งสิ้น (รวมภาษีมูลค่าเพิ่มแล้ว)</td>
+            <td class="text-right">{{ number_format($sum_net_pea_invest + $tax_net_pea_invest, 2) }}</td>
+            <td class="text-right">{{ number_format($sum_net_action + $tax_net_action, 2) }}</td>
+            <td class="text-right">{{ number_format($sum_net_customer + $tax_net_customer, 2) }}</td>
+            <td class="text-right">{{ number_format($sum_net_summary + $tax_net_summary, 2) }}</td>
+        </tr>
+        </tbody>
     </table>
 </main>
 </body>

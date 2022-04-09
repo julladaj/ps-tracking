@@ -15,11 +15,11 @@
         @foreach(__('payment_type') as $row)
             <tr>
                 <td>{!! $row !!}</td>
-                <td><input type="number" class="form-control text-right" name="meter_extra[payment_manual_pea_invest_{{ ++$i }}]" placeholder="บาท"
+                <td><input type="number" class="form-control text-right" name="meter_extra[payment_manual_pea_invest_{{ ++$i }}]" placeholder="บาท" step="0.01"
                            payment_manual="{{ $i }}" value="{{ $meter_extra['payment_manual_pea_invest_'.$i]?? old('meter_extra.payment_manual_pea_invest_'.$i, 0) }}"></td>
-                <td><input type="number" class="form-control text-right" name="meter_extra[payment_manual_action_{{ $i }}]" placeholder="บาท"
+                <td><input type="number" class="form-control text-right" name="meter_extra[payment_manual_action_{{ $i }}]" placeholder="บาท" step="0.01"
                            payment_manual="{{ $i }}" value="{{ $meter_extra['payment_manual_action_'.$i]?? old('meter_extra.payment_manual_action_'.$i, 0) }}"></td>
-                <td><input type="number" class="form-control text-right" name="meter_extra[payment_manual_customer_{{ $i }}]" placeholder="บาท"
+                <td><input type="number" class="form-control text-right" name="meter_extra[payment_manual_customer_{{ $i }}]" placeholder="บาท" step="0.01"
                            payment_manual="{{ $i }}" value="{{ $meter_extra['payment_manual_customer_'.$i]?? old('meter_extra.payment_manual_customer_'.$i, 0) }}"></td>
                 <td><input type="number" class="form-control text-right" name="meter_extra[payment_manual_summary_{{ $i }}]" placeholder="บาท" readonly
                            payment_manual_id="{{ $i }}" value="{{ $meter_extra['payment_manual_summary_'.$i]?? old('meter_extra.payment_manual_summary_'.$i, 0) }}"></td>
@@ -27,24 +27,24 @@
         @endforeach
         <tr style="font-weight: bold;">
             <td>รวมเงินลงทุนทั้งหมด</td>
-            <td class="text-right"><input type="number" id="net_pea_invest" class="form-control text-right" value="0" readonly></td>
-            <td class="text-right"><input type="number" id="net_action" class="form-control text-right" value="0" readonly></td>
-            <td class="text-right"><input type="number" id="net_customer" class="form-control text-right" value="0" readonly></td>
-            <td class="text-right"><input type="number" id="net_summary" class="form-control text-right" value="0" readonly></td>
+            <td class="text-right"><input type="number" id="payment_manual_net_pea_invest" class="form-control text-right" value="0" readonly></td>
+            <td class="text-right"><input type="number" id="payment_manual_net_action" class="form-control text-right" value="0" readonly></td>
+            <td class="text-right"><input type="number" id="payment_manual_net_customer" class="form-control text-right" value="0" readonly></td>
+            <td class="text-right"><input type="number" id="payment_manual_net_summary" class="form-control text-right" value="0" readonly></td>
         </tr>
         <tr style="font-weight: bold;">
             <td>ภาษีมูลค่าเพิ่ม {{ $vat_rate }}%</td>
-            <td class="text-right"><input type="number" id="tax_pea_invest" class="form-control text-right" value="0" readonly></td>
-            <td class="text-right"><input type="number" id="tax_action" class="form-control text-right" value="0" readonly></td>
-            <td class="text-right"><input type="number" id="tax_customer" class="form-control text-right" value="0" readonly></td>
-            <td class="text-right"><input type="number" id="tax_summary" class="form-control text-right" value="0" readonly></td>
+            <td class="text-right"><input type="number" id="payment_manual_tax_pea_invest" class="form-control text-right" value="0" readonly></td>
+            <td class="text-right"><input type="number" id="payment_manual_tax_action" class="form-control text-right" value="0" readonly></td>
+            <td class="text-right"><input type="number" id="payment_manual_tax_customer" class="form-control text-right" value="0" readonly></td>
+            <td class="text-right"><input type="number" id="payment_manual_tax_summary" class="form-control text-right" value="0" readonly></td>
         </tr>
         <tr style="font-weight: bold;">
-            <td>รวมเป็นเงินทั้งสิ้น (รวมภาษีทูลค่าเพิ่มแล้ว)</td>
-            <td class="text-right"><input type="number" id="gross_pea_invest" class="form-control text-right" value="0" readonly></td>
-            <td class="text-right"><input type="number" id="gross_action" class="form-control text-right" value="0" readonly></td>
-            <td class="text-right"><input type="number" id="gross_customer" class="form-control text-right" value="0" readonly></td>
-            <td class="text-right"><input type="number" id="gross_summary" class="form-control text-right" value="0" readonly></td>
+            <td>รวมเป็นเงินทั้งสิ้น (รวมภาษีมูลค่าเพิ่มแล้ว)</td>
+            <td class="text-right"><input type="number" id="payment_manual_gross_pea_invest" class="form-control text-right" value="0" readonly></td>
+            <td class="text-right"><input type="number" id="payment_manual_gross_action" class="form-control text-right" value="0" readonly></td>
+            <td class="text-right"><input type="number" id="payment_manual_gross_customer" class="form-control text-right" value="0" readonly></td>
+            <td class="text-right"><input type="number" id="payment_manual_gross_summary" class="form-control text-right" value="0" readonly></td>
         </tr>
         </tbody>
     </table>
@@ -121,21 +121,22 @@
                 tax_customer = net_customer * vat_rate / 100;
                 tax_summary = net_summary * vat_rate / 100;
 
-                $('#net_pea_invest').val(net_pea_invest.toFixed(2));
-                $('#tax_pea_invest').val(tax_pea_invest.toFixed(2));
-                $('#gross_pea_invest').val((net_pea_invest + tax_pea_invest).toFixed(2));
+                $('#payment_manual_net_pea_invest').val(net_pea_invest.toFixed(2));
+                $('#payment_manual_tax_pea_invest').val(tax_pea_invest.toFixed(2));
+                $('#payment_manual_gross_pea_invest').val((net_pea_invest + tax_pea_invest).toFixed(2));
 
-                $('#net_action').val(net_action.toFixed(2));
-                $('#tax_action').val(tax_action.toFixed(2));
-                $('#gross_action').val((net_action + tax_action).toFixed(2));
+                $('#payment_manual_net_action').val(net_action.toFixed(2));
+                $('#payment_manual_tax_action').val(tax_action.toFixed(2));
+                $('#payment_manual_gross_action').val((net_action + tax_action).toFixed(2));
 
-                $('#net_customer').val(net_customer.toFixed(2));
-                $('#tax_customer').val(tax_customer.toFixed(2));
-                $('#gross_customer').val((net_customer + tax_customer).toFixed(2));
+                $('#payment_manual_net_customer').val(net_customer.toFixed(2));
+                $('#payment_manual_tax_customer').val(tax_customer.toFixed(2));
+                $('#payment_manual_gross_customer').val((net_customer + tax_customer).toFixed(2));
+                $('input[name="meters[payment_request]"]').val((net_customer + tax_customer).toFixed(2));
 
-                $('#net_summary').val(net_summary.toFixed(2));
-                $('#tax_summary').val(tax_summary.toFixed(2));
-                $('#gross_summary').val((net_summary + tax_summary).toFixed(2));
+                $('#payment_manual_net_summary').val(net_summary.toFixed(2));
+                $('#payment_manual_tax_summary').val(tax_summary.toFixed(2));
+                $('#payment_manual_gross_summary').val((net_summary + tax_summary).toFixed(2));
             }
 
             payment_manual_calculate_summary();

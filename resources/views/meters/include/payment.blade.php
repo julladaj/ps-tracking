@@ -19,7 +19,7 @@
                             </div>
                         </div>
                     </div>
-                    <input type="number" class="form-control" name="meters[payment_request]" placeholder="เรียกเก็บจากผู้ใช้ไฟ" aria-describedby="payment_request"
+                    <input type="number" class="form-control" name="meters[payment_request]" placeholder="เรียกเก็บจากผู้ใช้ไฟ" aria-describedby="payment_request" step="0.01"
                            value="{{ $meter->payment_request?? old('meters.payment_request') }}">
                     <div class="input-group-append">
                         <span class="input-group-text" id="payment_request">บาท</span>
