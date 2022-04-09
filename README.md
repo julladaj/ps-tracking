@@ -15,6 +15,9 @@ composer require kyslik/column-sortable
 composer require doctrine/dbal
 ```
 ```sh
+composer require barryvdh/laravel-dompdf
+```
+```sh
 php artisan migrate
 ```
 ```sh

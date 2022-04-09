@@ -40,7 +40,7 @@
 
         /** Define the margins of your page **/
         @page {
-            margin: 150px 50px 50px 50px ;
+            margin: 50px 50px 50px 50px ;
         }
 
         header {
@@ -100,6 +100,9 @@
         .text-right {
             text-align: right;
         }
+        .text-center {
+            text-align: center;
+        }
 
         input {
             width: 13px;
@@ -113,8 +116,18 @@
             width: 100%;
         }
 
+        .table_price {
+            line-height: 1;
+            border-collapse: collapse;
+            border-spacing: 0;
+            margin-top: 20px;
+        }
+
         .table_price td, .table_price th {
             padding: 0 5px;
+            /*padding: 0;*/
+            margin: 0;
+            font-size: 12pt;
         }
 
         .pl-5 {
@@ -140,13 +153,25 @@
 </head>
 <body>
 <!-- Define header and footer blocks before your content -->
-<header>
-    <img style="width: 120px;" src="{{ public_path('images/logo/pea_logo.png') }}">
-</header>
-
 <!-- Wrap the content of your PDF inside a main tag -->
 <main>
-    <table border="0" cellpadding="2" cellspacing="0" class="page-break">
+    <img style="width: 120px;" src="{{ public_path('images/logo/pea_logo.png') }}">
+    <script type="text/php">
+    if ( isset($pdf) ) {
+        $w = $pdf->get_width();
+        $h = $pdf->get_height();
+
+        $size = 14;
+        $color = array(0,0,0);
+        $font = $fontMetrics->getFont("THSarabunNew");
+        $font_bold = $fontMetrics->getFont("THSarabunNew", "bold");
+        $text_height = $fontMetrics->getFontHeight($font, $size);
+        $y = $h - 2 * $text_height - 24;
+
+        $pdf->text(480, $y, "/3. ส่วนของผู้ใช้ไฟ...", $font, $size, $color);
+    }
+    </script>
+    <table border="0" cellpadding="2" cellspacing="0">
         <tr>
             <td colspan="1">จาก</td>
             <td colspan="5">ผบค.กฟอ.หางดง</td>
@@ -380,7 +405,7 @@
                 <span>เมตร</span>
             </td>
         </tr>
-        <tr>
+        <tr class="page-break">
             <td colspan="1"></td>
             <td colspan="11">
                 <span>ติดตั้ง ชุดโคมไฟ ขนาด</span>
@@ -393,9 +418,68 @@
                 <span>ชุด</span>
             </td>
         </tr>
+        <tr>
+            <td colspan="12">
+                <b>3. ส่วนของผู้ใช้ไฟดำเนินการเอง</b>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="1"></td>
+            <td colspan="11">
+                <span>3.1 แผนกแรงสูง ระบบ</span>
+                <span class="m-0 pl-5 pr-5 red bx-border-bottom"> - </span>
+                <span>เฟส แรงดัน</span>
+                <span class="m-0 pl-5 pr-5 red bx-border-bottom"> - </span>
+                <span>เควี. ปักเสา คอร. ขนาด</span>
+                <span class="m-0 pl-5 pr-5 red bx-border-bottom"> - </span>
+                <span>เมตร จำนวน</span>
+                <span class="m-0 pl-5 pr-5 red bx-border-bottom"> - </span>
+                <span>ต้น</span>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="1"></td>
+            <td colspan="11">
+                <span>พาดสายแรงสูง ด้วยสาย</span>
+                <span class="m-0 pl-5 pr-5 red bx-border-bottom"> - </span>
+                <span>ขนาด</span>
+                <span class="m-0 pl-5 pr-5 red bx-border-bottom"> - </span>
+                <span>ตร. มม. ระยะทาง</span>
+                <span class="m-0 pl-5 pr-5 red bx-border-bottom"> - </span>
+                <span>เมตร</span>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="1"></td>
+            <td colspan="11">
+                <span>3.2 แผนกหม้อแปลงติดตั้งใหม่</span>
+                <span class="m-0 pl-5 pr-5 red bx-border-bottom"> - </span>
+                <span>เควีเอ. ระบบ</span>
+                <span class="m-0 pl-5 pr-5 red bx-border-bottom"> - </span>
+                <span>เฟส จำนวน</span>
+                <span class="m-0 pl-5 pr-5 red bx-border-bottom"> - </span>
+                <span>เครื่อง</span>
+            </td>
+        </tr>
     </table>
 
-    <table border="1" cellpadding="2" cellspacing="0" class="table_price">
+    <script type="text/php">
+    if ( isset($pdf) ) {
+        $w = $pdf->get_width();
+        $h = $pdf->get_height();
+
+        $size = 14;
+        $color = array(0,0,0);
+        $font = $fontMetrics->getFont("THSarabunNew");
+        $font_bold = $fontMetrics->getFont("THSarabunNew", "bold");
+        $text_height = $fontMetrics->getFontHeight($font, $size);
+        $y = $h - 2 * $text_height - 24;
+
+        $pdf->text(500, $y, "/5. ทรัพย์สิน...", $font, $size, $color);
+    }
+    </script>
+
+    <table border="1" cellpadding="0" cellspacing="0" class="table_price page-break">
         <thead>
         <tr>
             <th>ชื่อประเภทงาน</th>
@@ -448,6 +532,122 @@
             <td class="text-right">{{ number_format($sum_net_summary + $tax_net_summary, 2) }}</td>
         </tr>
         </tbody>
+    </table>
+
+    <table border="0" cellpadding="2" cellspacing="0">
+        <tr>
+            <td colspan="12">
+                <p>
+                    <span>ในการดำเนินการดังกล่าว ให้เรียกเก็บเงินจาก</span>
+                    <span class="m-0 pl-5 pr-5 red bx-border-bottom"> ผชฟ. </span>
+                    <span>เป็นจำนวนเงิน</span>
+                    <span class="m-0 pl-5 pr-5 red bx-border-bottom"> 5,718.76 </span>
+                    <span>บาท กำหนดยืนราคาภายใน</span>
+                    <span class="m-0 pl-5 pr-5 red bx-border-bottom"> 3 </span>
+                    <span>เดือน ส่วนค่าธรรมเนียมต่างๆ ให้เรียกเก็บตามระเบียบ กฟภ.</span>
+                </p>
+                <p>
+                    <span>ผู้ใช้ไฟได้</span>
+                    <span class="m-0 pl-5 pr-5 red bx-border-bottom">ชำระค่าสำรวจออกแบบและจัดทำแผนผังประมาณการ/ค่าตรวจสอบแบบและแผนผัง</span>
+                    <span>ตามคำสั่งที่ {{ $meter->document_number }} ลว. {{ buddhismDate($meter->document_date) }} เป็นเงิน</span>
+                    <span class="m-0 pl-5 pr-5 red bx-border-bottom"> - </span>
+                    <span>บาท <b>(ใบเสร็จรับเงินเลขที่</b></span>
+                    <span class="m-0 pl-5 pr-5 red bx-border-bottom"> - </span>
+                    <span><b>)</b></span>
+                </p>
+                <p>
+                    <span>ดังนั้น ขอให้ผู้ใช้ไฟจะต้องชำระค่าใช้จ่ายในการดำเนินการตามข้อ <b>4</b> คงเหลือเป็นเงิน</span>
+                    <span class="m-0 pl-5 pr-5 red bx-border-bottom"> 5,718.76 </span>
+                    <span>บาท <b>(</b></span>
+                    <span class="m-0 pl-5 pr-5 red bx-border-bottom"> - </span>
+                    <span><b>)</b> (รวมภาษีมูลค่าเพิ่มแล้ว)</span>
+                </p>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="12">
+                <b>5. ทรัพย์สิน</b>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="12">
+                <p>
+                    <span>เมื่อดำเนินการแล้วเสร็จ ระบบไฟฟ้าในที่สาธารณะและเครื่องวัดพร้อมอุปกรณ์ประกอบเป็นทรัพย์สินของ กฟภ. ยกเว้น สายดับ กิ่งโคมไฟ และ/หรือระบบไฟฟ้าในเขตที่ดินของผู้ใช้ไฟ เป็นทรัพย์สินของผู้ใช้ไฟ</span>
+                </p>
+                <p>
+                    <span>จึงเรียนมาเพื่อโปรดพิจารณาอนุมัติ พร้อมนี้ได้แนบแผนผังเลขที่</span>
+                    <span class="m-0 pl-5 pr-5 red bx-border-bottom"> PB30 017/650038 </span>
+                    <span>จำนวน</span>
+                    <span class="m-0 pl-5 pr-5 red bx-border-bottom"> 1 </span>
+                    <span>แผ่น ประมาณการค่าใช้จ่ายหน้างาน และเรื่องเดิมมาเพื่อประกอบการพิจารณาด้วยแล้ว</span>
+                </p>
+            </td>
+        </tr>
+
+    </table>
+
+    <table border="0" cellpadding="2" cellspacing="0" style="margin-top: 50px; table-layout:fixed;">
+        <tr>
+            <td colspan="2" class="text-center"><b>ผู้เสนอขออนุมัติ</b></td>
+            <td colspan="3" class="text-center">(นายพูนศักดิ์  ดวงใจ)</td>
+            <td></td>
+            <td colspan="2" class="text-center"><b>ผู้อนุมัติ</b></td>
+            <td colspan="3" class="text-center">(นายบุญยัง  สังบัวแก้ว)</td>
+            <td></td>
+        </tr>
+        <tr>
+            <td colspan="2"></td>
+            <td colspan="3" class="text-center">หผ.บค.กฟอ.หางดง</td>
+            <td></td>
+            <td colspan="2"></td>
+            <td colspan="3" class="text-center">ผจก.กฟอ.หางดง</td>
+            <td></td>
+        </tr>
+    </table>
+
+    <table border="0" cellpadding="2" cellspacing="0" style="margin-top: 50px; table-layout:fixed;">
+        <tr>
+            <td colspan="2"></td>
+            <td colspan="3" class="text-center">(นายเทพฤทธิ์  แบ่งทิศ)</td>
+            <td></td>
+            <td colspan="2"></td>
+            <td colspan="3" class="text-center">(นายธาตรี  ศรีบุญเรือง)</td>
+            <td></td>
+        </tr>
+        <tr>
+            <td colspan="2"></td>
+            <td colspan="3" class="text-center">วศก.6 รักษาการแทน</td>
+            <td></td>
+            <td colspan="2"></td>
+            <td colspan="3" class="text-center">รจก.(ท) รักษาการแทน</td>
+            <td></td>
+        </tr>
+        <tr>
+            <td colspan="2"></td>
+            <td colspan="3" class="text-center">หผ.บค.กฟอ.หางดง</td>
+            <td></td>
+            <td colspan="2"></td>
+            <td colspan="3" class="text-center">ผจก.กฟอ.หางดง</td>
+            <td></td>
+        </tr>
+    </table>
+
+    <table border="0" cellpadding="2" cellspacing="0" style="margin-top: 50px; table-layout:fixed;">
+        <tr>
+            <td colspan="8"></td>
+            <td colspan="3" class="text-center">(นางสาวกัญฐณา  ภูวกุล)</td>
+            <td></td>
+        </tr>
+        <tr>
+            <td colspan="8"></td>
+            <td colspan="3" class="text-center">ชจก.(บ) รักษาการแทน</td>
+            <td></td>
+        </tr>
+        <tr>
+            <td colspan="8"></td>
+            <td colspan="3" class="text-center">ผจก.กฟอ.หางดง</td>
+            <td></td>
+        </tr>
     </table>
 </main>
 </body>
