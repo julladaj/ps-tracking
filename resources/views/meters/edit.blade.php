@@ -126,7 +126,7 @@
 
                             <ul class="nav nav-tabs" role="tablist">
                                 <li class="nav-item">
-                                    <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" aria-controls="home" role="tab"
+                                    <a class="nav-link active" id="home-tab" data-toggle="tab" href="#service_department_tab" aria-controls="service_department_tab" role="tab"
                                        aria-selected="true">
                                         <i class="bx bx-home align-middle"></i>
                                         <span class="align-middle">แผนกบริการลูกค้า</span>
@@ -134,14 +134,21 @@
                                 </li>
                                 @if(!$isCreate)
                                     <li class="nav-item">
-                                        <a class="nav-link" id="profile-tab" data-toggle="tab" href="#profile" aria-controls="profile" role="tab"
+                                        <a class="nav-link" id="profile-tab" data-toggle="tab" href="#meter_approve_tab" aria-controls="meter_approve_tab" role="tab"
                                            aria-selected="false">
                                             <i class="bx bx-user align-middle"></i>
                                             <span class="align-middle">ขออนุมัติ</span>
                                         </a>
                                     </li>
                                     <li class="nav-item">
-                                        <a class="nav-link" id="about-tab" data-toggle="tab" href="#about" aria-controls="about" role="tab"
+                                        <a class="nav-link" id="profile-tab" data-toggle="tab" href="#manual_payment_tab" aria-controls="manual_payment_tab" role="tab"
+                                           aria-selected="false">
+                                            <i class="bx bx-dollar align-middle"></i>
+                                            <span class="align-middle">ค่าใช้จ่าย</span>
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" id="about-tab" data-toggle="tab" href="#payment_tab" aria-controls="payment_tab" role="tab"
                                            aria-selected="false">
                                             <i class="bx bx-message-square align-middle"></i>
                                             <span class="align-middle">แจ้งค่าใช้จ่าย</span>
@@ -150,14 +157,17 @@
                                 @endif
                             </ul>
                             <div class="tab-content">
-                                <div class="tab-pane active" id="home" aria-labelledby="home-tab" role="tabpanel">
+                                <div class="tab-pane active" id="service_department_tab" aria-labelledby="home-tab" role="tabpanel">
                                     @include('meters.include.service_department')
                                 </div>
                                 @if(!$isCreate)
-                                    <div class="tab-pane" id="profile" aria-labelledby="profile-tab" role="tabpanel">
+                                    <div class="tab-pane" id="meter_approve_tab" aria-labelledby="profile-tab" role="tabpanel">
                                         @include('meters.include.meter_approve')
                                     </div>
-                                    <div class="tab-pane" id="about" aria-labelledby="about-tab" role="tabpanel">
+                                    <div class="tab-pane" id="manual_payment_tab" aria-labelledby="profile-tab" role="tabpanel">
+                                        @include('meters.include.payment_manual')
+                                    </div>
+                                    <div class="tab-pane" id="payment_tab" aria-labelledby="about-tab" role="tabpanel">
                                         @include('meters.include.payment')
                                     </div>
                                 @endif
