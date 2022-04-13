@@ -589,72 +589,35 @@
                 </p>
             </td>
         </tr>
-
     </table>
 
-    <table border="0" cellpadding="2" cellspacing="0" style="margin-top: 50px; table-layout:fixed;">
+    <table border="0" cellpadding="2" cellspacing="0" style="margin-top: 150px; table-layout:fixed;">
         <tr>
-            <td colspan="2" class="text-center"><b>ผู้เสนอขออนุมัติ</b></td>
-            <td colspan="3" class="text-center">(นายพูนศักดิ์  ดวงใจ)</td>
+            <td colspan="2">@if($request_approval_user = $meter->request_approval_user) <b>ผู้เสนอขออนุมัติ</b> @endif</td>
+            <td colspan="3" class="text-center">@if($request_approval_user) ({{ $request_approval_user->name }}) @endif</td>
             <td></td>
-            <td colspan="2" class="text-center"><b>ผู้อนุมัติ</b></td>
-            <td colspan="3" class="text-center">(นายบุญยัง  สังบัวแก้ว)</td>
+            <td colspan="2">@if($approval_user = $meter->approval_user) <b>ผู้อนุมัติ</b> @endif</td>
+            <td colspan="3" class="text-center">@if($approval_user) ({{ $approval_user->name }}) @endif</td>
             <td></td>
         </tr>
         <tr>
             <td colspan="2"></td>
-            <td colspan="3" class="text-center">หผ.บค.กฟอ.หางดง</td>
+            <td colspan="3" class="text-center">@if($request_approval_user) {{ $request_approval_user->job_title }} @endif</td>
             <td></td>
             <td colspan="2"></td>
-            <td colspan="3" class="text-center">ผจก.กฟอ.หางดง</td>
-            <td></td>
-        </tr>
-    </table>
-
-    <table border="0" cellpadding="2" cellspacing="0" style="margin-top: 50px; table-layout:fixed;">
-        <tr>
-            <td colspan="2"></td>
-            <td colspan="3" class="text-center">(นายเทพฤทธิ์  แบ่งทิศ)</td>
-            <td></td>
-            <td colspan="2"></td>
-            <td colspan="3" class="text-center">(นายธาตรี  ศรีบุญเรือง)</td>
+            <td colspan="3" class="text-center">@if($approval_user) {{ $approval_user->job_title }} @endif</td>
             <td></td>
         </tr>
         <tr>
             <td colspan="2"></td>
-            <td colspan="3" class="text-center">วศก.6 รักษาการแทน</td>
+            <td colspan="3" class="text-center">@if($request_approval_user) {{ $request_approval_user->position }} @endif</td>
             <td></td>
             <td colspan="2"></td>
-            <td colspan="3" class="text-center">รจก.(ท) รักษาการแทน</td>
-            <td></td>
-        </tr>
-        <tr>
-            <td colspan="2"></td>
-            <td colspan="3" class="text-center">หผ.บค.กฟอ.หางดง</td>
-            <td></td>
-            <td colspan="2"></td>
-            <td colspan="3" class="text-center">ผจก.กฟอ.หางดง</td>
+            <td colspan="3" class="text-center">@if($approval_user) {{ $approval_user->position }} @endif</td>
             <td></td>
         </tr>
     </table>
 
-    <table border="0" cellpadding="2" cellspacing="0" style="margin-top: 50px; table-layout:fixed;">
-        <tr>
-            <td colspan="8"></td>
-            <td colspan="3" class="text-center">(นางสาวกัญฐณา  ภูวกุล)</td>
-            <td></td>
-        </tr>
-        <tr>
-            <td colspan="8"></td>
-            <td colspan="3" class="text-center">ชจก.(บ) รักษาการแทน</td>
-            <td></td>
-        </tr>
-        <tr>
-            <td colspan="8"></td>
-            <td colspan="3" class="text-center">ผจก.กฟอ.หางดง</td>
-            <td></td>
-        </tr>
-    </table>
 </main>
 </body>
 </html>

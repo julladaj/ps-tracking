@@ -43,6 +43,16 @@ class Meters extends Model
         return $this->hasOne(PeaStaffs::class, 'id', 'survey_user_id');
     }
 
+    public function request_approval_user()
+    {
+        return $this->hasOne(PeaStaffs::class, 'id', 'request_approve_user_id');
+    }
+
+    public function approval_user()
+    {
+        return $this->hasOne(PeaStaffs::class, 'id', 'approve_user_id');
+    }
+
     public function electric_expand()
     {
         return $this->hasOne(ElectricExpands::class, 'id', 'electric_expand_id');
