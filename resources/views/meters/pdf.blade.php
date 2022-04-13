@@ -497,18 +497,24 @@
         @php($sum_net_customer = 0)
         @php($sum_net_summary = 0)
         @foreach(__('payment_type') as $row)
+            @php($payment_manual_net_pea_invest = ($meter_extra['payment_manual_pea_invest_'.$i]?? 0))
+            @php($payment_manual_net_action = ($meter_extra['payment_manual_action_'.$i]?? 0))
+            @php($payment_manual_net_customer = ($meter_extra['payment_manual_customer_'.$i]?? 0))
+            @if($payment_manual_net_summary = ($payment_manual_net_pea_invest + $payment_manual_net_action + $payment_manual_net_customer))
             <tr>
                 <td>{!! $row !!}</td>
-                <td class="text-right">@if ($payment_manual_net_pea_invest = ($meter_extra['payment_manual_pea_invest_'.$i]?? 0)) {{ number_format($payment_manual_net_pea_invest, 2) }} @endif</td>
-                <td class="text-right">@if ($payment_manual_net_action = ($meter_extra['payment_manual_action_'.$i]?? 0)) {{ number_format($payment_manual_net_action, 2) }} @endif</td>
-                <td class="text-right">@if ($payment_manual_net_customer = ($meter_extra['payment_manual_customer_'.$i]?? 0)) {{ number_format($payment_manual_net_customer, 2) }} @endif</td>
-                <td class="text-right">@if ($payment_manual_net_summary = ($payment_manual_net_pea_invest + $payment_manual_net_action + $payment_manual_net_customer)) {{ number_format($payment_manual_net_summary, 2) }} @endif</td>
+                <td class="text-right">@if ($payment_manual_net_pea_invest) {{ number_format($payment_manual_net_pea_invest, 2) }} @endif</td>
+                <td class="text-right">@if ($payment_manual_net_action) {{ number_format($payment_manual_net_action, 2) }} @endif</td>
+                <td class="text-right">@if ($payment_manual_net_customer) {{ number_format($payment_manual_net_customer, 2) }} @endif</td>
+                <td class="text-right">@if ($payment_manual_net_summary) {{ number_format($payment_manual_net_summary, 2) }} @endif</td>
             </tr>
-            @php($i++)
+            @endif
+
             @php($sum_net_pea_invest += $payment_manual_net_pea_invest)
             @php($sum_net_action += $payment_manual_net_action)
             @php($sum_net_customer += $payment_manual_net_customer)
             @php($sum_net_summary += $payment_manual_net_summary)
+            @php($i++)
         @endforeach
         <tr style="font-weight: bold;">
             <td>รวมเงินลงทุนทั้งหมด</td>
