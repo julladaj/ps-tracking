@@ -3,7 +3,11 @@
         @forelse($meter->meter_extra_groups('low_voltage_pole') as $data)
             <div class="row mt-1" data-repeater-item>
                 <div class="col-md-2 text-right vertical-middle">
-                    <code><i class="cursor-pointer bx bx-map text-muted align-middle"></i> รื้อถอน/ปักเสา</code> <label>คอร. ขนาด</label>
+                    <select class="form-control inline-fit" name="job_type">
+                        <option value="รื้อถอน" {{ ((isset($data['job_type']) && $data['job_type'] === 'รื้อถอน'))? 'selected':'' }}>รื้อถอน</option>
+                        <option value="ปักเสา" {{ ((isset($data['job_type']) && $data['job_type'] === 'ปักเสา'))? 'selected':'' }}>ปักเสา</option>
+                    </select>
+                    <label>คอร. ขนาด</label>
                 </div>
                 <div class="col-md-2 form-group vertical-middle">
                     <fieldset>
@@ -36,7 +40,11 @@
         @empty
             <div class="row mt-1" data-repeater-item>
                 <div class="col-md-2 text-right vertical-middle">
-                    <code><i class="cursor-pointer bx bx-map text-muted align-middle"></i> รื้อถอน/ปักเสา</code> <label>คอร. ขนาด</label>
+                    <select class="form-control inline-fit" name="job_type">
+                        <option value="รื้อถอน">รื้อถอน</option>
+                        <option value="ปักเสา">ปักเสา</option>
+                    </select>
+                    <label>คอร. ขนาด</label>
                 </div>
                 <div class="col-md-2 form-group vertical-middle">
                     <fieldset>

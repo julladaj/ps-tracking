@@ -266,7 +266,11 @@
     </div>
     <div class="row mt-1">
         <div class="col-md-2 text-right vertical-middle">
-            <code><i class="cursor-pointer bx bx-map text-muted align-middle"></i> รื้อถอน/พาด</code> <label>สายอลูมิเนียมหุ้มฉนวน ขนาด</label>
+            <select class="form-control inline-fit" name="meter_extra[public_light_cable_type]">
+                <option value="รื้อถอน" {{ ((isset($meter_extra['public_light_cable_type']) && $meter_extra['public_light_cable_type'] === 'รื้อถอน'))? 'selected':'' }}>รื้อถอน</option>
+                <option value="พาด" {{ ((isset($meter_extra['public_light_cable_type']) && $meter_extra['public_light_cable_type'] === 'พาด'))? 'selected':'' }}>พาด</option>
+            </select>
+            <label>สายอลูมิเนียมหุ้มฉนวน ขนาด</label>
         </div>
         <div class="col-md-2 form-group vertical-middle">
             <fieldset>
@@ -294,7 +298,11 @@
     </div>
     <div class="row mt-1">
         <div class="col-md-2 text-right vertical-middle">
-            <code><i class="cursor-pointer bx bx-map text-muted align-middle"></i> รื้อถอน/ติดตั้ง</code> <label>ชุดโคมไฟ ขนาด</label>
+            <select class="form-control inline-fit" name="meter_extra[public_light_lamp_type]">
+                <option value="รื้อถอน" {{ ((isset($meter_extra['public_light_lamp_type']) && $meter_extra['public_light_lamp_type'] === 'รื้อถอน'))? 'selected':'' }}>รื้อถอน</option>
+                <option value="ติดตั้ง" {{ ((isset($meter_extra['public_light_lamp_type']) && $meter_extra['public_light_lamp_type'] === 'ติดตั้ง'))? 'selected':'' }}>ติดตั้ง</option>
+            </select>
+            <label>ชุดโคมไฟ ขนาด</label>
         </div>
         <div class="col-md-2 form-group vertical-middle">
             <fieldset>

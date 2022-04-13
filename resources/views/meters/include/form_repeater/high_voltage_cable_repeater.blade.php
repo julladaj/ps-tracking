@@ -3,7 +3,11 @@
         @forelse($meter->meter_extra_groups('high_voltage_cable') as $data)
             <div class="row mt-1" data-repeater-item>
                 <div class="col-md-2 text-right vertical-middle">
-                    <code><i class="cursor-pointer bx bx-map text-muted align-middle"></i> รื้อถอน/พาดสาย</code> <label>แรงสูงด้วยสาย</label>
+                    <select class="form-control inline-fit" name="job_type">
+                        <option value="รื้อถอน" {{ ((isset($data['job_type']) && $data['job_type'] === 'รื้อถอน'))? 'selected':'' }}>รื้อถอน</option>
+                        <option value="พาดสาย" {{ ((isset($data['job_type']) && $data['job_type'] === 'พาดสาย'))? 'selected':'' }}>พาดสาย</option>
+                    </select>
+                    <label>แรงสูงด้วยสาย</label>
                 </div>
                 <div class="col-md-6 form-group vertical-middle">
                     <input type="text" class="form-control" name="cable_type" placeholder="สาย" value="{{ $data['cable_type']?? '' }}">
@@ -44,7 +48,11 @@
         @empty
             <div class="row mt-1" data-repeater-item>
                 <div class="col-md-2 text-right vertical-middle">
-                    <code><i class="cursor-pointer bx bx-map text-muted align-middle"></i> รื้อถอน/พาดสาย</code> <label>แรงสูงด้วยสาย</label>
+                    <select class="form-control inline-fit" name="job_type">
+                        <option value="รื้อถอน">รื้อถอน</option>
+                        <option value="พาดสาย">พาดสาย</option>
+                    </select>
+                    <label>แรงสูงด้วยสาย</label>
                 </div>
                 <div class="col-md-6 form-group vertical-middle">
                     <input type="text" class="form-control" name="cable_type" placeholder="สาย" value="">

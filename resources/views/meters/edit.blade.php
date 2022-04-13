@@ -30,6 +30,11 @@
         body.dark-layout .show_on_approve_date label, .show_on_approve_date label {
             color: var(--danger);
         }
+
+        .inline-fit {
+            display: inline-block;
+            width: unset;
+        }
     </style>
 @endsection
 

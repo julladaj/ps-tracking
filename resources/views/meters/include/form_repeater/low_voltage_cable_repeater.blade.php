@@ -3,7 +3,16 @@
         @forelse($meter->meter_extra_groups('low_voltage_cable') as $data)
             <div class="row mt-1" data-repeater-item>
                 <div class="col-md-3 text-right vertical-middle">
-                    <code><i class="cursor-pointer bx bx-map text-muted align-middle"></i> รื้อถอน/พาด</code> <label>สายอลูมิเนียม</label><code>เปลือย/หุ้มฉนวน</code> <label>ขนาด</label>
+                    <select class="form-control inline-fit" name="job_type">
+                        <option value="รื้อถอน" {{ ((isset($data['job_type']) && $data['job_type'] === 'รื้อถอน'))? 'selected':'' }}>รื้อถอน</option>
+                        <option value="พาด" {{ ((isset($data['job_type']) && $data['job_type'] === 'พาด'))? 'selected':'' }}>พาด</option>
+                    </select>
+                    <label>สายอลูมิเนียม</label>
+                    <select class="form-control inline-fit" name="cable_type">
+                        <option value="เปลือย" {{ ((isset($data['cable_type']) && $data['cable_type'] === 'เปลือย'))? 'selected':'' }}>เปลือย</option>
+                        <option value="หุ้มฉนวน" {{ ((isset($data['cable_type']) && $data['cable_type'] === 'หุ้มฉนวน'))? 'selected':'' }}>หุ้มฉนวน</option>
+                    </select>
+                    <label>ขนาด</label>
                 </div>
                 <div class="col-md-2 form-group vertical-middle">
                     <fieldset>
@@ -45,7 +54,16 @@
         @empty
             <div class="row mt-1" data-repeater-item>
                 <div class="col-md-3 text-right vertical-middle">
-                    <code><i class="cursor-pointer bx bx-map text-muted align-middle"></i> รื้อถอน/พาด</code> <label>สายอลูมิเนียม</label><code>เปลือย/หุ้มฉนวน</code> <label>ขนาด</label>
+                    <select class="form-control inline-fit" name="job_type">
+                        <option value="รื้อถอน">รื้อถอน</option>
+                        <option value="พาด">พาด</option>
+                    </select>
+                    <label>สายอลูมิเนียม</label>
+                    <select class="form-control inline-fit" name="cable_type">
+                        <option value="เปลือย">เปลือย</option>
+                        <option value="หุ้มฉนวน">หุ้มฉนวน</option>
+                    </select>
+                    <label>ขนาด</label>
                 </div>
                 <div class="col-md-2 form-group vertical-middle">
                     <fieldset>
