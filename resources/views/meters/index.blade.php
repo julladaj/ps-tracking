@@ -126,6 +126,7 @@
                         <table class="table">
                             <thead>
                             <tr>
+                                <th>@sortablelink('id', '#', null, ['rel' => 'nofollow'])</th>
                                 <th>@sortablelink('document_number', 'เลขที่คำร้อง', null, ['rel' => 'nofollow'])</th>
                                 <th>@sortablelink('document_date', 'วันที่ยื่นคำร้อง', null, ['rel' => 'nofollow'])</th>
                                 <th>@sortablelink('customer_name', 'ชื่อ-นามสกุล', null, ['rel' => 'nofollow'])</th>
@@ -141,6 +142,7 @@
                             <tbody>
                             @forelse($meters as $meter)
                                 <tr>
+                                    <td>{{ $meter->id ?? '' }}</td>
                                     <td><a href="{{ route('meters.edit', $meter) }}">{{ $meter->document_number?? '' }}</a></td>
                                     <td>{{ buddhismDate($meter->document_date) }}</td>
                                     <td>{{ $meter->customer_name ?? '' }}</td>
