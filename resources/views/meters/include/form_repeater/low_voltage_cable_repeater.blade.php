@@ -4,11 +4,13 @@
             <div class="row mt-1" data-repeater-item>
                 <div class="col-md-3 text-right vertical-middle">
                     <select class="form-control inline-fit" name="job_type">
+                        <option></option>
                         <option value="รื้อถอน" {{ ((isset($data['job_type']) && $data['job_type'] === 'รื้อถอน'))? 'selected':'' }}>รื้อถอน</option>
                         <option value="พาด" {{ ((isset($data['job_type']) && $data['job_type'] === 'พาด'))? 'selected':'' }}>พาด</option>
                     </select>
                     <label>สายอลูมิเนียม</label>
                     <select class="form-control inline-fit" name="cable_type">
+                        <option></option>
                         <option value="เปลือย" {{ ((isset($data['cable_type']) && $data['cable_type'] === 'เปลือย'))? 'selected':'' }}>เปลือย</option>
                         <option value="หุ้มฉนวน" {{ ((isset($data['cable_type']) && $data['cable_type'] === 'หุ้มฉนวน'))? 'selected':'' }}>หุ้มฉนวน</option>
                     </select>
@@ -29,6 +31,7 @@
                 </div>
                 <div class="col-md-1 form-group vertical-middle">
                     <select class="form-control" name="phase">
+                        <option></option>
                         <option value="1" {{ (isset($data['phase']) && $data['phase'] === '1')? 'selected':'' }}>1 เฟส</option>
                         <option value="3" {{ (isset($data['phase']) && $data['phase'] === '3')? 'selected':'' }}>3 เฟส</option>
                     </select>
@@ -55,11 +58,13 @@
             <div class="row mt-1" data-repeater-item>
                 <div class="col-md-3 text-right vertical-middle">
                     <select class="form-control inline-fit" name="job_type">
+                        <option></option>
                         <option value="รื้อถอน">รื้อถอน</option>
                         <option value="พาด">พาด</option>
                     </select>
                     <label>สายอลูมิเนียม</label>
                     <select class="form-control inline-fit" name="cable_type">
+                        <option></option>
                         <option value="เปลือย">เปลือย</option>
                         <option value="หุ้มฉนวน">หุ้มฉนวน</option>
                     </select>
@@ -80,6 +85,7 @@
                 </div>
                 <div class="col-md-1 form-group vertical-middle">
                     <select class="form-control" name="phase">
+                        <option></option>
                         <option value="1">1 เฟส</option>
                         <option value="3">3 เฟส</option>
                     </select>

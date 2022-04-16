@@ -40,3 +40,4 @@ Route::group(['prefix' => 'dashboard'], function () {
 Route::resource('users', UsersController::class);
 
 Route::get('pdf/{meter}', [\App\Http\Controllers\PDFController::class, 'show'])->name('meter-pdf');
+Route::get('pdf-payment/{meter}', [\App\Http\Controllers\PDFController::class, 'payment'])->name('meter-payment-pdf');

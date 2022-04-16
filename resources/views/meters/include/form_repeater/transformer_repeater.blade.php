@@ -4,6 +4,7 @@
             <div class="row mt-1" data-repeater-item>
                 <div class="col-md-2 text-right vertical-middle">
                     <select class="form-control inline-fit" name="job_type">
+                        <option></option>
                         <option value="รื้อถอน" {{ ((isset($data['job_type']) && $data['job_type'] === 'รื้อถอน'))? 'selected':'' }}>รื้อถอน</option>
                         <option value="ติดตั้ง" {{ ((isset($data['job_type']) && $data['job_type'] === 'ติดตั้ง'))? 'selected':'' }}>ติดตั้ง</option>
                     </select>
@@ -24,6 +25,7 @@
                 </div>
                 <div class="col-md-2 form-group vertical-middle">
                     <select class="form-control" name="phase">
+                        <option></option>
                         <option value="1" {{ (isset($data['phase']) && $data['phase'] === '1')? 'selected':'' }}>1 เฟส</option>
                         <option value="3" {{ (isset($data['phase']) && $data['phase'] === '3')? 'selected':'' }}>3 เฟส</option>
                     </select>
@@ -50,6 +52,7 @@
             <div class="row mt-1" data-repeater-item>
                 <div class="col-md-2 text-right vertical-middle">
                     <select class="form-control inline-fit" name="job_type">
+                        <option></option>
                         <option value="รื้อถอน">รื้อถอน</option>
                         <option value="ติดตั้ง">ติดตั้ง</option>
                     </select>
@@ -70,6 +73,7 @@
                 </div>
                 <div class="col-md-2 form-group vertical-middle">
                     <select class="form-control" name="phase">
+                        <option></option>
                         <option value="1">1 เฟส</option>
                         <option value="3">3 เฟส</option>
                     </select>

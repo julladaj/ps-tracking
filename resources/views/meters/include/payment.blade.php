@@ -182,6 +182,7 @@
             <div class="col-md-2 vertical-middle">
                 <fieldset>
                     <div class="input-group">
+                        <input type="hidden" id="price_of_indoor_checking_value" name="meter_extra[payment_price_of_indoor_checking]" value="{{ $meter_extra['payment_price_of_indoor_checking']?? 0 }}">
                         <input type="text" class="form-control text-right" id="price_of_indoor_checking" value="0" readonly>
                         <div class="input-group-append">
                             <span class="input-group-text">บาท</span>
@@ -203,6 +204,7 @@
             <div class="col-md-2 vertical-middle">
                 <fieldset>
                     <div class="input-group">
+                        <input type="hidden" id="price_of_guarantee_value" name="meter_extra[payment_price_of_guarantee_value]" value="{{ $meter_extra['payment_price_of_guarantee_value']?? 0 }}">
                         <input type="text" class="form-control text-right" id="price_of_guarantee" value="0" readonly>
                         <div class="input-group-append">
                             <span class="input-group-text">บาท</span>
@@ -221,6 +223,7 @@
             <div class="col-md-2 vertical-middle">
                 <fieldset>
                     <div class="input-group">
+                        <input type="hidden" id="price_of_grand_total_value" name="meter_extra[payment_price_of_grand_total]" value="{{ $meter_extra['payment_price_of_grand_total']?? 0 }}">
                         <input type="text" class="form-control text-right" id="price_of_grand_total" value="0" readonly>
                         <div class="input-group-append">
                             <span class="input-group-text">บาท</span>
@@ -236,7 +239,7 @@
     <div class="row mt-1">
         <div class="col-sm-12 d-flex justify-content-end">
             <a href="{{ route('meters.index') }}" class="btn btn-secondary mr-1"><i class="bx bx-arrow-back"></i> ย้อนกลับหน้าหลัก</a>
-            <a href="{{ route('meter-pdf', $meter->id) }}" target="_BLANK" class="btn btn-success mr-1"><i class="bx bx-printer"></i> พิมพ์แบบฟอร์ม</a>
+            <a href="{{ route('meter-payment-pdf', $meter->id) }}" target="_BLANK" class="btn btn-success mr-1"><i class="bx bx-printer"></i> พิมพ์แบบฟอร์มแจ้งค่าใช้จ่าย</a>
             <button type="reset" class="btn btn-light-secondary mr-1">คืนค่าเริ่มต้น</button>
             <button type="submit" class="btn btn-primary"><i class="bx bx-save"></i> บันทึกข้อมูล</button>
         </div>
@@ -251,8 +254,11 @@
             const payment_transformer_installation = $('#payment_transformer_installation');
             const payment_rate_id = $('#payment_rate_id');
             const price_of_indoor_checking = $('#price_of_indoor_checking');
+            const price_of_indoor_checking_value = $('#price_of_indoor_checking_value');
             const price_of_guarantee = $('#price_of_guarantee');
+            const price_of_guarantee_value = $('#price_of_guarantee_value');
             const price_of_grand_total = $('#price_of_grand_total');
+            const price_of_grand_total_value = $('#price_of_grand_total_value');
 
             $(document).on('change', '#job_type_id', function () {
                 pre_select_transformer_size($(this).val());
@@ -286,8 +292,11 @@
                 let guarantee = get_installation_guarantee_price(parseInt(payment_transformer_installation.val())) * factor;
 
                 price_of_indoor_checking.val(moneyFormat(indoor_checking));
+                price_of_indoor_checking_value.val(indoor_checking);
                 price_of_guarantee.val(moneyFormat(guarantee));
+                price_of_guarantee_value.val(guarantee);
                 price_of_grand_total.val(moneyFormat(indoor_checking + guarantee));
+                price_of_grand_total_value.val(indoor_checking + guarantee);
             }
 
             function get_installation_guarantee_price(transformer) {

@@ -4,6 +4,7 @@
             <div class="row mt-1" data-repeater-item>
                 <div class="col-md-2 text-right vertical-middle">
                     <select class="form-control inline-fit" name="job_type">
+                        <option></option>
                         <option value="รื้อถอน" {{ ((isset($data['job_type']) && $data['job_type'] === 'รื้อถอน'))? 'selected':'' }}>รื้อถอน</option>
                         <option value="ปักเสา" {{ ((isset($data['job_type']) && $data['job_type'] === 'ปักเสา'))? 'selected':'' }}>ปักเสา</option>
                     </select>
@@ -41,6 +42,7 @@
             <div class="row mt-1" data-repeater-item>
                 <div class="col-md-2 text-right vertical-middle">
                     <select class="form-control inline-fit" name="job_type">
+                        <option></option>
                         <option value="รื้อถอน">รื้อถอน</option>
                         <option value="ปักเสา">ปักเสา</option>
                     </select>

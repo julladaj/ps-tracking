@@ -20,6 +20,7 @@
                 </div>
                 <div class="col-md-1 form-group vertical-middle">
                     <select class="form-control" name="phase">
+                        <option></option>
                         <option value="1" {{ (isset($data['phase']) && $data['phase'] === '1')? 'selected':'' }}>1 เฟส</option>
                         <option value="3" {{ (isset($data['phase']) && $data['phase'] === '3')? 'selected':'' }}>3 เฟส</option>
                     </select>
@@ -27,6 +28,7 @@
                 <div class="col-md-2 text-right vertical-middle">
                     <label>ประกอบ</label>
                     <select class="form-control inline-fit" name="job_type">
+                        <option></option>
                         <option value="ซีที.แรงต่ำ" {{ ((isset($data['job_type']) && $data['job_type'] === 'ซีที.แรงต่ำ'))? 'selected':'' }}>ซีที.แรงต่ำ</option>
                         <option value="ซีที." {{ ((isset($data['job_type']) && $data['job_type'] === 'ซีที.'))? 'selected':'' }}>ซีที.</option>
                         <option value="วีที.แรงสูง" {{ ((isset($data['job_type']) && $data['job_type'] === 'วีที.แรงสูง'))? 'selected':'' }}>วีที.แรงสูง</option>
@@ -91,6 +93,7 @@
                 </div>
                 <div class="col-md-1 form-group vertical-middle">
                     <select class="form-control" name="phase">
+                        <option></option>
                         <option value="1" {{ (isset($data['phase']) && $data['phase'] === '1')? 'selected':'' }}>1 เฟส</option>
                         <option value="3" {{ (isset($data['phase']) && $data['phase'] === '3')? 'selected':'' }}>3 เฟส</option>
                     </select>
