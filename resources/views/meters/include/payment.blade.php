@@ -41,6 +41,33 @@
     </div>
     <div class="row mt-1">
         <div class="col-md-2 text-right vertical-middle">
+            <label>ประเภทการชำระ</label>
+        </div>
+        <div class="col-md-4 vertical-middle">
+            <ul class="list-unstyled mb-0">
+                <li class="d-inline-block mr-2">
+                    <fieldset>
+                        <div class="radio">
+                            <input type="radio" name="meter_extra[customer_payment_type]" id="customer_payment_type_1" value="ค่าตรวจสอบแบบและแผนผัง"
+                                   @if(isset($meter_extra['customer_payment_type']) && $meter_extra['customer_payment_type'] === 'ค่าตรวจสอบแบบและแผนผัง') checked @endif>
+                            <label for="customer_payment_type_1">ค่าตรวจสอบแบบและแผนผัง</label>
+                        </div>
+                    </fieldset>
+                </li>
+                <li class="d-inline-block mr-2">
+                    <fieldset>
+                        <div class="radio">
+                            <input type="radio" name="meter_extra[customer_payment_type]" id="customer_payment_type_2" value="ค่าสำรวจออกแบบและจัดทำแผนผังประมาณการ"
+                                   @if(isset($meter_extra['customer_payment_type']) && $meter_extra['customer_payment_type'] === 'ค่าสำรวจออกแบบและจัดทำแผนผังประมาณการ') checked @endif>
+                            <label for="customer_payment_type_2">ค่าสำรวจออกแบบและจัดทำแผนผังประมาณการ</label>
+                        </div>
+                    </fieldset>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <div class="row mt-1">
+        <div class="col-md-2 text-right vertical-middle">
             <label>ผู้ใช้ไฟได้ชำระ</label>
         </div>
         <div class="col-md-4 vertical-middle">

@@ -432,7 +432,7 @@
             <tr>
                 <td colspan="1"></td>
                 <td colspan="11">
-                    <span>ผู้ขอใช้ไฟฟ้าได้ชำระค่าตรวจสอบแบบและแผนผัง/ค่าสำรวจออกแบบและจัดทำแผนผังประมาณการ (รวมภาษีมูลค่าเพิ่ม) ไว้แล้ว จำนวน</span>
+                    <span>ผู้ขอใช้ไฟฟ้าได้ชำระ{{ $meter_extra['customer_payment_type']?? 'ค่าตรวจสอบแบบและแผนผัง' }} (รวมภาษีมูลค่าเพิ่ม) ไว้แล้ว จำนวน</span>
                     <span class="m-0 pl-5 pr-5 red bx-border-bottom"> {{ isset($meter['paid_amount'])? number_format($meter['paid_amount'], 2) : '-' }} </span>
                     <span>บาท เมื่อวันที่</span>
                     <span class="m-0 pl-5 pr-5 red bx-border-bottom"> {{ isset($meter['receive_date'])? buddhismDate($meter['receive_date']) : '-' }} </span>

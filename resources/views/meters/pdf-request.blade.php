@@ -617,7 +617,7 @@
                 </p>
                 <p>
                     <span>ผู้ใช้ไฟได้</span>
-                    <span class="m-0 pl-5 pr-5 red bx-border-bottom">ชำระค่าสำรวจออกแบบและจัดทำแผนผังประมาณการ/ค่าตรวจสอบแบบและแผนผัง</span>
+                    <span class="m-0 pl-5 pr-5 red bx-border-bottom">ชำระ{{ $meter_extra['customer_payment_type']?? 'ค่าตรวจสอบแบบและแผนผัง' }}</span>
                     <span>ตามคำสั่งที่ {{ $meter->document_number }} ลว. {{ buddhismDate($meter->document_date) }} เป็นเงิน</span>
                     <span class="m-0 pl-5 pr-5 red bx-border-bottom"> - </span>
                     <span>บาท <b>(ใบเสร็จรับเงินเลขที่</b></span>
