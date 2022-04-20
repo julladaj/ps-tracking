@@ -121,6 +121,7 @@
             border-collapse: collapse;
             border-spacing: 0;
             margin-top: 20px;
+            margin-bottom: 20px;
         }
 
         .table_price td, .table_price th {
@@ -463,23 +464,23 @@
         </tr>
     </table>
 
-    <script type="text/php">
-    if ( isset($pdf) ) {
-        $w = $pdf->get_width();
-        $h = $pdf->get_height();
+{{--    <script type="text/php">--}}
+{{--    if ( isset($pdf) ) {--}}
+{{--        $w = $pdf->get_width();--}}
+{{--        $h = $pdf->get_height();--}}
 
-        $size = 14;
-        $color = array(0,0,0);
-        $font = $fontMetrics->getFont("THSarabunNew");
-        $font_bold = $fontMetrics->getFont("THSarabunNew", "bold");
-        $text_height = $fontMetrics->getFontHeight($font, $size);
-        $y = $h - 2 * $text_height - 24;
+{{--        $size = 14;--}}
+{{--        $color = array(0,0,0);--}}
+{{--        $font = $fontMetrics->getFont("THSarabunNew");--}}
+{{--        $font_bold = $fontMetrics->getFont("THSarabunNew", "bold");--}}
+{{--        $text_height = $fontMetrics->getFontHeight($font, $size);--}}
+{{--        $y = $h - 2 * $text_height - 24;--}}
 
-        $pdf->text(500, $y, "/5. ทรัพย์สิน...", $font, $size, $color);
-    }
-    </script>
+{{--        $pdf->text(500, $y, "/5. ทรัพย์สิน...", $font, $size, $color);--}}
+{{--    }--}}
+{{--    </script>--}}
 
-    <table border="1" cellpadding="0" cellspacing="0" class="table_price page-break">
+    <table border="1" cellpadding="0" cellspacing="0" class="table_price">
         <thead>
         <tr>
             <th>ชื่อประเภทงาน</th>
@@ -496,6 +497,19 @@
         @php($sum_net_action = 0)
         @php($sum_net_customer = 0)
         @php($sum_net_summary = 0)
+        @php($payment_manual_net_pea_invest = ($meter_extra['payment_manual_pea_invest_'.$i]?? 0))
+        @php($payment_manual_net_action = ($meter_extra['payment_manual_action_'.$i]?? 0))
+        @php($payment_manual_net_customer = ($meter_extra['payment_manual_customer_'.$i]?? 0))
+        @if($payment_manual_net_summary = ($payment_manual_net_pea_invest + $payment_manual_net_action + $payment_manual_net_customer))
+        <tr>
+            <td><span>ค่าสมทบก่อสร้างและปรับปรุงระบบจำหน่าย</span><br>(<span class="m-0 pl-5 pr-5 red bx-border-bottom">@if ($payment_manual_pea_invest_kva = ($meter_extra['payment_manual_pea_invest_kva_'.$i]?? 0)) {{ number_format($payment_manual_pea_invest_kva, 2) }} @endif</span>kVA. X <span class="m-0 pl-5 pr-5 red bx-border-bottom">@if ($payment_manual_pea_invest_baht = ($meter_extra['payment_manual_pea_invest_baht_'.$i]?? 0)) {{ number_format($payment_manual_pea_invest_baht, 2) }} @endif</span>บาท/kVA.)</td>
+            <td class="text-right">@if ($payment_manual_net_pea_invest) {{ number_format($payment_manual_net_pea_invest, 2) }} @endif</td>
+            <td class="text-right">@if ($payment_manual_net_action) {{ number_format($payment_manual_net_action, 2) }} @endif</td>
+            <td class="text-right">@if ($payment_manual_net_customer) {{ number_format($payment_manual_net_customer, 2) }} @endif</td>
+            <td class="text-right">@if ($payment_manual_net_summary) {{ number_format($payment_manual_net_summary, 2) }} @endif</td>
+        </tr>
+        @endif
+        @php($i++)
         @foreach(__('payment_type') as $row)
             @php($payment_manual_net_pea_invest = ($meter_extra['payment_manual_pea_invest_'.$i]?? 0))
             @php($payment_manual_net_action = ($meter_extra['payment_manual_action_'.$i]?? 0))
@@ -570,6 +584,9 @@
                 </p>
             </td>
         </tr>
+    </table>
+
+    <table style="page-break-inside: avoid;">
         <tr>
             <td colspan="12">
                 <b>5. ทรัพย์สิน</b>
