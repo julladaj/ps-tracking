@@ -179,6 +179,7 @@
         $pdf->text(400, $y + $text_height, "197 หมู่ 8 ตำบลหนองแก๋ว อำเภอหางดง", $font, $size, $color);
         $pdf->text(400, $y + (2 * $text_height), "จังหวัดเชียงใหม่ 50230", $font, $size, $color);
     }
+
     </script>
 
     <table border="0" cellpadding="2" cellspacing="0" class="page-break">
@@ -210,39 +211,39 @@
         @php($high_voltage_cable = $meter->meter_extra_groups('high_voltage_cable'))
         @php($topic_index = 0)
         @if($high_voltage_pole->count() || $high_voltage_cable->count())
-                <tr>
-                    <td colspan="1"></td>
-                    <td colspan="11">
-                        <span>1.{{ ++$topic_index }} แผนกแรงสูง ระบบ</span>
-                        <span class="m-0 pl-5 pr-5 red bx-border-bottom"> {{ $meter_extra['high_voltage_phase']?? '-' }} </span>
-                        <span>เฟส แรงดัน</span>
-                        <span class="m-0 pl-5 pr-5 red bx-border-bottom"> {{ $meter_extra['high_voltage']?? '-' }} </span>
-                        <span>เควี.</span>
-                        @if(!empty($high_voltage_pole))
-                            @foreach($high_voltage_pole as $data)
-                                <span>{{ $data['job_type']?? '' }} คอร. ขนาด</span>
-                                <span class="m-0 pl-5 pr-5 red bx-border-bottom"> {{ $data['core_size']?? '-' }} </span>
-                                <span>เมตร จำนวน</span>
-                                <span class="m-0 pl-5 pr-5 red bx-border-bottom"> {{ $data['quantity']?? '-' }} </span>
-                                <span>ต้น</span>
-                            @endforeach
-                        @endif
-                        @if(!empty($high_voltage_cable))
-                            @foreach($high_voltage_cable as $data)
-                                <span> {{ $data['job_type']?? '' }}สายแรงสูงด้วยสาย</span>
-                                <span class="m-0 pl-5 pr-5 red bx-border-bottom"> {{ $data['cable_type']?? '-' }} </span>
-                                <span>ขนาด</span>
-                                <span class="m-0 pl-5 pr-5 red bx-border-bottom"> {{ $data['cable_size']?? '-' }} </span>
-                                <span>ตร.มม. ระยะทาง</span>
-                                <span class="m-0 pl-5 pr-5 red bx-border-bottom"> {{ $data['length']?? '-' }} </span>
-                                <span>เมตร</span>
-                            @endforeach
-                        @endif
-                        <span> ติดตั้งชุดบัคอาร์ม จำนวน</span>
-                        <span class="m-0 pl-5 pr-5 red bx-border-bottom"> {{ $meter_extra['buc_arm']?? '-' }} </span>
-                        <span>ชุด</span>
-                    </td>
-                </tr>
+            <tr>
+                <td colspan="1"></td>
+                <td colspan="11">
+                    <span>1.{{ ++$topic_index }} แผนกแรงสูง ระบบ</span>
+                    <span class="m-0 pl-5 pr-5 red bx-border-bottom"> {{ $meter_extra['high_voltage_phase']?? '-' }} </span>
+                    <span>เฟส แรงดัน</span>
+                    <span class="m-0 pl-5 pr-5 red bx-border-bottom"> {{ $meter_extra['high_voltage']?? '-' }} </span>
+                    <span>เควี.</span>
+                    @if(!empty($high_voltage_pole))
+                        @foreach($high_voltage_pole as $data)
+                            <span>{{ $data['job_type']?? '' }} คอร. ขนาด</span>
+                            <span class="m-0 pl-5 pr-5 red bx-border-bottom"> {{ $data['core_size']?? '-' }} </span>
+                            <span>เมตร จำนวน</span>
+                            <span class="m-0 pl-5 pr-5 red bx-border-bottom"> {{ $data['quantity']?? '-' }} </span>
+                            <span>ต้น</span>
+                        @endforeach
+                    @endif
+                    @if(!empty($high_voltage_cable))
+                        @foreach($high_voltage_cable as $data)
+                            <span> {{ $data['job_type']?? '' }}สายแรงสูงด้วยสาย</span>
+                            <span class="m-0 pl-5 pr-5 red bx-border-bottom"> {{ $data['cable_type']?? '-' }} </span>
+                            <span>ขนาด</span>
+                            <span class="m-0 pl-5 pr-5 red bx-border-bottom"> {{ $data['cable_size']?? '-' }} </span>
+                            <span>ตร.มม. ระยะทาง</span>
+                            <span class="m-0 pl-5 pr-5 red bx-border-bottom"> {{ $data['length']?? '-' }} </span>
+                            <span>เมตร</span>
+                        @endforeach
+                    @endif
+                    <span> ติดตั้งชุดบัคอาร์ม จำนวน</span>
+                    <span class="m-0 pl-5 pr-5 red bx-border-bottom"> {{ $meter_extra['buc_arm']?? '-' }} </span>
+                    <span>ชุด</span>
+                </td>
+            </tr>
         @endif
 
         @php($transformer = $meter->meter_extra_groups('transformer'))
@@ -324,26 +325,26 @@
         @endif
 
         @isset($meter_extra['public_light_cable_type'])
-        <tr>
-            <td colspan="1"></td>
-            <td colspan="11">
-                <span>1.{{ ++$topic_index }} แผนกไฟสาธารณะ</span>
-                <span>{{ $meter_extra['public_light_cable_type'] }}อลูมิเนียมหุ้มฉนวน ขนาด</span>
-                <span class="m-0 pl-5 pr-5 red bx-border-bottom"> {{ $meter_extra['public_light_cable_size']?? '-' }} </span>
-                <span>ตร.มม. ระยะทางประมาณ</span>
-                <span class="m-0 pl-5 pr-5 red bx-border-bottom"> {{ $meter_extra['public_light_cable_length']?? '-' }} </span>
-                <span>เมตร </span>
-                @if($meter_extra['public_light_lamp_type'])
-                    <span>{{ $meter_extra['public_light_lamp_type'] }} ชุดโคมไฟ ขนาด</span>
-                    <span class="m-0 pl-5 pr-5 red bx-border-bottom"> {{ $meter_extra['public_light_lamp_size']?? '-' }} </span>
-                    <span>วัตต์ จำนวน</span>
-                    <span class="m-0 pl-5 pr-5 red bx-border-bottom"> {{ $meter_extra['public_light_lamp_quantity']?? '-' }} </span>
-                    <span>ชุด สวิทช์ควบคุม จำนวน</span>
-                    <span class="m-0 pl-5 pr-5 red bx-border-bottom"> {{ $meter_extra['public_light_lamp_switch_quantity']?? '-' }} </span>
-                    <span>ชุด</span>
-                @endif
-            </td>
-        </tr>
+            <tr>
+                <td colspan="1"></td>
+                <td colspan="11">
+                    <span>1.{{ ++$topic_index }} แผนกไฟสาธารณะ</span>
+                    <span>{{ $meter_extra['public_light_cable_type'] }}อลูมิเนียมหุ้มฉนวน ขนาด</span>
+                    <span class="m-0 pl-5 pr-5 red bx-border-bottom"> {{ $meter_extra['public_light_cable_size']?? '-' }} </span>
+                    <span>ตร.มม. ระยะทางประมาณ</span>
+                    <span class="m-0 pl-5 pr-5 red bx-border-bottom"> {{ $meter_extra['public_light_cable_length']?? '-' }} </span>
+                    <span>เมตร </span>
+                    @if($meter_extra['public_light_lamp_type'])
+                        <span>{{ $meter_extra['public_light_lamp_type'] }} ชุดโคมไฟ ขนาด</span>
+                        <span class="m-0 pl-5 pr-5 red bx-border-bottom"> {{ $meter_extra['public_light_lamp_size']?? '-' }} </span>
+                        <span>วัตต์ จำนวน</span>
+                        <span class="m-0 pl-5 pr-5 red bx-border-bottom"> {{ $meter_extra['public_light_lamp_quantity']?? '-' }} </span>
+                        <span>ชุด สวิทช์ควบคุม จำนวน</span>
+                        <span class="m-0 pl-5 pr-5 red bx-border-bottom"> {{ $meter_extra['public_light_lamp_switch_quantity']?? '-' }} </span>
+                        <span>ชุด</span>
+                    @endif
+                </td>
+            </tr>
         @endisset
 
         @php($max_topic1_index = $topic_index)
@@ -487,7 +488,9 @@
         </tr>
         <tr>
             <td colspan="12">
-                <p style="word-break: break-all;">กำหนดยืนราคาค่าใช้จ่าย ภายในระยะเวลา<span class="m-0 pl-5 pr-5 red bx-border-bottom"> {{ $meter['paid_credit_terms']?? '-' }} </span>เดือน นับจากวันที่แจ้งค่าใช้จ่าย และหากการก่อสร้างระบบไฟฟ้า ดังกล่าวข้างต้น มีความจำเป็นต้องแก้ไข เปลี่ยนแปลงการก่อสร้างฯหรืออื่นๆ ซึ่งอาจทำให้ค่าใช้จ่ายเพิ่มขึ้น ผู้ขอใช้ไฟจะต้องออกค่าใช้จ่ายในส่วนที่เพิ่มขึ้นภายหลังอีกต่างหากด้วย กรรมสิทธิ์ในทรัพย์สิน เมื่อดำเนินการก่อสร้างแล้วเสร็จ ระบบจำหน่ายไฟฟ้าในที่สาธารณะ และเครื่องวัดพร้อมอุปกรณ์ประกอบ    เป็นทรัพย์สินของการไฟฟ้าส่วนภูมิภาค ยกเว้น สายดับ กิ่งโคมไฟ และสวิทช์ควบคุมไฟสาธารณะ และ/หรือ ระบบจำหน่ายในเขตที่ดินของผู้ใช้ไฟเป็นทรัพย์สินของผู้ใช้ไฟ</p>
+                <p style="word-break: break-all;">กำหนดยืนราคาค่าใช้จ่าย ภายในระยะเวลา<span class="m-0 pl-5 pr-5 red bx-border-bottom"> {{ $meter['paid_credit_terms']?? '-' }} </span>เดือน นับจากวันที่แจ้งค่าใช้จ่าย และหากการก่อสร้างระบบไฟฟ้า
+                    ดังกล่าวข้างต้น มีความจำเป็นต้องแก้ไข เปลี่ยนแปลงการก่อสร้างฯหรืออื่นๆ ซึ่งอาจทำให้ค่าใช้จ่ายเพิ่มขึ้น ผู้ขอใช้ไฟจะต้องออกค่าใช้จ่ายในส่วนที่เพิ่มขึ้นภายหลังอีกต่างหากด้วย กรรมสิทธิ์ในทรัพย์สิน เมื่อดำเนินการก่อสร้างแล้วเสร็จ
+                    ระบบจำหน่ายไฟฟ้าในที่สาธารณะ และเครื่องวัดพร้อมอุปกรณ์ประกอบ เป็นทรัพย์สินของการไฟฟ้าส่วนภูมิภาค ยกเว้น สายดับ กิ่งโคมไฟ และสวิทช์ควบคุมไฟสาธารณะ และ/หรือ ระบบจำหน่ายในเขตที่ดินของผู้ใช้ไฟเป็นทรัพย์สินของผู้ใช้ไฟ</p>
                 <p>จึงเรียนมาเพื่อโปรดทราบ และติดต่อชำระเงินได้ที่สำนักงานการไฟฟ้าส่วนภูมิภาคอำเภอหางดง</p>
             </td>
         </tr>
@@ -513,6 +516,7 @@
         $pdf->text(40, $y - $text_height, "โทร. 0 5344 1776", $font, $size, $color);
         $pdf->text(40, $y, "โทรสาร 0 5344 1176", $font, $size, $color);
     }
+
     </script>
     <table border="0" cellpadding="2" cellspacing="0" style="margin-top: 90px;">
         <tr>

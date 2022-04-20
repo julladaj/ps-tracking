@@ -100,6 +100,7 @@
         .text-right {
             text-align: right;
         }
+
         .text-center {
             text-align: center;
         }
@@ -171,6 +172,7 @@
 
         $pdf->text(480, $y, "/3. ส่วนของผู้ใช้ไฟ...", $font, $size, $color);
     }
+
     </script>
 
     <table border="0" cellpadding="2" cellspacing="0" style="table-layout: fixed;">
@@ -315,114 +317,146 @@
                 <b>2. ส่วนของ กฟภ. ดำเนินการ</b>
             </td>
         </tr>
-        <tr>
-            <td colspan="1"></td>
-            <td colspan="11">
-                <span>2.1 แผนกแรงสูง ระบบ</span>
-                <span class="m-0 pl-5 pr-5 red bx-border-bottom"> {{ $meter_extra['high_voltage_phase']?? 1 }} </span>
-                <span>เฟส แรงดัน</span>
-                <span class="m-0 pl-5 pr-5 red bx-border-bottom"> {{ $meter_extra['high_voltage']?? '-' }} </span>
-                <span>เควี. ปักเสา คอร. ขนาด</span>
-                <span class="m-0 pl-5 pr-5 red bx-border-bottom"> - </span>
-                <span>เมตร จำนวน</span>
-                <span class="m-0 pl-5 pr-5 red bx-border-bottom"> - </span>
-                <span>ต้น </span>
-            </td>
-        </tr>
-        <tr>
-            <td colspan="1"></td>
-            <td colspan="11">
-                <span>พาดสายแรงสูงด้วยสายเคเบิ้ลอากาศ ขนาด</span>
-                <span class="m-0 pl-5 pr-5 red bx-border-bottom"> - </span>
-                <span>ตร.มม. ระยะทาง</span>
-                <span class="m-0 pl-5 pr-5 red bx-border-bottom"> - </span>
-                <span>เมตร ติดตั้งชุดบัคอาร์ม จำนวน</span>
-                <span class="m-0 pl-5 pr-5 red bx-border-bottom"> - </span>
-                <span>ชุด</span>
-            </td>
-        </tr>
-        <tr>
-            <td colspan="1"></td>
-            <td colspan="11">
-                <span>2.2 แผนกหม้อแปลง ติดตั้งหม้อแปลง ขนาด</span>
-                <span class="m-0 pl-5 pr-5 red bx-border-bottom"> - </span>
-                <span>เควีเอ. ระบบ</span>
-                <span class="m-0 pl-5 pr-5 red bx-border-bottom"> - </span>
-                <span>เฟส จำนวน</span>
-                <span class="m-0 pl-5 pr-5 red bx-border-bottom"> - </span>
-                <span>เครื่อง</span>
-            </td>
-        </tr>
-        <tr>
-            <td colspan="1"></td>
-            <td colspan="11">
-                <span>2.3 แผนกแรงต่ำ ปักเสา คอร. ขนาด</span>
-                <span class="m-0 pl-5 pr-5 red bx-border-bottom"> - </span>
-                <span>เมตร จำนวน</span>
-                <span class="m-0 pl-5 pr-5 red bx-border-bottom"> - </span>
-                <span>ต้น พาดสายอลูมิเนียมหุ้มฉนวน ขนาด</span>
-                <span class="m-0 pl-5 pr-5 red bx-border-bottom"> - </span>
-                <span>ตร.มม.</span>
-            </td>
-        </tr>
-        <tr>
-            <td colspan="1"></td>
-            <td colspan="11">
-                <span>ระบบ</span>
-                <span class="m-0 pl-5 pr-5 red bx-border-bottom"> - </span>
-                <span>เฟส</span>
-                <span class="m-0 pl-5 pr-5 red bx-border-bottom"> - </span>
-                <span>สาย ระยะทางประมาณ</span>
-                <span class="m-0 pl-5 pr-5 red bx-border-bottom"> - </span>
-                <span>เมตร</span>
-            </td>
-        </tr>
-        <tr>
-            <td colspan="1"></td>
-            <td colspan="11">
-                <span>2.4 แผนกมิเตอร์ ติดตั้งมิเตอร์ขนาด</span>
-                <span class="m-0 pl-5 pr-5 red bx-border-bottom"> - </span>
-                <span>แอมป์</span>
-                <span class="m-0 pl-5 pr-5 red bx-border-bottom"> - </span>
-                <span>เฟส ประกอบซีที.แรงต่ำ</span>
-                <span class="m-0 pl-5 pr-5 red bx-border-bottom"> - </span>
-                <span>ขนาด</span>
-                <span class="m-0 pl-5 pr-5 red bx-border-bottom"> - </span>
-                <span>โวลท์</span>
-            </td>
-        </tr>
-        <tr>
-            <td colspan="1"></td>
-            <td colspan="11">
-                <span class="m-0 pl-5 pr-5 red bx-border-bottom"> - </span>
-                <span>แอมป์ จำนวน</span>
-                <span class="m-0 pl-5 pr-5 red bx-border-bottom"> - </span>
-                <span>เครื่อง</span>
-            </td>
-        </tr>
-        <tr>
-            <td colspan="1"></td>
-            <td colspan="11">
-                <span>2.5 แผนกไฟสาธารณะ พาดสายอลูมิเนียมหุ้มฉนวน ขนาด</span>
-                <span class="m-0 pl-5 pr-5 red bx-border-bottom"> {{ $meter_extra['public_light_cable_size']?? '-' }} </span>
-                <span>ตร.มม. ระยะทางประมาณ</span>
-                <span class="m-0 pl-5 pr-5 red bx-border-bottom"> {{ $meter_extra['public_light_cable_length']?? '-' }} </span>
-                <span>เมตร</span>
-            </td>
-        </tr>
-        <tr class="page-break">
-            <td colspan="1"></td>
-            <td colspan="11">
-                <span>ติดตั้ง ชุดโคมไฟ ขนาด</span>
-                <span class="m-0 pl-5 pr-5 red bx-border-bottom"> {{ $meter_extra['public_light_lamp_size']?? '-' }} </span>
-                <span>วัตต์</span>
-                <span>จำนวน</span>
-                <span class="m-0 pl-5 pr-5 red bx-border-bottom"> {{ $meter_extra['public_light_lamp_quantity']?? '-' }} </span>
-                <span>ชุด สวิทช์ควบคุม จำนวน</span>
-                <span class="m-0 pl-5 pr-5 red bx-border-bottom"> {{ $meter_extra['public_light_lamp_switch_quantity']?? '-' }} </span>
-                <span>ชุด</span>
-            </td>
-        </tr>
+        @php($high_voltage_pole = $meter->meter_extra_groups('high_voltage_pole'))
+        @php($high_voltage_cable = $meter->meter_extra_groups('high_voltage_cable'))
+        @php($topic_index = 0)
+        @if($high_voltage_pole->count() || $high_voltage_cable->count())
+            <tr>
+                <td colspan="1"></td>
+                <td colspan="11">
+                    <span>2.{{ ++$topic_index }} แผนกแรงสูง ระบบ</span>
+                    <span class="m-0 pl-5 pr-5 red bx-border-bottom"> {{ $meter_extra['high_voltage_phase']?? '-' }} </span>
+                    <span>เฟส แรงดัน</span>
+                    <span class="m-0 pl-5 pr-5 red bx-border-bottom"> {{ $meter_extra['high_voltage']?? '-' }} </span>
+                    <span>เควี.</span>
+                    @if(!empty($high_voltage_pole))
+                        @foreach($high_voltage_pole as $data)
+                            <span>{{ $data['job_type']?? '' }} คอร. ขนาด</span>
+                            <span class="m-0 pl-5 pr-5 red bx-border-bottom"> {{ $data['core_size']?? '-' }} </span>
+                            <span>เมตร จำนวน</span>
+                            <span class="m-0 pl-5 pr-5 red bx-border-bottom"> {{ $data['quantity']?? '-' }} </span>
+                            <span>ต้น</span>
+                        @endforeach
+                    @endif
+                    @if(!empty($high_voltage_cable))
+                        @foreach($high_voltage_cable as $data)
+                            <span> {{ $data['job_type']?? '' }}สายแรงสูงด้วยสาย</span>
+                            <span class="m-0 pl-5 pr-5 red bx-border-bottom"> {{ $data['cable_type']?? '-' }} </span>
+                            <span>ขนาด</span>
+                            <span class="m-0 pl-5 pr-5 red bx-border-bottom"> {{ $data['cable_size']?? '-' }} </span>
+                            <span>ตร.มม. ระยะทาง</span>
+                            <span class="m-0 pl-5 pr-5 red bx-border-bottom"> {{ $data['length']?? '-' }} </span>
+                            <span>เมตร</span>
+                        @endforeach
+                    @endif
+                    <span> ติดตั้งชุดบัคอาร์ม จำนวน</span>
+                    <span class="m-0 pl-5 pr-5 red bx-border-bottom"> {{ $meter_extra['buc_arm']?? '-' }} </span>
+                    <span>ชุด</span>
+                </td>
+            </tr>
+        @endif
+
+        @php($transformer = $meter->meter_extra_groups('transformer'))
+        @if($transformer->count())
+            <tr>
+                <td colspan="1"></td>
+                <td colspan="11">
+                    <span>2.{{ ++$topic_index }} แผนกหม้อแปลง</span>
+                    @foreach($transformer as $data)
+                        <span>{{ $data['job_type']?? '' }}หม้อแปลง ขนาด</span>
+                        <span class="m-0 pl-5 pr-5 red bx-border-bottom"> {{ $data['transformer_size']?? '-' }} </span>
+                        <span>เควีเอ. ระบบ</span>
+                        <span class="m-0 pl-5 pr-5 red bx-border-bottom"> {{ $data['phase']?? '-' }} </span>
+                        <span>เฟส จำนวน</span>
+                        <span class="m-0 pl-5 pr-5 red bx-border-bottom"> {{ $data['quantity']?? '-' }} </span>
+                        <span>เครื่อง</span>
+                    @endforeach
+                </td>
+            </tr>
+        @endif
+
+        @php($low_voltage_pole = $meter->meter_extra_groups('low_voltage_pole'))
+        @php($low_voltage_cable = $meter->meter_extra_groups('low_voltage_cable'))
+        @if($low_voltage_pole->count() || $low_voltage_cable->count())
+            <tr>
+                <td colspan="1"></td>
+                <td colspan="11">
+                    <span>2.{{ ++$topic_index }} แผนกแรงต่ำ</span>
+                    @if(!empty($low_voltage_pole))
+                        @foreach($low_voltage_pole as $data)
+                            <span>{{ $data['job_type']?? '' }} คอร. ขนาด</span>
+                            <span class="m-0 pl-5 pr-5 red bx-border-bottom"> {{ $data['cord_size']?? '-' }} </span>
+                            <span>เมตร จำนวน</span>
+                            <span class="m-0 pl-5 pr-5 red bx-border-bottom"> {{ $data['quantity']?? '-' }} </span>
+                            <span>ต้น</span>
+                        @endforeach
+                    @endif
+                    @if(!empty($low_voltage_cable))
+                        @foreach($low_voltage_cable as $data)
+                            <span>{{ $data['job_type']?? '' }}สายอลูมิเนียม{{ $data['cable_type']?? '' }}</span>
+                            <span class="m-0 pl-5 pr-5 red bx-border-bottom"> {{ $data['cable_type']?? '-' }} </span>
+                            <span>ขนาด</span>
+                            <span class="m-0 pl-5 pr-5 red bx-border-bottom"> {{ $data['cord_size']?? '-' }} </span>
+                            <span>ตร.มม. ระบบ</span>
+                            <span class="m-0 pl-5 pr-5 red bx-border-bottom"> {{ $data['phase']?? '-' }} </span>
+                            <span>เฟส สาย ระยะทางประมาณ</span>
+                            <span class="m-0 pl-5 pr-5 red bx-border-bottom"> {{ $data['cable_length']?? '-' }} </span>
+                            <span>เมตร</span>
+                        @endforeach
+                    @endif
+
+                </td>
+            </tr>
+        @endif
+
+        @php($meter_extra_groups = $meter->meter_extra_groups('meter'))
+        @if($meter_extra_groups->count())
+            <tr>
+                <td colspan="1"></td>
+                <td colspan="11">
+                    <span>2.{{ ++$topic_index }} แผนกมิเตอร์</span>
+                    @foreach($meter_extra_groups as $data)
+                        <span>ติดตั้งมิเตอร์ขนาด</span>
+                        <span class="m-0 pl-5 pr-5 red bx-border-bottom"> {{ $data['meter_size']?? '-' }} </span>
+                        <span>แอมป์</span>
+                        <span class="m-0 pl-5 pr-5 red bx-border-bottom"> {{ $data['phase']?? '-' }} </span>
+                        <span>เฟส ประกอบ</span>
+                        <span class="m-0 pl-5 pr-5 red bx-border-bottom"> {{ $data['job_type']?? '-' }} </span>
+                        <span>ขนาด</span>
+                        <span class="m-0 pl-5 pr-5 red bx-border-bottom"> {{ $data['meter_volt']?? '-' }} </span>
+                        <span>โวลท์</span>
+                        <span class="m-0 pl-5 pr-5 red bx-border-bottom"> {{ $data['meter_amp']?? '-' }} </span>
+                        <span>แอมป์ จำนวน</span>
+                        <span class="m-0 pl-5 pr-5 red bx-border-bottom"> {{ $data['quantity']?? '-' }} </span>
+                        <span>เครื่อง</span>
+                    @endforeach
+                </td>
+            </tr>
+        @endif
+
+        @isset($meter_extra['public_light_cable_type'])
+            <tr>
+                <td colspan="1"></td>
+                <td colspan="11">
+                    <span>2.{{ ++$topic_index }} แผนกไฟสาธารณะ</span>
+                    <span>{{ $meter_extra['public_light_cable_type'] }}อลูมิเนียมหุ้มฉนวน ขนาด</span>
+                    <span class="m-0 pl-5 pr-5 red bx-border-bottom"> {{ $meter_extra['public_light_cable_size']?? '-' }} </span>
+                    <span>ตร.มม. ระยะทางประมาณ</span>
+                    <span class="m-0 pl-5 pr-5 red bx-border-bottom"> {{ $meter_extra['public_light_cable_length']?? '-' }} </span>
+                    <span>เมตร </span>
+                    @if($meter_extra['public_light_lamp_type'])
+                        <span>{{ $meter_extra['public_light_lamp_type'] }} ชุดโคมไฟ ขนาด</span>
+                        <span class="m-0 pl-5 pr-5 red bx-border-bottom"> {{ $meter_extra['public_light_lamp_size']?? '-' }} </span>
+                        <span>วัตต์ จำนวน</span>
+                        <span class="m-0 pl-5 pr-5 red bx-border-bottom"> {{ $meter_extra['public_light_lamp_quantity']?? '-' }} </span>
+                        <span>ชุด สวิทช์ควบคุม จำนวน</span>
+                        <span class="m-0 pl-5 pr-5 red bx-border-bottom"> {{ $meter_extra['public_light_lamp_switch_quantity']?? '-' }} </span>
+                        <span>ชุด</span>
+                    @endif
+                </td>
+            </tr>
+        @endisset
+
     </table>
 
     <table border="0" cellpadding="2" cellspacing="0" style="table-layout: fixed; page-break-inside: avoid;">
@@ -471,21 +505,21 @@
         </tr>
     </table>
 
-{{--    <script type="text/php">--}}
-{{--    if ( isset($pdf) ) {--}}
-{{--        $w = $pdf->get_width();--}}
-{{--        $h = $pdf->get_height();--}}
+    {{--    <script type="text/php">--}}
+    {{--    if ( isset($pdf) ) {--}}
+    {{--        $w = $pdf->get_width();--}}
+    {{--        $h = $pdf->get_height();--}}
 
-{{--        $size = 14;--}}
-{{--        $color = array(0,0,0);--}}
-{{--        $font = $fontMetrics->getFont("THSarabunNew");--}}
-{{--        $font_bold = $fontMetrics->getFont("THSarabunNew", "bold");--}}
-{{--        $text_height = $fontMetrics->getFontHeight($font, $size);--}}
-{{--        $y = $h - 2 * $text_height - 24;--}}
+    {{--        $size = 14;--}}
+    {{--        $color = array(0,0,0);--}}
+    {{--        $font = $fontMetrics->getFont("THSarabunNew");--}}
+    {{--        $font_bold = $fontMetrics->getFont("THSarabunNew", "bold");--}}
+    {{--        $text_height = $fontMetrics->getFontHeight($font, $size);--}}
+    {{--        $y = $h - 2 * $text_height - 24;--}}
 
-{{--        $pdf->text(500, $y, "/5. ทรัพย์สิน...", $font, $size, $color);--}}
-{{--    }--}}
-{{--    </script>--}}
+    {{--        $pdf->text(500, $y, "/5. ทรัพย์สิน...", $font, $size, $color);--}}
+    {{--    }--}}
+    {{--    </script>--}}
 
     <table border="1" cellpadding="0" cellspacing="0" class="table_price">
         <thead>
@@ -508,13 +542,16 @@
         @php($payment_manual_net_action = ($meter_extra['payment_manual_action_'.$i]?? 0))
         @php($payment_manual_net_customer = ($meter_extra['payment_manual_customer_'.$i]?? 0))
         @if($payment_manual_net_summary = ($payment_manual_net_pea_invest + $payment_manual_net_action + $payment_manual_net_customer))
-        <tr>
-            <td><span>ค่าสมทบก่อสร้างและปรับปรุงระบบจำหน่าย</span><br>(<span class="m-0 pl-5 pr-5 red bx-border-bottom">@if ($payment_manual_pea_invest_kva = ($meter_extra['payment_manual_pea_invest_kva_'.$i]?? 0)) {{ number_format($payment_manual_pea_invest_kva, 2) }} @endif</span>kVA. X <span class="m-0 pl-5 pr-5 red bx-border-bottom">@if ($payment_manual_pea_invest_baht = ($meter_extra['payment_manual_pea_invest_baht_'.$i]?? 0)) {{ number_format($payment_manual_pea_invest_baht, 2) }} @endif</span>บาท/kVA.)</td>
-            <td class="text-right">@if ($payment_manual_net_pea_invest) {{ number_format($payment_manual_net_pea_invest, 2) }} @endif</td>
-            <td class="text-right">@if ($payment_manual_net_action) {{ number_format($payment_manual_net_action, 2) }} @endif</td>
-            <td class="text-right">@if ($payment_manual_net_customer) {{ number_format($payment_manual_net_customer, 2) }} @endif</td>
-            <td class="text-right">@if ($payment_manual_net_summary) {{ number_format($payment_manual_net_summary, 2) }} @endif</td>
-        </tr>
+            <tr>
+                <td><span>ค่าสมทบก่อสร้างและปรับปรุงระบบจำหน่าย</span><br>(<span
+                            class="m-0 pl-5 pr-5 red bx-border-bottom">@if ($payment_manual_pea_invest_kva = ($meter_extra['payment_manual_pea_invest_kva_'.$i]?? 0)) {{ number_format($payment_manual_pea_invest_kva, 2) }} @endif</span>kVA. X <span
+                            class="m-0 pl-5 pr-5 red bx-border-bottom">@if ($payment_manual_pea_invest_baht = ($meter_extra['payment_manual_pea_invest_baht_'.$i]?? 0)) {{ number_format($payment_manual_pea_invest_baht, 2) }} @endif</span>บาท/kVA.)
+                </td>
+                <td class="text-right">@if ($payment_manual_net_pea_invest) {{ number_format($payment_manual_net_pea_invest, 2) }} @endif</td>
+                <td class="text-right">@if ($payment_manual_net_action) {{ number_format($payment_manual_net_action, 2) }} @endif</td>
+                <td class="text-right">@if ($payment_manual_net_customer) {{ number_format($payment_manual_net_customer, 2) }} @endif</td>
+                <td class="text-right">@if ($payment_manual_net_summary) {{ number_format($payment_manual_net_summary, 2) }} @endif</td>
+            </tr>
         @endif
         @php($sum_net_pea_invest += $payment_manual_net_pea_invest)
         @php($sum_net_action += $payment_manual_net_action)
@@ -527,13 +564,13 @@
             @php($payment_manual_net_action = ($meter_extra['payment_manual_action_'.$i]?? 0))
             @php($payment_manual_net_customer = ($meter_extra['payment_manual_customer_'.$i]?? 0))
             @if($payment_manual_net_summary = ($payment_manual_net_pea_invest + $payment_manual_net_action + $payment_manual_net_customer))
-            <tr>
-                <td>{!! $row !!}</td>
-                <td class="text-right">@if ($payment_manual_net_pea_invest) {{ number_format($payment_manual_net_pea_invest, 2) }} @endif</td>
-                <td class="text-right">@if ($payment_manual_net_action) {{ number_format($payment_manual_net_action, 2) }} @endif</td>
-                <td class="text-right">@if ($payment_manual_net_customer) {{ number_format($payment_manual_net_customer, 2) }} @endif</td>
-                <td class="text-right">@if ($payment_manual_net_summary) {{ number_format($payment_manual_net_summary, 2) }} @endif</td>
-            </tr>
+                <tr>
+                    <td>{!! $row !!}</td>
+                    <td class="text-right">@if ($payment_manual_net_pea_invest) {{ number_format($payment_manual_net_pea_invest, 2) }} @endif</td>
+                    <td class="text-right">@if ($payment_manual_net_action) {{ number_format($payment_manual_net_action, 2) }} @endif</td>
+                    <td class="text-right">@if ($payment_manual_net_customer) {{ number_format($payment_manual_net_customer, 2) }} @endif</td>
+                    <td class="text-right">@if ($payment_manual_net_summary) {{ number_format($payment_manual_net_summary, 2) }} @endif</td>
+                </tr>
             @endif
 
             @php($sum_net_pea_invest += $payment_manual_net_pea_invest)
@@ -609,7 +646,7 @@
                 <p>
                     <span>เมื่อดำเนินการแล้วเสร็จ ระบบไฟฟ้าในที่สาธารณะและเครื่องวัดพร้อมอุปกรณ์ประกอบเป็นทรัพย์สินของ กฟภ. ยกเว้น สายดับ กิ่งโคมไฟ และ/หรือระบบไฟฟ้าในเขตที่ดินของผู้ใช้ไฟ เป็นทรัพย์สินของผู้ใช้ไฟ</span>
                 </p>
-                <p>
+                <p style="padding-bottom: 80px;">
                     <span>จึงเรียนมาเพื่อโปรดพิจารณาอนุมัติ พร้อมนี้ได้แนบแผนผังเลขที่</span>
                     <span class="m-0 pl-5 pr-5 red bx-border-bottom"> PB30 017/650038 </span>
                     <span>จำนวน</span>
@@ -618,9 +655,6 @@
                 </p>
             </td>
         </tr>
-    </table>
-
-    <table border="0" cellpadding="2" cellspacing="0" style="margin-top: 150px; table-layout:fixed; page-break-inside: avoid;">
         <tr>
             <td colspan="2">@if($request_approval_user = $meter->request_approval_user) <b>ผู้เสนอขออนุมัติ</b> @endif</td>
             <td colspan="3" class="text-center">@if($request_approval_user) ({{ $request_approval_user->name }}) @endif</td>
