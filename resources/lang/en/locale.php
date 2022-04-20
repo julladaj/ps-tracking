@@ -137,5 +137,9 @@ return [
     'role' => 'Role',
     'any' => 'Any',
     'page_size' => 'Page size',
-    'Meters' => 'Meters'
+    'Meters' => 'Meters',
+    'Services' => 'Services',
+    'Accountings' => 'Accountings',
+    'Managements' => 'Managements',
+    'Implementations' => 'Implementations'
 ];

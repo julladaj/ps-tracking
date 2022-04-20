@@ -521,7 +521,7 @@
     {{--    }--}}
     {{--    </script>--}}
 
-    <table border="1" cellpadding="0" cellspacing="0" class="table_price">
+    <table border="1" cellpadding="0" cellspacing="0" class="table_price" style="page-break-inside: avoid;">
         <thead>
         <tr>
             <th>ชื่อประเภทงาน</th>

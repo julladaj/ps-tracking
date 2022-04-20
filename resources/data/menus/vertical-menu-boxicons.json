@@ -9,6 +9,38 @@
       ]
     },
     {
+      "name": "Services",
+      "slug": "meters.index",
+      "icon": "bx bx-grid",
+      "roles": [
+        "visitor"
+      ]
+    },
+    {
+      "name": "Accountings",
+      "slug": "meters.index",
+      "icon": "bx bx-grid",
+      "roles": [
+        "visitor"
+      ]
+    },
+    {
+      "name": "Managements",
+      "slug": "meters.index",
+      "icon": "bx bx-grid",
+      "roles": [
+        "visitor"
+      ]
+    },
+    {
+      "name": "Implementations",
+      "slug": "meters.index",
+      "icon": "bx bx-grid",
+      "roles": [
+        "visitor"
+      ]
+    },
+    {
       "name": "User",
       "slug": "users.index",
       "icon": "bx bx-user-plus"
