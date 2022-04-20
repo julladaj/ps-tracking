@@ -173,6 +173,7 @@
         $pdf->text(480, $y, "/3. ส่วนของผู้ใช้ไฟ...", $font, $size, $color);
     }
 
+
     </script>
 
     <table border="0" cellpadding="2" cellspacing="0" style="table-layout: fixed;">
@@ -615,22 +616,24 @@
                     <span class="m-0 pl-5 pr-5 red bx-border-bottom"> 3 </span>
                     <span>เดือน ส่วนค่าธรรมเนียมต่างๆ ให้เรียกเก็บตามระเบียบ กฟภ.</span>
                 </p>
-                <p>
-                    <span>ผู้ใช้ไฟได้</span>
-                    <span class="m-0 pl-5 pr-5 red bx-border-bottom">ชำระ{{ $meter_extra['customer_payment_type']?? 'ค่าตรวจสอบแบบและแผนผัง' }}</span>
-                    <span>ตามคำสั่งที่ {{ $meter->document_number }} ลว. {{ buddhismDate($meter->document_date) }} เป็นเงิน</span>
-                    <span class="m-0 pl-5 pr-5 red bx-border-bottom"> - </span>
-                    <span>บาท <b>(ใบเสร็จรับเงินเลขที่</b></span>
-                    <span class="m-0 pl-5 pr-5 red bx-border-bottom"> - </span>
-                    <span><b>)</b></span>
-                </p>
-                <p>
-                    <span>ดังนั้น ขอให้ผู้ใช้ไฟจะต้องชำระค่าใช้จ่ายในการดำเนินการตามข้อ <b>4</b> คงเหลือเป็นเงิน</span>
-                    <span class="m-0 pl-5 pr-5 red bx-border-bottom"> 5,718.76 </span>
-                    <span>บาท <b>(</b></span>
-                    <span class="m-0 pl-5 pr-5 red bx-border-bottom"> - </span>
-                    <span><b>)</b> (รวมภาษีมูลค่าเพิ่มแล้ว)</span>
-                </p>
+                @if(isset($meter['has_payment']) && $meter['has_payment'] && $meter['paid_amount'])
+                    <p>
+                        <span>ผู้ใช้ไฟได้</span>
+                        <span class="m-0 pl-5 pr-5 red bx-border-bottom">ชำระ{{ $meter_extra['customer_payment_type']?? 'ค่าตรวจสอบแบบและแผนผัง' }}</span>
+                        <span>ตามคำสั่งที่ {{ $meter->document_number }} ลว. {{ buddhismDate($meter->document_date) }} เป็นเงิน</span>
+                        <span class="m-0 pl-5 pr-5 red bx-border-bottom"> {{ number_format($meter['paid_amount'], 2) }} </span>
+                        <span>บาท <b>(ใบเสร็จรับเงินเลขที่</b></span>
+                        <span class="m-0 pl-5 pr-5 red bx-border-bottom"> {{ $meter['receive_no']?? '-' }} </span>
+                        <span><b>)</b></span>
+                    </p>
+                    <p>
+                        <span>ดังนั้น ขอให้ผู้ใช้ไฟจะต้องชำระค่าใช้จ่ายในการดำเนินการตามข้อ <b>4</b> คงเหลือเป็นเงิน</span>
+                        <span class="m-0 pl-5 pr-5 red bx-border-bottom"> {{ number_format($meter['payment_request'] - $meter['paid_amount'], 2) }} </span>
+                        <span>บาท <b>(</b></span>
+                        <span class="m-0 pl-5 pr-5 red bx-border-bottom"> {{ baht_text($meter['payment_request'] - $meter['paid_amount']) }} </span>
+                        <span><b>)</b> (รวมภาษีมูลค่าเพิ่มแล้ว)</span>
+                    </p>
+                @endif
             </td>
         </tr>
     </table>

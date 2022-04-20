@@ -428,7 +428,7 @@
                 <span>บาท (รวมภาษีมูลค่าเพิ่ม)</span>
             </td>
         </tr>
-        @if($meter['paid_amount'])
+        @if(isset($meter['has_payment']) && $meter['has_payment'] && $meter['paid_amount'])
             <tr>
                 <td colspan="1"></td>
                 <td colspan="11">
