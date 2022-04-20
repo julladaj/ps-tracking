@@ -172,7 +172,8 @@
         $pdf->text(480, $y, "/3. ส่วนของผู้ใช้ไฟ...", $font, $size, $color);
     }
     </script>
-    <table border="0" cellpadding="2" cellspacing="0">
+
+    <table border="0" cellpadding="2" cellspacing="0" style="table-layout: fixed;">
         <tr>
             <td colspan="1">จาก</td>
             <td colspan="5">ผบค.กฟอ.หางดง</td>
@@ -306,6 +307,9 @@
                 <span>กม.</span>
             </td>
         </tr>
+    </table>
+
+    <table border="0" cellpadding="2" cellspacing="0" style="table-layout: fixed; page-break-inside: avoid;">
         <tr>
             <td colspan="12">
                 <b>2. ส่วนของ กฟภ. ดำเนินการ</b>
@@ -419,6 +423,9 @@
                 <span>ชุด</span>
             </td>
         </tr>
+    </table>
+
+    <table border="0" cellpadding="2" cellspacing="0" style="table-layout: fixed; page-break-inside: avoid;">
         <tr>
             <td colspan="12">
                 <b>3. ส่วนของผู้ใช้ไฟดำเนินการเอง</b>
@@ -509,7 +516,12 @@
             <td class="text-right">@if ($payment_manual_net_summary) {{ number_format($payment_manual_net_summary, 2) }} @endif</td>
         </tr>
         @endif
+        @php($sum_net_pea_invest += $payment_manual_net_pea_invest)
+        @php($sum_net_action += $payment_manual_net_action)
+        @php($sum_net_customer += $payment_manual_net_customer)
+        @php($sum_net_summary += $payment_manual_net_summary)
         @php($i++)
+
         @foreach(__('payment_type') as $row)
             @php($payment_manual_net_pea_invest = ($meter_extra['payment_manual_pea_invest_'.$i]?? 0))
             @php($payment_manual_net_action = ($meter_extra['payment_manual_action_'.$i]?? 0))
@@ -554,14 +566,14 @@
         </tbody>
     </table>
 
-    <table border="0" cellpadding="2" cellspacing="0">
+    <table border="0" cellpadding="2" cellspacing="0" style="table-layout: fixed;">
         <tr>
             <td colspan="12">
                 <p>
                     <span>ในการดำเนินการดังกล่าว ให้เรียกเก็บเงินจาก</span>
                     <span class="m-0 pl-5 pr-5 red bx-border-bottom"> ผชฟ. </span>
                     <span>เป็นจำนวนเงิน</span>
-                    <span class="m-0 pl-5 pr-5 red bx-border-bottom"> 5,718.76 </span>
+                    <span class="m-0 pl-5 pr-5 red bx-border-bottom">{{ number_format($sum_net_summary + $tax_net_summary, 2) }}</span>
                     <span>บาท กำหนดยืนราคาภายใน</span>
                     <span class="m-0 pl-5 pr-5 red bx-border-bottom"> 3 </span>
                     <span>เดือน ส่วนค่าธรรมเนียมต่างๆ ให้เรียกเก็บตามระเบียบ กฟภ.</span>
@@ -586,7 +598,7 @@
         </tr>
     </table>
 
-    <table style="page-break-inside: avoid;">
+    <table border="0" cellpadding="2" cellspacing="0" style="table-layout: fixed; page-break-inside: avoid;">
         <tr>
             <td colspan="12">
                 <b>5. ทรัพย์สิน</b>
@@ -608,7 +620,7 @@
         </tr>
     </table>
 
-    <table border="0" cellpadding="2" cellspacing="0" style="margin-top: 150px; table-layout:fixed;">
+    <table border="0" cellpadding="2" cellspacing="0" style="margin-top: 150px; table-layout:fixed; page-break-inside: avoid;">
         <tr>
             <td colspan="2">@if($request_approval_user = $meter->request_approval_user) <b>ผู้เสนอขออนุมัติ</b> @endif</td>
             <td colspan="3" class="text-center">@if($request_approval_user) ({{ $request_approval_user->name }}) @endif</td>
