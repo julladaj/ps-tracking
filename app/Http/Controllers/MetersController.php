@@ -48,6 +48,9 @@ class MetersController extends Controller
                 ->orWhere('meters.customer_phone', 'like', '%' . $search . '%')
                 ->orWhereHas('job_status', function ($query) use ($search) {
                     return $query->where('description', 'like', '%' . $search . '%');
+                })
+                ->orWhereHas('pea_staff', function ($query) use ($search) {
+                    return $query->where('name', 'like', '%' . $search . '%');
                 });
         }
 

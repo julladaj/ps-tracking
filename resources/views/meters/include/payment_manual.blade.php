@@ -12,6 +12,23 @@
         <tbody>
         @php($i = 0)
         @php($vat_rate = 7)
+        <tr>
+            <td>
+                <span>ค่าสมทบก่อสร้างและปรับปรุงระบบจำหน่าย</span>
+                <br>(<input type="number" class="text-right" style="width:50px;" id="payment_manual_pea_invest_kva" name="meter_extra[payment_manual_pea_invest_kva_{{ ++$i }}]" step="0.01"
+                            value="{{ $meter_extra['payment_manual_pea_invest_kva_'.$i]?? old('meter_extra.payment_manual_pea_invest_kva_'.$i, 0) }}" />kVA. X
+                <input type="number" class="text-right" style="width:50px;" id="payment_manual_pea_invest_baht" name="meter_extra[payment_manual_pea_invest_baht_{{ $i }}]" step="0.01"
+                       value="{{ $meter_extra['payment_manual_pea_invest_baht_'.$i]?? old('meter_extra.payment_manual_pea_invest_baht_'.$i, 0) }}" />บาท/kVA.)
+            </td>
+            <td><input type="number" class="form-control text-right" name="meter_extra[payment_manual_pea_invest_{{ $i }}]" placeholder="บาท" step="0.01"
+                       payment_manual="{{ $i }}" value="{{ $meter_extra['payment_manual_pea_invest_'.$i]?? old('meter_extra.payment_manual_pea_invest_'.$i, 0) }}"></td>
+            <td><input type="number" class="form-control text-right" name="meter_extra[payment_manual_action_{{ $i }}]" placeholder="บาท" step="0.01"
+                       payment_manual="{{ $i }}" value="{{ $meter_extra['payment_manual_action_'.$i]?? old('meter_extra.payment_manual_action_'.$i, 0) }}"></td>
+            <td><input type="number" class="form-control text-right" name="meter_extra[payment_manual_customer_{{ $i }}]" placeholder="บาท" step="0.01"
+                       payment_manual="{{ $i }}" value="{{ $meter_extra['payment_manual_customer_'.$i]?? old('meter_extra.payment_manual_customer_'.$i, 0) }}"></td>
+            <td><input type="number" class="form-control text-right" name="meter_extra[payment_manual_summary_{{ $i }}]" placeholder="บาท" readonly
+                       payment_manual_id="{{ $i }}" value="{{ $meter_extra['payment_manual_summary_'.$i]?? old('meter_extra.payment_manual_summary_'.$i, 0) }}"></td>
+        </tr>
         @foreach(__('payment_type') as $row)
             <tr>
                 <td>{!! $row !!}</td>
@@ -65,6 +82,9 @@
 @push('scripts')
     <script>
         $(document).ready(function () {
+            const payment_manual_pea_invest_kva = $('#payment_manual_pea_invest_kva');
+            const payment_manual_pea_invest_baht = $('#payment_manual_pea_invest_baht');
+
             const payment_manual_pea_invest = $('input[name^="meter_extra[payment_manual_pea_invest_"]');
             const payment_manual_action = $('input[name^="meter_extra[payment_manual_action_"]');
             const payment_manual_customer = $('input[name^="meter_extra[payment_manual_customer_"]');
@@ -82,6 +102,14 @@
                 payment_manual_calculate_summary();
             });
 
+            payment_manual_pea_invest_kva.blur(function () {
+                payment_manual_calculate_summary();
+            });
+
+            payment_manual_pea_invest_baht.blur(function () {
+                payment_manual_calculate_summary();
+            });
+
             function payment_manual_calculate_summary() {
                 let net_pea_invest = 0;
                 let tax_pea_invest = 0;
@@ -93,6 +121,8 @@
                 let tax_summary = 0;
 
                 let vat_rate = {{ $vat_rate }};
+
+                $('input[name="meter_extra[payment_manual_customer_1]"]').val( Number(payment_manual_pea_invest_kva.val()) * Number(payment_manual_pea_invest_baht.val()));
 
                 payment_manual_pea_invest.each(function () {
                     net_pea_invest += Number($(this).val());

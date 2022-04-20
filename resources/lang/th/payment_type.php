@@ -1,6 +1,5 @@
 <?php
 return [
-    'ค่าสมทบก่อสร้างและปรับปรุงระบบจำหน่าย<br>(<span style="border-bottom: 1px dotted black; padding-left: 60px;">&nbsp;</span>kVA. X<span style="border-bottom: 1px dotted black; padding-left: 60px;">&nbsp;</span>บาท/kVA.)',
     'แรงสูงภายนอก กฟภ. 50%',
     'แรงสูงภายนอก ผชฟ. 50%',
     'แรงสูงภายนอก',
