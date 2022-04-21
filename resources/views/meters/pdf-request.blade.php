@@ -158,23 +158,21 @@
 <!-- Wrap the content of your PDF inside a main tag -->
 <main>
     <img style="width: 120px;" src="{{ public_path('images/logo/pea_logo.png') }}">
-    <script type="text/php">
-    if ( isset($pdf) ) {
-        $w = $pdf->get_width();
-        $h = $pdf->get_height();
+{{--    <script type="text/php">--}}
+{{--    if ( isset($pdf) ) {--}}
+{{--        $w = $pdf->get_width();--}}
+{{--        $h = $pdf->get_height();--}}
 
-        $size = 14;
-        $color = array(0,0,0);
-        $font = $fontMetrics->getFont("THSarabunNew");
-        $font_bold = $fontMetrics->getFont("THSarabunNew", "bold");
-        $text_height = $fontMetrics->getFontHeight($font, $size);
-        $y = $h - 2 * $text_height - 24;
+{{--        $size = 14;--}}
+{{--        $color = array(0,0,0);--}}
+{{--        $font = $fontMetrics->getFont("THSarabunNew");--}}
+{{--        $font_bold = $fontMetrics->getFont("THSarabunNew", "bold");--}}
+{{--        $text_height = $fontMetrics->getFontHeight($font, $size);--}}
+{{--        $y = $h - 2 * $text_height - 24;--}}
 
-        $pdf->text(480, $y, "/3. ส่วนของผู้ใช้ไฟ...", $font, $size, $color);
-    }
-
-
-    </script>
+{{--        $pdf->text(480, $y, "/3. ส่วนของผู้ใช้ไฟ...", $font, $size, $color);--}}
+{{--    }--}}
+{{--    </script>--}}
 
     <table border="0" cellpadding="2" cellspacing="0" style="table-layout: fixed;">
         <tr>
@@ -521,6 +519,15 @@
     {{--        $pdf->text(500, $y, "/5. ทรัพย์สิน...", $font, $size, $color);--}}
     {{--    }--}}
     {{--    </script>--}}
+
+
+    <table border="0" cellpadding="2" cellspacing="0" style="table-layout: fixed; page-break-inside: avoid;">
+        <tr>
+            <td colspan="12">
+                <b>4. ค่าใช้จ่าย</b>
+            </td>
+        </tr>
+    </table>
 
     <table border="1" cellpadding="0" cellspacing="0" class="table_price" style="page-break-inside: avoid;">
         <thead>
