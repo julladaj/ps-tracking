@@ -40,7 +40,8 @@
 
         /** Define the margins of your page **/
         @page {
-            margin: 50px 50px 50px 50px ;
+            size: A4;
+            margin: 1.5cm 2cm 1.5cm 3cm;
         }
 
         header {
@@ -68,12 +69,12 @@
 
         body {
             font-family: "THSarabunNew", sans-serif;
-            font-size: 14pt;
+            font-size: 16pt;
             line-height: 1em;
         }
 
         p {
-            text-indent: 100px;
+            text-indent: 2.5cm;
             padding: 0;
             margin-top: 0;
         }
@@ -129,7 +130,7 @@
             padding: 0 5px;
             /*padding: 0;*/
             margin: 0;
-            font-size: 12pt;
+            font-size: 16pt;
         }
 
         .pl-5 {
@@ -151,13 +152,14 @@
         .m-0 {
             margin: 0;
         }
+
     </style>
 </head>
 <body>
 <!-- Define header and footer blocks before your content -->
 <!-- Wrap the content of your PDF inside a main tag -->
 <main>
-    <img style="width: 120px;" src="{{ public_path('images/logo/pea_logo.png') }}">
+    <img style="width: 140px;" src="{{ public_path('images/logo/pea_logo.svg') }}">
 {{--    <script type="text/php">--}}
 {{--    if ( isset($pdf) ) {--}}
 {{--        $w = $pdf->get_width();--}}
