@@ -255,7 +255,7 @@
                             <input type="checkbox" {{ $meter->electric_expand->env_earth_id === 1? 'checked' : '' }}><label> ดินธรรมดา</label>
                             <input type="checkbox" class="pl-20" {{ $meter->electric_expand->env_earth_id === 2? 'checked' : '' }}><label> ดินทราย</label>
                             <input type="checkbox" class="pl-20" {{ $meter->electric_expand->env_earth_id === 3? 'checked' : '' }}><label> เขาดินลูกรัง</label>
-                            <input type="checkbox" class="pl-20" {{ $meter->electric_expand->env_earth_id === 4? 'checked' : '' }}><label> ภูเขา-หิน</label>
+                            <input type="checkbox" class="pl-20" {{ $meter->electric_expand->env_earth_id === 4? 'checked' : '' }}><label> ภูเขา-หิน</label><br>
                             <input type="checkbox" class="pl-20" {{ $meter->electric_expand->env_earth_id === 5? 'checked' : '' }}><label> ดินดาน</label>
                         </td>
                     </tr>

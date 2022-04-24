@@ -163,7 +163,7 @@
 <!-- Define header and footer blocks before your content -->
 <!-- Wrap the content of your PDF inside a main tag -->
 <main>
-    <img style="width: 140px;" src="{{ public_path('images/logo/pea_logo.png') }}">
+    <img style="width: 140px;" src="{{ public_path('images/logo/pea_logo.svg') }}">
     <script type="text/php">
     if ( isset($pdf) ) {
         $w = $pdf->get_width();
