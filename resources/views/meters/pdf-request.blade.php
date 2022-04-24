@@ -77,6 +77,8 @@
             text-indent: 2.5cm;
             padding: 0;
             margin-top: 0;
+            word-break: break-all;
+            word-wrap: anywhere;
         }
 
         .page-break {

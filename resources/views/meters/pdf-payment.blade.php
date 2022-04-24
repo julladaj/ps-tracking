@@ -78,6 +78,7 @@
             padding: 0;
             margin-top: 0;
             word-break: break-all;
+            word-wrap: anywhere;
         }
 
         .page-break {
@@ -164,6 +165,7 @@
 <!-- Wrap the content of your PDF inside a main tag -->
 <main>
     <img style="width: 140px;" src="{{ public_path('images/logo/pea_logo.svg') }}">
+
     <script type="text/php">
     if ( isset($pdf) ) {
         $w = $pdf->get_width();
@@ -183,7 +185,7 @@
 
     </script>
 
-    <table border="0" cellpadding="2" cellspacing="0" class="page-break">
+    <table border="0" cellpadding="2" cellspacing="0" style="table-layout: fixed;">
         <tr>
             <td colspan="1">ที่</td>
             <td colspan="11">มท</td>
@@ -347,7 +349,9 @@
                 </td>
             </tr>
         @endisset
+    </table>
 
+    <table border="0" cellpadding="2" cellspacing="0" style="table-layout: fixed; page-break-inside: avoid;">
         @php($max_topic1_index = $topic_index)
         @php($topic_index = 0)
         <tr>
@@ -415,7 +419,7 @@
 
     @php($max_topic2_index = $topic_index)
     @php($topic_index = 0)
-    <table border="0" cellpadding="2" cellspacing="0">
+    <table border="0" cellpadding="2" cellspacing="0" style="table-layout: fixed; page-break-inside: avoid;">
         <tr>
             <td colspan="12">
                 <b>3. ค่าใช้จ่าย</b>
@@ -476,7 +480,8 @@
                         <span>บาท</span>
                     </p>
                     <p>
-                        <span>ทั้งนี้ ผู้ใช้ไฟฟ้าจะต้องชำระค่าธรรมเนียมการใช้ไฟฟ้าตามข้อ 3.2 ภายหลังจากที่การไฟฟ้าส่วนภูมิภาค ได้ก่อสร้างระบบจำหน่ายไฟฟ้าเสร็จเรียบร้อยแล้ว และได้ยื่นคำร้องขอใช้ไฟฟ้า โดยต้องผ่านการตรวจสอบ การติดตั้งอุปกรณ์ไฟฟ้า ภายในอาคารจากการไฟฟ้าส่วนภูมิภาคก่อน สำหรับเงินประกันการใช้ไฟฟ้าตั้งแต่ 10,000.- บาทขึ้นไป สามารถใช้หนังสือสัญญา ค้ำประกันจากธนาคารได้ หรือหากใช้พันธบัตรรัฐบาล หรือพันธบัตรรัฐวิสาหกิจที่กระทรวงการคลังค้ำประกัน ก็สามารถทำได้ โดยให้ติดต่อการไฟฟ้าส่วนภูมิภาคเป็นรายๆไป</span>
+                        <span>ทั้งนี้ ผู้ใช้ไฟฟ้าจะต้องชำระค่าธรรมเนียมการใช้ไฟฟ้าตามข้อ 3.2 ภายหลังจากที่
+                            <br>การไฟฟ้าส่วนภูมิภาค ได้ก่อสร้างระบบจำหน่ายไฟฟ้าเสร็จเรียบร้อยแล้ว และได้ยื่นคำร้องขอใช้ไฟฟ้า โดยต้องผ่านการตรวจสอบ การติดตั้งอุปกรณ์ไฟฟ้า ภายในอาคารจากการไฟฟ้าส่วนภูมิภาคก่อน สำหรับเงินประกันการใช้ไฟฟ้าตั้งแต่ 10,000.- บาทขึ้นไป สามารถใช้หนังสือสัญญา ค้ำประกันจากธนาคารได้ หรือหากใช้พันธบัตรรัฐบาล หรือพันธบัตรรัฐวิสาหกิจที่กระทรวงการคลังค้ำประกัน ก็สามารถทำได้ โดยให้ติดต่อการไฟฟ้าส่วนภูมิภาคเป็นรายๆไป</span>
                     </p>
                 </td>
             </tr>
@@ -492,12 +497,31 @@
                 <p style="word-break: break-all;">กำหนดยืนราคาค่าใช้จ่าย ภายในระยะเวลา<span class="m-0 pl-5 pr-5 red bx-border-bottom"> {{ $meter['paid_credit_terms']?? '-' }} </span>เดือน นับจากวันที่แจ้งค่าใช้จ่าย และหากการก่อสร้างระบบไฟฟ้า
                     ดังกล่าวข้างต้น มีความจำเป็นต้องแก้ไข เปลี่ยนแปลงการก่อสร้างฯหรืออื่นๆ ซึ่งอาจทำให้ค่าใช้จ่ายเพิ่มขึ้น ผู้ขอใช้ไฟจะต้องออกค่าใช้จ่ายในส่วนที่เพิ่มขึ้นภายหลังอีกต่างหากด้วย กรรมสิทธิ์ในทรัพย์สิน เมื่อดำเนินการก่อสร้างแล้วเสร็จ
                     ระบบจำหน่ายไฟฟ้าในที่สาธารณะ และเครื่องวัดพร้อมอุปกรณ์ประกอบ เป็นทรัพย์สินของการไฟฟ้าส่วนภูมิภาค ยกเว้น สายดับ กิ่งโคมไฟ และสวิทช์ควบคุมไฟสาธารณะ และ/หรือ ระบบจำหน่ายในเขตที่ดินของผู้ใช้ไฟเป็นทรัพย์สินของผู้ใช้ไฟ</p>
-                <p>จึงเรียนมาเพื่อโปรดทราบ และติดต่อชำระเงินได้ที่สำนักงานการไฟฟ้าส่วนภูมิภาคอำเภอหางดง</p>
+            </td>
+        </tr>
+    </table>
+
+    <table border="0" cellpadding="2" cellspacing="0" style="table-layout: fixed; page-break-inside: avoid;">
+        <tr>
+            <td colspan="12">
+                <p>จึงเรียนมาเพื่อโปรดทราบ และติดต่อชำระเงินได้ที่สำนักงานการไฟฟ้าส่วนภูมิภาค อำเภอหางดง</p>
             </td>
         </tr>
         <tr>
             <td colspan="5"></td>
             <td colspan="7" style="text-align: center;">ขอแสดงความนับถือ</td>
+        </tr>
+        <tr>
+            <td colspan="5"></td>
+            <td colspan="7" class="text-center" style="padding-top: 2cm;">@if($approval_user = $meter->approval_user) ({{ $approval_user->name }}) @endif</td>
+        </tr>
+        <tr>
+            <td colspan="5"></td>
+            <td colspan="7" class="text-center">@if($approval_user) {{ $approval_user->job_title }} @endif</td>
+        </tr>
+        <tr>
+            <td colspan="5"></td>
+            <td colspan="7" class="text-center">@if($approval_user) {{ $approval_user->position }} @endif</td>
         </tr>
     </table>
 
@@ -517,22 +541,7 @@
         $pdf->text(40, $y - $text_height, "โทร. 0 5344 1776", $font, $size, $color);
         $pdf->text(40, $y, "โทรสาร 0 5344 1176", $font, $size, $color);
     }
-
     </script>
-    <table border="0" cellpadding="2" cellspacing="0" style="margin-top: 90px;">
-        <tr>
-            <td colspan="5"></td>
-            <td colspan="7" class="text-center">@if($approval_user = $meter->approval_user) ({{ $approval_user->name }}) @endif</td>
-        </tr>
-        <tr>
-            <td colspan="5"></td>
-            <td colspan="7" class="text-center">@if($approval_user) {{ $approval_user->job_title }} @endif</td>
-        </tr>
-        <tr>
-            <td colspan="5"></td>
-            <td colspan="7" class="text-center">@if($approval_user) {{ $approval_user->position }} @endif</td>
-        </tr>
-    </table>
 
 </main>
 </body>
