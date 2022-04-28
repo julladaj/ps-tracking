@@ -30,6 +30,11 @@ Route::get('/', function() {
     return redirect(route('meters.index'));
 });
 
+Route::post('meters-filter', function(\Illuminate\Http\Request $request) {
+    session(['meters-filter' => $request->all()]);
+    return redirect(route('meters.index'));
+})->name('meters-filter');
+
 Route::resource('meters', MetersController::class);
 
 Route::group(['prefix' => 'dashboard'], function () {

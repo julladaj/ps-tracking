@@ -115,6 +115,7 @@
                     <h5 class="card-title">PS Tracking</h5>
                     <div class="heading-elements">
                         <a href="{{ route('meters.create') }}" class="btn btn-primary"><i class="bx bx-plus"></i> เพิ่มข้อมูล</a>
+                        <button type="button" class="btn btn-outline-{{ ($meters_filter = session('meters-filter'))? 'danger' : 'primary' }}" data-toggle="modal" data-target="#default"><i class="bx bx-filter"></i> กรองข้อมูล</button>
                     </div>
                 </div>
                 <div class="card-body">
@@ -169,6 +170,134 @@
         </div>
     </section>
     <!-- users list ends -->
+
+    <!--Basic Modal -->
+    <div class="modal fade text-left" id="default" tabindex="-1" role="dialog" aria-labelledby="myModalLabel1"
+         aria-hidden="true">
+        <div class="modal-dialog modal-dialog-scrollable modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3 class="modal-title" id="myModalLabel1">กรองข้อมูลค้นหา</h3>
+                    <button type="button" class="close rounded-pill" data-dismiss="modal" aria-label="Close">
+                        <i class="bx bx-x"></i>
+                    </button>
+                </div>
+                <form action="{{ route('meters-filter') }}" method="post">
+                    @csrf
+                    <div class="modal-body">
+                        <div class="alert bg-rgba-primary mt-1 p-1">
+                            <small class="text-muted">LIKE <code>%สมชาย</code> หมายถึง ลงท้ายด้วย "สมชาย"</small><br>
+                            <small class="text-muted">LIKE <code>สมชาย%</code> หมายถึง ขึ้นต้นด้วย "สมชาย"</small><br>
+                            <small class="text-muted">LIKE <code>%สมชาย%</code> หมายถึง มีคำว่า "สมชาย" อยู่ในประโยค</small>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-4 mb-1">เลขที่คำร้อง</div>
+                            <div class="col-md-8 mb-1">
+                                <fieldset>
+                                    <div class="input-group">
+                                        <div class="input-group-prepend">
+                                            <select name="id[operator]">
+                                                @php($operator = $meters_filter['id']['operator']?? '')
+                                                <option value="=" {{ ($operator === '=')? 'selected' : '' }}>=</option>
+                                                <option value="!=" {{ ($operator === '!=')? 'selected' : '' }}>!=</option>
+                                                <option value="<" {{ ($operator === '<')? 'selected' : '' }}><</option>
+                                                <option value=">" {{ ($operator === '>')? 'selected' : '' }}>></option>
+                                            </select>
+                                        </div>
+                                        <input type="text" class="form-control" placeholder="เลขที่คำร้อง" name="id[value]"
+                                               value="{{ $meters_filter['id']['value']?? '' }}">
+                                    </div>
+                                </fieldset>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-4 mb-1">วันที่ยื่นคำร้อง</div>
+                            <div class="col-md-8 mb-1">
+                                <fieldset>
+                                    <div class="input-group">
+                                        <div class="input-group-prepend">
+                                            <select name="document_date[operator]">
+                                                @php($operator = $meters_filter['document_date']['operator']?? '')
+                                                <option value="=" {{ ($operator === '=')? 'selected' : '' }}>=</option>
+                                                <option value="!=" {{ ($operator === '!=')? 'selected' : '' }}>!=</option>
+                                                <option value="<" {{ ($operator === '<')? 'selected' : '' }}><</option>
+                                                <option value=">" {{ ($operator === '>')? 'selected' : '' }}>></option>
+                                            </select>
+                                        </div>
+                                        <input type="date" class="form-control" name="document_date[value]" placeholder="วันที่ยื่นคำร้อง"
+                                               value="{{ $meters_filter['document_date']['value']?? '' }}">
+                                    </div>
+                                </fieldset>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-4 mb-1">ชื่อ-นามสกุล</div>
+                            <div class="col-md-8 mb-1">
+                                <fieldset>
+                                    <div class="input-group">
+                                        <div class="input-group-prepend">
+                                            <select name="customer_name[operator]">
+                                                @php($operator = $meters_filter['customer_name']['operator']?? '')
+                                                <option value="=" {{ ($operator === '=')? 'selected' : '' }}>=</option>
+                                                <option value="!=" {{ ($operator === '!=')? 'selected' : '' }}>!=</option>
+                                                <option value="like" {{ ($operator === 'like')? 'selected' : '' }}>LIKE</option>
+                                                <option value="not like" {{ ($operator === 'not like')? 'selected' : '' }}>NOT LIKE</option>
+                                            </select>
+                                        </div>
+                                        <input type="text" class="form-control" name="customer_name[value]" placeholder="ชื่อ-นามสกุล"
+                                               value="{{ $meters_filter['customer_name']['value']?? '' }}">
+                                    </div>
+                                </fieldset>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-4 mb-1">เบอร์โทรศัพท์</div>
+                            <div class="col-md-8 mb-1">
+                                <fieldset>
+                                    <div class="input-group">
+                                        <div class="input-group-prepend">
+                                            <select name="customer_phone[operator]">
+                                                @php($operator = $meters_filter['customer_phone']['operator']?? '')
+                                                <option value="=" {{ ($operator === '=')? 'selected' : '' }}>=</option>
+                                                <option value="!=" {{ ($operator === '!=')? 'selected' : '' }}>!=</option>
+                                                <option value="like" {{ ($operator === 'like')? 'selected' : '' }}>LIKE</option>
+                                                <option value="not like" {{ ($operator === 'not like')? 'selected' : '' }}>NOT LIKE</option>
+                                            </select>
+                                        </div>
+                                        <input type="text" class="form-control" name="customer_phone[value]" placeholder="เบอร์โทรศัพท์"
+                                               value="{{ $meters_filter['customer_phone']['value']?? '' }}">
+                                    </div>
+                                </fieldset>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-4 mb-1">ชื่อผู้สำรวจ</div>
+                            <div class="col-md-8 mb-1">
+                                <select class="form-control" name="survey_user_id[value]">
+                                    @php($pea_staff_id = $meters_filter['survey_user_id']['value']?? 0)
+                                    <option></option>
+                                    @foreach($pea_staffs as $pea_staff)
+                                        <option value="{{ $pea_staff->id }}" {{ ((int)$pea_staff_id === $pea_staff->id)? 'selected' : '' }}>{{ $pea_staff->name }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-light-secondary" data-dismiss="modal">
+                            <i class="bx bx-x d-block d-sm-none"></i>
+                            <span class="d-none d-sm-block">ยกเลิก</span>
+                        </button>
+                        <button type="submit" class="btn btn-primary ml-1">
+                            <i class="bx bx-check d-block d-sm-none"></i>
+                            <span class="d-none d-sm-block"><i class="bx bx-filter"></i> กรองข้อมูล</span>
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
 @endsection
 
 {{-- vendor scripts --}}

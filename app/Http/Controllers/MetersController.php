@@ -40,6 +40,24 @@ class MetersController extends Controller
 
         $meters = Meters::with(['job_type', 'job_status', 'job_amount', 'transformer', 'pea_staff']);
 
+        $is_filter_empty = true;
+        if ($meters_filter = session('meters-filter')) {
+            foreach ($meters_filter as $key => $values) {
+                $value = $values['value'] ?? null;
+                $operator = $values['operator'] ?? '=';
+                if ($value) {
+                    $is_filter_empty = false;
+                    $meters->where("meters.$key", $operator, $value);
+                }
+            }
+        }
+
+        if ($is_filter_empty) {
+            session()->forget('meters-filter');
+        }
+
+//        dd($meters->toSql(), $meters->getBindings());
+
         if ($search) {
             $meters
                 ->where('meters.document_number', 'like', '%' . $search . '%')
@@ -125,12 +143,17 @@ class MetersController extends Controller
             ]
         ];
 
+        $seconds = 24 * 60 * 60;
+
         return view('meters.index', [
             'meters' => $meters->sortable()->paginate($pageSize),
             'pageSize' => $pageSize,
             'search' => $search,
             'over_report' => $over_report,
-            'job_status_report' => $job_status_report
+            'job_status_report' => $job_status_report,
+            'pea_staffs' => Cache::remember('pea_staffs', $seconds, function () {
+                return PeaStaffs::all();
+            })
         ]);
     }
 
