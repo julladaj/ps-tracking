@@ -116,6 +116,7 @@
                     <div class="heading-elements">
                         <a href="{{ route('meters.create') }}" class="btn btn-primary"><i class="bx bx-plus"></i> เพิ่มข้อมูล</a>
                         <button type="button" class="btn btn-outline-{{ ($meters_filter = session('meters-filter'))? 'danger' : 'primary' }}" data-toggle="modal" data-target="#default"><i class="bx bx-filter"></i> กรองข้อมูล</button>
+                        @if($meters_filter)<a href="{{ route('meters-filter-unset') }}" class="btn btn-icon btn-danger"><i class="bx bxs-x-square"></i></a>@endif
                     </div>
                 </div>
                 <div class="card-body">
@@ -197,16 +198,16 @@
                                 <fieldset>
                                     <div class="input-group">
                                         <div class="input-group-prepend">
-                                            <select name="id[operator]">
-                                                @php($operator = $meters_filter['id']['operator']?? '')
+                                            <select name="document_number[operator]">
+                                                @php($operator = $meters_filter['document_number']['operator']?? '')
                                                 <option value="=" {{ ($operator === '=')? 'selected' : '' }}>=</option>
                                                 <option value="!=" {{ ($operator === '!=')? 'selected' : '' }}>!=</option>
-                                                <option value="<" {{ ($operator === '<')? 'selected' : '' }}><</option>
-                                                <option value=">" {{ ($operator === '>')? 'selected' : '' }}>></option>
+                                                <option value="like" {{ ($operator === 'like')? 'selected' : '' }}>LIKE</option>
+                                                <option value="not like" {{ ($operator === 'not like')? 'selected' : '' }}>NOT LIKE</option>
                                             </select>
                                         </div>
-                                        <input type="text" class="form-control" placeholder="เลขที่คำร้อง" name="id[value]"
-                                               value="{{ $meters_filter['id']['value']?? '' }}">
+                                        <input type="text" class="form-control" placeholder="เลขที่คำร้อง" name="document_number[value]"
+                                               value="{{ $meters_filter['document_number']['value']?? '' }}">
                                     </div>
                                 </fieldset>
                             </div>
@@ -279,6 +280,18 @@
                                     <option></option>
                                     @foreach($pea_staffs as $pea_staff)
                                         <option value="{{ $pea_staff->id }}" {{ ((int)$pea_staff_id === $pea_staff->id)? 'selected' : '' }}>{{ $pea_staff->name }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-4 mb-1">สถานะงาน</div>
+                            <div class="col-md-8 mb-1">
+                                <select class="form-control" name="job_status_id[value]">
+                                    @php($job_status_id = $meters_filter['job_status_id']['value']?? 0)
+                                    <option></option>
+                                    @foreach($job_statuses as $job_status)
+                                        <option value="{{ $job_status->id }}" {{ ((int)$job_status_id === $job_status->id)? 'selected' : '' }}>{{ $job_status->description }}</option>
                                     @endforeach
                                 </select>
                             </div>

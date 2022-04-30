@@ -153,6 +153,9 @@ class MetersController extends Controller
             'job_status_report' => $job_status_report,
             'pea_staffs' => Cache::remember('pea_staffs', $seconds, function () {
                 return PeaStaffs::all();
+            }),
+            'job_statuses' => Cache::remember('job_statuses', $seconds, function () {
+                return JobStatuses::all();
             })
         ]);
     }

@@ -35,6 +35,11 @@ Route::post('meters-filter', function(\Illuminate\Http\Request $request) {
     return redirect(route('meters.index'));
 })->name('meters-filter');
 
+Route::get('meters-filter-unset', function() {
+    session()->forget('meters-filter');
+    return redirect(route('meters.index'));
+})->name('meters-filter-unset');
+
 Route::resource('meters', MetersController::class);
 
 Route::group(['prefix' => 'dashboard'], function () {
