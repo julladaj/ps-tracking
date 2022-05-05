@@ -215,7 +215,7 @@
                 <table style="width: 100%;" border="0" cellpadding="2" cellspacing="0">
                     <tr>
                         <td class="fit-width">1.1 สถานที่ใช้ไฟ</td>
-                        <td class="m-0 pl-20 red bx-border-bottom">{{ $meter->electric_expand->location?? '' }}</td>
+                        <td class="m-0 pl-20 red bx-border-bottom">{{ optional($meter->electric_expand)->location?? '' }}</td>
                     </tr>
                 </table>
             </td>
@@ -226,7 +226,7 @@
                 <table style="width: 100%;" border="0" cellpadding="2" cellspacing="0">
                     <tr>
                         <td class="fit-width">1.2 ลักษณะการใช้พลังงานไฟฟ้า</td>
-                        <td class="m-0 pl-20 red bx-border-bottom">{{ $meter->electric_expand->consumer_type?? '' }}</td>
+                        <td class="m-0 pl-20 red bx-border-bottom">{{ optional($meter->electric_expand)->consumer_type?? '' }}</td>
                     </tr>
                 </table>
             </td>
@@ -238,10 +238,10 @@
                     <tr>
                         <td class="fit-width">1.3 สภาพภูมิประเทศ</td>
                         <td class="m-0 pl-20">
-                            <input type="checkbox" {{ $meter->electric_expand->geo_id === 1? 'checked' : '' }}><label> ที่ราบปกติ</label>
-                            <input type="checkbox" class="pl-20" {{ $meter->electric_expand->geo_id === 2? 'checked' : '' }}><label> ที่ลุ่มมีน้ำขัง</label>
-                            <input type="checkbox" class="pl-20" {{ $meter->electric_expand->geo_id === 3? 'checked' : '' }}><label> ลำน้ำคูคลอง</label>
-                            <input type="checkbox" class="pl-20" {{ $meter->electric_expand->geo_id === 4? 'checked' : '' }}><label> ภูเขา-หิน</label>
+                            <input type="checkbox" {{ optional($meter->electric_expand)->geo_id === 1? 'checked' : '' }}><label> ที่ราบปกติ</label>
+                            <input type="checkbox" class="pl-20" {{ optional($meter->electric_expand)->geo_id === 2? 'checked' : '' }}><label> ที่ลุ่มมีน้ำขัง</label>
+                            <input type="checkbox" class="pl-20" {{ optional($meter->electric_expand)->geo_id === 3? 'checked' : '' }}><label> ลำน้ำคูคลอง</label>
+                            <input type="checkbox" class="pl-20" {{ optional($meter->electric_expand)->geo_id === 4? 'checked' : '' }}><label> ภูเขา-หิน</label>
                         </td>
                     </tr>
                 </table>
@@ -254,11 +254,11 @@
                     <tr>
                         <td class="fit-width">1.4 สภาพพื้นดิน</td>
                         <td class="m-0 pl-20">
-                            <input type="checkbox" {{ $meter->electric_expand->env_earth_id === 1? 'checked' : '' }}><label> ดินธรรมดา</label>
-                            <input type="checkbox" class="pl-20" {{ $meter->electric_expand->env_earth_id === 2? 'checked' : '' }}><label> ดินทราย</label>
-                            <input type="checkbox" class="pl-20" {{ $meter->electric_expand->env_earth_id === 3? 'checked' : '' }}><label> เขาดินลูกรัง</label>
-                            <input type="checkbox" class="pl-20" {{ $meter->electric_expand->env_earth_id === 4? 'checked' : '' }}><label> ภูเขา-หิน</label><br>
-                            <input type="checkbox" class="pl-20" {{ $meter->electric_expand->env_earth_id === 5? 'checked' : '' }}><label> ดินดาน</label>
+                            <input type="checkbox" {{ optional($meter->electric_expand)->env_earth_id === 1? 'checked' : '' }}><label> ดินธรรมดา</label>
+                            <input type="checkbox" class="pl-20" {{ optional($meter->electric_expand)->env_earth_id === 2? 'checked' : '' }}><label> ดินทราย</label>
+                            <input type="checkbox" class="pl-20" {{ optional($meter->electric_expand)->env_earth_id === 3? 'checked' : '' }}><label> เขาดินลูกรัง</label>
+                            <input type="checkbox" class="pl-20" {{ optional($meter->electric_expand)->env_earth_id === 4? 'checked' : '' }}><label> ภูเขา-หิน</label><br>
+                            <input type="checkbox" class="pl-20" {{ optional($meter->electric_expand)->env_earth_id === 5? 'checked' : '' }}><label> ดินดาน</label>
                         </td>
                     </tr>
                 </table>
@@ -268,12 +268,12 @@
             <td colspan="1"></td>
             <td colspan="11">
                 <span>1.5 สภาพต้นไม้ตามแนวขยายเขต หนาทึบ</span>
-                <span class="m-0 pl-20 pr-20 red bx-border-bottom"> {{ $meter->electric_expand->env_tree_id === 1? $meter->electric_expand->env_tree_distant_km : '-' }} </span>
+                <span class="m-0 pl-20 pr-20 red bx-border-bottom"> {{ optional($meter->electric_expand)->env_tree_id === 1? optional($meter->electric_expand)->env_tree_distant_km : '-' }} </span>
                 <span>กม. ไม่หนาทึบ</span>
-                <span class="m-0 pl-20 pr-20 red bx-border-bottom"> {{ $meter->electric_expand->env_tree_id === 2? $meter->electric_expand->env_tree_distant_km : '-' }} </span>
+                <span class="m-0 pl-20 pr-20 red bx-border-bottom"> {{ optional($meter->electric_expand)->env_tree_id === 2? optional($meter->electric_expand)->env_tree_distant_km : '-' }} </span>
                 <span>กม. ป่าสงวน</span>
-                <input type="checkbox" class="pl-20" {{ $meter->electric_expand->reserved_forest_id === 1? 'checked' : '' }}><label> มี</label>
-                <input type="checkbox" class="pl-20" {{ $meter->electric_expand->reserved_forest_id === 2? 'checked' : '' }}><label> ไม่มี</label>
+                <input type="checkbox" class="pl-20" {{ optional($meter->electric_expand)->reserved_forest_id === 1? 'checked' : '' }}><label> มี</label>
+                <input type="checkbox" class="pl-20" {{ optional($meter->electric_expand)->reserved_forest_id === 2? 'checked' : '' }}><label> ไม่มี</label>
             </td>
         </tr>
         <tr>
@@ -283,16 +283,16 @@
                 <input type="checkbox" class="pl-20"><label> สะดวก</label>
                 <input type="checkbox" class="pl-20"><label> ไม่สะดวก</label>
                 <span class="pl-20">สภาพชุมชน</span>
-                <span class="m-0 pl-20 pr-20 red bx-border-bottom"> {{ $meter->electric_expand->env_community->description }} </span>
+                <span class="m-0 pl-20 pr-20 red bx-border-bottom"> {{ optional(optional($meter->electric_expand)->env_community)->description }} </span>
             </td>
         </tr>
         <tr>
             <td colspan="1"></td>
             <td colspan="11">
                 <span>1.7 รับพลังงานไฟฟ้าจากหม้อแปลง พีอีเอ.</span>
-                <span class="m-0 pl-5 pr-5 red bx-border-bottom"> {{ $meter->electric_expand->transformer_pea_no?? '-' }} </span>
+                <span class="m-0 pl-5 pr-5 red bx-border-bottom"> {{ optional($meter->electric_expand)->transformer_pea_no?? '-' }} </span>
                 <span>ขนาด</span>
-                <span class="m-0 pl-5 pr-5 red bx-border-bottom"> {{ $meter->electric_expand->transformer->description }} </span>
+                <span class="m-0 pl-5 pr-5 red bx-border-bottom"> {{ optional(optional($meter->electric_expand)->transformer)->description }} </span>
                 <span>เควีเอ ระบบ</span>
                 <span class="m-0 pl-5 pr-5 red bx-border-bottom"> 3 </span>
                 <span>เฟส</span>
@@ -304,11 +304,11 @@
             <td colspan="1"></td>
             <td colspan="11">
                 <span>โวลท์ จากสถานี</span>
-                <span class="m-0 pl-5 pr-5 red bx-border-bottom"> {{ $meter->electric_expand->station->description?? '-' }} </span>
+                <span class="m-0 pl-5 pr-5 red bx-border-bottom"> {{ optional(optional($meter->electric_expand)->station)->description?? '-' }} </span>
                 <span>ฟีดเดอร์</span>
-                <span class="m-0 pl-5 pr-5 red bx-border-bottom"> {{ $meter->electric_expand->feeder?? '-' }} </span>
+                <span class="m-0 pl-5 pr-5 red bx-border-bottom"> {{ optional($meter->electric_expand)->feeder?? '-' }} </span>
                 <span>ระยะห่างจากสถานีตามระบบจำหน่าย</span>
-                <span class="m-0 pl-5 pr-5 red bx-border-bottom"> {{ $meter->electric_expand->feeder_distant_km?? '-' }} </span>
+                <span class="m-0 pl-5 pr-5 red bx-border-bottom"> {{ optional($meter->electric_expand)->feeder_distant_km?? '-' }} </span>
                 <span>กม.</span>
             </td>
         </tr>
