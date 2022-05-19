@@ -86,7 +86,7 @@
         }
 
         .red {
-            color: red;
+            /*color: red;*/
         }
 
         .bx-border-bottom {
