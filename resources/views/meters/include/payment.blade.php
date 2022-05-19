@@ -229,6 +229,19 @@
                 <label>2. เงินประกันการใช้ไฟฟ้า</label>
             </div>
             <div class="col-md-2 vertical-middle">
+                <select class="form-control" id="warranty_fee_factor" name="meter_extra[warranty_fee_factor]">
+                    <option value="0" {{ (isset($meter_extra['warranty_fee_factor']) && $meter_extra['warranty_fee_factor'] === '0')? 'selected':'' }}>ไม่คิดเงินประกัน</option>
+                    <option value="1" {{ (isset($meter_extra['warranty_fee_factor']) && $meter_extra['warranty_fee_factor'] === '1')? 'selected':'' }}>1 เท่า</option>
+                    <option value="2" {{ (isset($meter_extra['warranty_fee_factor']) && $meter_extra['warranty_fee_factor'] === '2')? 'selected':'' }}>2 เท่า</option>
+                    <option value="3" {{ (isset($meter_extra['warranty_fee_factor']) && $meter_extra['warranty_fee_factor'] === '3')? 'selected':'' }}>3 เท่า</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="row mt-1">
+            <div class="col-md-6 text-right vertical-middle">
+            </div>
+            <div class="col-md-2 vertical-middle">
                 <fieldset>
                     <div class="input-group">
                         <input type="hidden" id="price_of_guarantee_value" name="meter_extra[payment_price_of_guarantee_value]" value="{{ $meter_extra['payment_price_of_guarantee_value']?? 0 }}">
@@ -282,6 +295,7 @@
             const payment_rate_id = $('#payment_rate_id');
             const price_of_indoor_checking = $('#price_of_indoor_checking');
             const price_of_indoor_checking_value = $('#price_of_indoor_checking_value');
+            const warranty_fee_factor = $('#warranty_fee_factor');
             const price_of_guarantee = $('#price_of_guarantee');
             const price_of_guarantee_value = $('#price_of_guarantee_value');
             const price_of_grand_total = $('#price_of_grand_total');
@@ -296,6 +310,10 @@
             });
 
             $(document).on('change', '#payment_rate_id', function () {
+                calculate_payment_price();
+            });
+
+            $(document).on('change', '#warranty_fee_factor', function () {
                 calculate_payment_price();
             });
 
@@ -315,8 +333,10 @@
 
             function calculate_payment_price() {
                 let indoor_checking = get_installation_survey_price(parseInt(payment_transformer_installation.val()));
-                let factor = parseInt($('option:selected', payment_rate_id).attr('factor'));
-                let guarantee = get_installation_guarantee_price(parseInt(payment_transformer_installation.val())) * factor;
+                // let factor = parseInt($('option:selected', payment_rate_id).attr('factor'));
+                let factor = parseInt(warranty_fee_factor.val());
+                // let guarantee = get_installation_guarantee_price(parseInt(payment_transformer_installation.val())) * factor;
+                let guarantee = 400 * parseInt(payment_transformer_installation.val()) * factor;
 
                 price_of_indoor_checking.val(moneyFormat(indoor_checking));
                 price_of_indoor_checking_value.val(indoor_checking);
