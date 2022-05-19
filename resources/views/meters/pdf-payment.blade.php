@@ -420,26 +420,32 @@
 
     @php($max_topic2_index = $topic_index)
     @php($topic_index = 0)
+    @php($paid_amount = $meter['paid_amount']?? 0)
+    @php($payment_request = $meter['payment_request']?? 0)
+    @if(isset($meter_extra['customer_payment_type']) && $meter_extra['customer_payment_type'] === 'ค่าสำรวจออกแบบและจัดทำแผนผังประมาณการ')
+{{--        @php($payment_request -= $paid_amount)--}}
+    @endif
     <table border="0" cellpadding="2" cellspacing="0" style="table-layout: fixed; page-break-inside: avoid;">
         <tr>
             <td colspan="12">
                 <b>3. ค่าใช้จ่าย</b>
             </td>
         </tr>
+
         <tr>
             <td colspan="1"></td>
             <td colspan="11">
                 <span>3.{{ ++$topic_index }} ค่าใช้จ่ายในการดำเนินงานตามข้อ 1.1 ถึงข้อ 1.{{ $max_topic1_index }} เป็นเงิน</span>
-                <span class="m-0 pl-5 pr-5 red bx-border-bottom"> {{ isset($meter['payment_request'])? number_format($meter['payment_request'], 2) : '-' }} </span>
+                <span class="m-0 pl-5 pr-5 red bx-border-bottom"> {{ $payment_request? number_format($payment_request, 2) : '-' }} </span>
                 <span>บาท (รวมภาษีมูลค่าเพิ่ม)</span>
             </td>
         </tr>
-        @if(isset($meter['has_payment']) && $meter['has_payment'] && $meter['paid_amount'])
+        @if(isset($meter['has_payment']) && $meter['has_payment'] && $paid_amount)
             <tr>
                 <td colspan="1"></td>
                 <td colspan="11">
                     <span>ผู้ขอใช้ไฟฟ้าได้ชำระ{{ $meter_extra['customer_payment_type']?? 'ค่าตรวจสอบแบบและแผนผัง' }} (รวมภาษีมูลค่าเพิ่ม) ไว้แล้ว จำนวน</span>
-                    <span class="m-0 pl-5 pr-5 red bx-border-bottom"> {{ isset($meter['paid_amount'])? number_format($meter['paid_amount'], 2) : '-' }} </span>
+                    <span class="m-0 pl-5 pr-5 red bx-border-bottom"> {{ $paid_amount? number_format($paid_amount, 2) : '-' }} </span>
                     <span>บาท เมื่อวันที่</span>
                     <span class="m-0 pl-5 pr-5 red bx-border-bottom"> {{ isset($meter['receive_date'])? buddhismDate($meter['receive_date']) : '-' }} </span>
                     <span>ตามใบเสร็จรับเงินเลขที่</span>
@@ -450,7 +456,7 @@
                 <td colspan="1"></td>
                 <td colspan="11">
                     <span>ดังนั้น ผู้ขอใช้ไฟจะต้องชำระค่าใช้จ่ายในการดำเนินการตามข้อ 3.1 คงเหลือ เป็นเงิน</span>
-                    <span class="m-0 pl-5 pr-5 red bx-border-bottom"> {{ number_format($meter['payment_request'] - $meter['paid_amount'], 2) }} </span>
+                    <span class="m-0 pl-5 pr-5 red bx-border-bottom"> {{ number_format($payment_request - $paid_amount, 2) }} </span>
                     <span>บาท (รวมภาษีมูลค่าเพิ่ม)</span>
                 </td>
             </tr>

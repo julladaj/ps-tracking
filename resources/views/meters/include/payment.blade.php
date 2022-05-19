@@ -44,26 +44,31 @@
             <label>ประเภทการชำระ</label>
         </div>
         <div class="col-md-4 vertical-middle">
-            <ul class="list-unstyled mb-0">
-                <li class="d-inline-block mr-2">
-                    <fieldset>
-                        <div class="radio">
-                            <input type="radio" name="meter_extra[customer_payment_type]" id="customer_payment_type_1" value="ค่าตรวจสอบแบบและแผนผัง"
-                                   @if(isset($meter_extra['customer_payment_type']) && $meter_extra['customer_payment_type'] === 'ค่าตรวจสอบแบบและแผนผัง') checked @endif>
-                            <label for="customer_payment_type_1">ค่าตรวจสอบแบบและแผนผัง</label>
-                        </div>
-                    </fieldset>
-                </li>
-                <li class="d-inline-block mr-2">
-                    <fieldset>
-                        <div class="radio">
-                            <input type="radio" name="meter_extra[customer_payment_type]" id="customer_payment_type_2" value="ค่าสำรวจออกแบบและจัดทำแผนผังประมาณการ"
-                                   @if(isset($meter_extra['customer_payment_type']) && $meter_extra['customer_payment_type'] === 'ค่าสำรวจออกแบบและจัดทำแผนผังประมาณการ') checked @endif>
-                            <label for="customer_payment_type_2">ค่าสำรวจออกแบบและจัดทำแผนผังประมาณการ</label>
-                        </div>
-                    </fieldset>
-                </li>
-            </ul>
+            <select class="form-control" name="meter_extra[customer_payment_type]" id="customer_payment_type">
+                <option value="ค่าตรวจสอบแบบและแผนผัง" {{ (isset($meter_extra['customer_payment_type']) && $meter_extra['customer_payment_type'] === 'ค่าตรวจสอบแบบและแผนผัง')? 'selected':'' }}>ค่าตรวจสอบแบบและแผนผัง</option>
+                <option value="ค่าสำรวจออกแบบและจัดทำแผนผังประมาณการ" {{ (isset($meter_extra['customer_payment_type']) && $meter_extra['customer_payment_type'] === 'ค่าสำรวจออกแบบและจัดทำแผนผังประมาณการ')? 'selected':'' }}>ค่าสำรวจออกแบบและจัดทำแผนผังประมาณการ</option>
+                <option value="ไม่คิดค่าสำรวจออกแบบฯ" {{ (isset($meter_extra['customer_payment_type']) && $meter_extra['customer_payment_type'] === 'ไม่คิดค่าสำรวจออกแบบฯ')? 'selected':'' }}>ไม่คิดค่าสำรวจออกแบบฯ</option>
+            </select>
+{{--            <ul class="list-unstyled mb-0">--}}
+{{--                <li class="d-inline-block mr-2">--}}
+{{--                    <fieldset>--}}
+{{--                        <div class="radio">--}}
+{{--                            <input type="radio" name="meter_extra[customer_payment_type]" id="customer_payment_type_1" value="ค่าตรวจสอบแบบและแผนผัง"--}}
+{{--                                   @if(isset($meter_extra['customer_payment_type']) && $meter_extra['customer_payment_type'] === 'ค่าตรวจสอบแบบและแผนผัง') checked @endif>--}}
+{{--                            <label for="customer_payment_type_1">ค่าตรวจสอบแบบและแผนผัง</label>--}}
+{{--                        </div>--}}
+{{--                    </fieldset>--}}
+{{--                </li>--}}
+{{--                <li class="d-inline-block mr-2">--}}
+{{--                    <fieldset>--}}
+{{--                        <div class="radio">--}}
+{{--                            <input type="radio" name="meter_extra[customer_payment_type]" id="customer_payment_type_2" value="ค่าสำรวจออกแบบและจัดทำแผนผังประมาณการ"--}}
+{{--                                   @if(isset($meter_extra['customer_payment_type']) && $meter_extra['customer_payment_type'] === 'ค่าสำรวจออกแบบและจัดทำแผนผังประมาณการ') checked @endif>--}}
+{{--                            <label for="customer_payment_type_2">ค่าสำรวจออกแบบและจัดทำแผนผังประมาณการ</label>--}}
+{{--                        </div>--}}
+{{--                    </fieldset>--}}
+{{--                </li>--}}
+{{--            </ul>--}}
         </div>
     </div>
     <div class="row mt-1">
