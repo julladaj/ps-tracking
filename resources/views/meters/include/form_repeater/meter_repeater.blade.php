@@ -30,8 +30,7 @@
                     <select class="form-control inline-fit" name="job_type">
                         <option></option>
                         <option value="ซีที.แรงต่ำ" {{ ((isset($data['job_type']) && $data['job_type'] === 'ซีที.แรงต่ำ'))? 'selected':'' }}>ซีที.แรงต่ำ</option>
-                        <option value="ซีที." {{ ((isset($data['job_type']) && $data['job_type'] === 'ซีที.'))? 'selected':'' }}>ซีที.</option>
-                        <option value="วีที.แรงสูง" {{ ((isset($data['job_type']) && $data['job_type'] === 'วีที.แรงสูง'))? 'selected':'' }}>วีที.แรงสูง</option>
+                        <option value="วีที., ซีที.แรงสูง" {{ ((isset($data['job_type']) && $data['job_type'] === 'วีที., ซีที.แรงสูง'))? 'selected':'' }}>วีที., ซีที.แรงสูง</option>
                     </select>
                     <label>ขนาด</label>
                 </div>
@@ -111,7 +110,13 @@
                     </select>
                 </div>
                 <div class="col-md-2 text-right vertical-middle">
-                    <label>ประกอบ</label><code>ซีที.แรงต่ำ/ซีที./วีที.แรงสูง</code> <label>ขนาด</label>
+                    <label>ประกอบ</label>
+                    <select class="form-control inline-fit" name="job_type">
+                        <option></option>
+                        <option value="ซีที.แรงต่ำ">ซีที.แรงต่ำ</option>
+                        <option value="วีที., ซีที.แรงสูง">วีที., ซีที.แรงสูง</option>
+                    </select>
+                    <label>ขนาด</label>
                 </div>
                 <div class="col-md-1 form-group vertical-middle">
                     <fieldset>
