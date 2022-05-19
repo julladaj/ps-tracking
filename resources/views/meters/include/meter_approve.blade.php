@@ -100,8 +100,10 @@
             <label>นำรถยนต์เข้าปฏิบัติงาน</label>
         </div>
         <div class="col-md-4 form-group vertical-middle">
-            <input type="text" class="form-control" name="electric_expands[working_with_car]" placeholder="นำรถยนต์เข้าปฏิบัติงาน"
-                   value="{{ $meter->electric_expand->working_with_car?? old('electric_expands.working_with_car') }}">
+            <select class="form-control" name="electric_expands[working_with_car]">
+                <option value="สะดวก" {{ (isset($meter->electric_expand->working_with_car) && $meter->electric_expand->working_with_car === 'สะดวก')? 'selected':'' }}>สะดวก</option>
+                <option value="ไม่สะดวก" {{ (isset($meter->electric_expand->working_with_car) && $meter->electric_expand->working_with_car === 'ไม่สะดวก')? 'selected':'' }}>ไม่สะดวก</option>
+            </select>
         </div>
         <div class="col-md-1 text-right vertical-middle">
             <label>สภาพชุมชน</label>
@@ -142,12 +144,20 @@
             <label>ระบบ</label>
         </div>
         <div class="col-md-3 form-group vertical-middle">
-            <input type="text" class="form-control" name="electric_expands[transformer_type]" placeholder="ระบบ" value="{{ $meter->electric_expand->transformer_type?? old('electric_expands.transformer_type') }}">
+          <fieldset>
+            <div class="input-group">
+              <input type="text" class="form-control" name="electric_expands[transformer_type]" placeholder="โวลท์" aria-describedby="transformer_type"
+                     value="{{ $meter->electric_expand->transformer_type?? old('electric_expands.transformer_type') }}">
+              <div class="input-group-append">
+                <span class="input-group-text" id="transformer_type">โวลท์</span>
+              </div>
+            </div>
+          </fieldset>
         </div>
     </div>
     <div class="row mt-1">
         <div class="col-md-2 text-right vertical-middle">
-            <label>โวลท์ จากสถานี</label>
+            <label>จากสถานี</label>
         </div>
         <div class="col-md-4 form-group vertical-middle">
             <select class="form-control" name="electric_expands[station_id]">
@@ -170,8 +180,8 @@
         <div class="col-md-2 form-group vertical-middle">
             <fieldset>
                 <div class="input-group">
-                    <input type="number" class="form-control" name="electric_expands[feeder_distant_km]" placeholder="กิโลเมตร" aria-describedby="feeder_distant_km"
-                           value="{{ $meter->electric_expand->feeder_distant_km?? old('electric_expands.feeder_distant_km') }}">
+                    <input type="number" class="form-control" name="electric_expands[feeder_distant_km]" placeholder="กิโลเมตร" aria-describedby="feeder_distant_km" step="0.01"
+                           value="{{ $meter->electric_expand->feeder_distant_km?? old('electric_expands.feeder_distant_km', 0.00) }}">
                     <div class="input-group-append">
                         <span class="input-group-text" id="feeder_distant_km">กม.</span>
                     </div>

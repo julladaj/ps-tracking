@@ -10,6 +10,7 @@
 #/public/vendors
 /storage/*.key
 /vendor
+/.env
 .env.backup
 .phpunit.result.cache
 Homestead.json
@@ -22,3 +23,7 @@ supervisord.pid
 /.idea
 composer.json
 composer.lock
+/node_modules/
+/log/
+/storage/
+/public/public.zip
