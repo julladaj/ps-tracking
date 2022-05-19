@@ -166,33 +166,34 @@
 <main>
     <img style="width: 140px;" src="{{ public_path('images/logo/pea_logo.svg') }}">
 
-    <script type="text/php">
-    if ( isset($pdf) ) {
-        $w = $pdf->get_width();
-        $h = $pdf->get_height();
+{{--    <script type="text/php">--}}
+{{--    if ( isset($pdf) ) {--}}
+{{--        $w = $pdf->get_width();--}}
+{{--        $h = $pdf->get_height();--}}
 
-        $size = 14;
-        $color = array(0,0,0);
-        $font = $fontMetrics->getFont("THSarabunNew");
-        $font_bold = $fontMetrics->getFont("THSarabunNew", "bold");
-        $text_height = $fontMetrics->getFontHeight($font, $size);
-        $y = 24;
+{{--        $size = 14;--}}
+{{--        $color = array(0,0,0);--}}
+{{--        $font = $fontMetrics->getFont("THSarabunNew");--}}
+{{--        $font_bold = $fontMetrics->getFont("THSarabunNew", "bold");--}}
+{{--        $text_height = $fontMetrics->getFontHeight($font, $size);--}}
+{{--        $y = 24;--}}
 
-        $pdf->text(400, $y, "การไฟฟ้าส่วนภูมิภาคอำเภอหางดง", $font, $size, $color);
-        $pdf->text(400, $y + $text_height, "197 หมู่ 8 ตำบลหนองแก๋ว อำเภอหางดง", $font, $size, $color);
-        $pdf->text(400, $y + (2 * $text_height), "จังหวัดเชียงใหม่ 50230", $font, $size, $color);
-    }
-
-    </script>
+{{--        $pdf->text(400, $y, "การไฟฟ้าส่วนภูมิภาคอำเภอหางดง", $font, $size, $color);--}}
+{{--        $pdf->text(400, $y + $text_height, "197 หมู่ 8 ตำบลหนองแก๋ว อำเภอหางดง", $font, $size, $color);--}}
+{{--        $pdf->text(400, $y + (2 * $text_height), "จังหวัดเชียงใหม่ 50230", $font, $size, $color);--}}
+{{--    }--}}
+{{--    </script>--}}
 
     <table border="0" cellpadding="2" cellspacing="0" style="table-layout: fixed;">
-        <tr>
+        <tr style="vertical-align: top;">
             <td colspan="1">ที่</td>
-            <td colspan="11">มท</td>
+            <td colspan="5">มท</td>
+            <td colspan="1">
+            <td colspan="5">การไฟฟ้าส่วนภูมิภาคอำเภอหางดง<br>197 หมู่ 8 ตำบลหนองแก๋ว อำเภอหางดง<br>จังหวัดเชียงใหม่ 50230</td>
         </tr>
         <tr>
-            <td colspan="1">เรื่อง</td>
-            <td colspan="11">แจ้งค่าใช้จ่ายงานก่อสร้าง@if($meter->job_type_id === 1)ปักเสาบริการ@elseif($meter->job_type_id === 10)ย้ายแนวระบบจำหน่าย@elseขยายเขตฯ@endifระบบจำหน่ายไฟฟ้า</td>
+            <td colspan="1" style="padding-top: 1cm;">เรื่อง</td>
+            <td colspan="11" style="padding-top: 1cm;">แจ้งค่าใช้จ่ายงานก่อสร้าง@if($meter->job_type_id === 1)ปักเสาบริการ@elseif($meter->job_type_id === 10)ย้ายแนวระบบจำหน่าย@elseขยายเขตฯ@endifระบบจำหน่ายไฟฟ้า</td>
         </tr>
         <tr>
             <td colspan="1">เรียน</td>
