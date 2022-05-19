@@ -86,7 +86,7 @@
         }
 
         .red {
-            color: red;
+            /*color: red;*/
         }
 
         .bx-border-bottom {
@@ -193,7 +193,7 @@
         </tr>
         <tr>
             <td colspan="1">เรื่อง</td>
-            <td colspan="11">ขออนุมัติขยายเขตฯ/ย้ายแนวฯ กฟอ.หางดง P3-ขย.แรงต่ำ {{ $meter->customer_name }}</td>
+            <td colspan="11">ขออนุมัติ@if($meter->job_type_id === 1)ปักเสาบริการ@elseif($meter->job_type_id === 10)ย้ายแนวระบบจำหน่าย@elseขยายเขตฯ@endif กฟอ.หางดง {{ optional($meter->electric_expand)->job_name?? '' }}</td>
         </tr>
         <tr>
             <td colspan="1">เรียน</td>
@@ -280,8 +280,8 @@
             <td colspan="1"></td>
             <td colspan="11">
                 <span>1.6 นำรถยนต์เข้าปฏิบัติงาน</span>
-                <input type="checkbox" class="pl-20"><label> สะดวก</label>
-                <input type="checkbox" class="pl-20"><label> ไม่สะดวก</label>
+                <input type="checkbox" class="pl-20" {{ optional($meter->electric_expand)->working_with_car === 'สะดวก'? 'checked' : '' }}><label> สะดวก</label>
+                <input type="checkbox" class="pl-20" {{ optional($meter->electric_expand)->working_with_car === 'ไม่สะดวก'? 'checked' : '' }}><label> ไม่สะดวก</label>
                 <span class="pl-20">สภาพชุมชน</span>
                 <span class="m-0 pl-20 pr-20 red bx-border-bottom"> {{ optional(optional($meter->electric_expand)->env_community)->description }} </span>
             </td>
