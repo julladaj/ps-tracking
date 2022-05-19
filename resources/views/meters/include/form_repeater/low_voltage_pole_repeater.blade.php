@@ -13,7 +13,7 @@
                 <div class="col-md-2 form-group vertical-middle">
                     <fieldset>
                         <div class="input-group">
-                            <input type="number" class="form-control" name="cord_size" placeholder="คอร. ขนาด" value="{{ $data['cord_size']?? 0 }}">
+                            <input type="number" class="form-control" name="cord_size" placeholder="คอร. ขนาด" value="{{ $data['cord_size']?? 0 }}" step="0.01">
                             <div class="input-group-append">
                                 <span class="input-group-text">เมตร</span>
                             </div>
@@ -51,7 +51,7 @@
                 <div class="col-md-2 form-group vertical-middle">
                     <fieldset>
                         <div class="input-group">
-                            <input type="number" class="form-control" name="cord_size" placeholder="คอร. ขนาด" value="0">
+                            <input type="number" class="form-control" name="cord_size" placeholder="คอร. ขนาด" value="0" step="0.01">
                             <div class="input-group-append">
                                 <span class="input-group-text">เมตร</span>
                             </div>

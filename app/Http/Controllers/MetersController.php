@@ -40,6 +40,10 @@ class MetersController extends Controller
 
         $meters = Meters::with(['job_type', 'job_status', 'job_amount', 'transformer', 'pea_staff']);
 
+        if (!$request->has('sort')) {
+            $meters->orderBy('id', 'desc');
+        }
+
         $is_filter_empty = true;
         if ($meters_filter = session('meters-filter')) {
             foreach ($meters_filter as $key => $values) {
