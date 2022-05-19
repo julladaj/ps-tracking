@@ -38,7 +38,10 @@
                 <div class="col-md-1 form-group vertical-middle">
                     <fieldset>
                         <div class="input-group">
-                            <input type="number" class="form-control" name="meter_volt" placeholder="ขนาด" value="{{ $data['meter_volt']?? 0 }}">
+                            <select class="form-control" name="meter_volt">
+                                <option value="220/380" {{ (isset($data['meter_volt']) && $data['meter_volt'] === '220/380')? 'selected':'' }}>220/380</option>
+                                <option value="22,000/110" {{ (isset($data['meter_volt']) && $data['meter_volt'] === '22,000/110')? 'selected':'' }}>22,000/110</option>
+                            </select>
                             <div class="input-group-append">
                                 <span class="input-group-text">โวลท์</span>
                             </div>
@@ -48,7 +51,16 @@
                 <div class="col-md-1 form-group vertical-middle">
                     <fieldset>
                         <div class="input-group">
-                            <input type="number" class="form-control" name="meter_amp" placeholder="แอมป์" value="{{ $data['meter_amp']?? 0 }}">
+                            <select class="form-control" name="meter_amp">
+                                <option value="150/5" {{ (isset($data['meter_amp']) && $data['meter_amp'] === '150/5')? 'selected':'' }}>150/5</option>
+                                <option value="250/5" {{ (isset($data['meter_amp']) && $data['meter_amp'] === '250/5')? 'selected':'' }}>250/5</option>
+                                <option value="400/5" {{ (isset($data['meter_amp']) && $data['meter_amp'] === '400/5')? 'selected':'' }}>400/5</option>
+                                <option value="10/5" {{ (isset($data['meter_amp']) && $data['meter_amp'] === '10/5')? 'selected':'' }}>10/5</option>
+                                <option value="20/5" {{ (isset($data['meter_amp']) && $data['meter_amp'] === '20/5')? 'selected':'' }}>20/5</option>
+                                <option value="30/5" {{ (isset($data['meter_amp']) && $data['meter_amp'] === '30/5')? 'selected':'' }}>30/5</option>
+                                <option value="50/5" {{ (isset($data['meter_amp']) && $data['meter_amp'] === '50/5')? 'selected':'' }}>50/5</option>
+                                <option value="75/5" {{ (isset($data['meter_amp']) && $data['meter_amp'] === '75/5')? 'selected':'' }}>75/5</option>
+                            </select>
                             <div class="input-group-append">
                                 <span class="input-group-text">แอมป์</span>
                             </div>
@@ -94,8 +106,8 @@
                 <div class="col-md-1 form-group vertical-middle">
                     <select class="form-control" name="phase">
                         <option></option>
-                        <option value="1" {{ (isset($data['phase']) && $data['phase'] === '1')? 'selected':'' }}>1 เฟส</option>
-                        <option value="3" {{ (isset($data['phase']) && $data['phase'] === '3')? 'selected':'' }}>3 เฟส</option>
+                        <option value="1">1 เฟส</option>
+                        <option value="3">3 เฟส</option>
                     </select>
                 </div>
                 <div class="col-md-2 text-right vertical-middle">
@@ -104,7 +116,10 @@
                 <div class="col-md-1 form-group vertical-middle">
                     <fieldset>
                         <div class="input-group">
-                            <input type="number" class="form-control" name="meter_volt" placeholder="ขนาด" value="0">
+                            <select class="form-control" name="meter_volt">
+                                <option value="220/380">220/380</option>
+                                <option value="22,000/110">22,000/110</option>
+                            </select>
                             <div class="input-group-append">
                                 <span class="input-group-text">โวลท์</span>
                             </div>
@@ -114,7 +129,16 @@
                 <div class="col-md-1 form-group vertical-middle">
                     <fieldset>
                         <div class="input-group">
-                            <input type="number" class="form-control" name="meter_amp" placeholder="แอมป์" value="0">
+                            <select class="form-control" name="meter_amp">
+                                <option value="150/5">150/5</option>
+                                <option value="250/5">250/5</option>
+                                <option value="400/5">400/5</option>
+                                <option value="10/5">10/5</option>
+                                <option value="20/5">20/5</option>
+                                <option value="30/5">30/5</option>
+                                <option value="50/5">50/5</option>
+                                <option value="75/5">75/5</option>
+                            </select>
                             <div class="input-group-append">
                                 <span class="input-group-text">แอมป์</span>
                             </div>
