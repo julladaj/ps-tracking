@@ -462,234 +462,243 @@
 
     </table>
 
-    <table border="0" cellpadding="2" cellspacing="0" style="table-layout: fixed; page-break-inside: avoid;">
-        <tr>
-            <td colspan="12">
-                <b>3. ส่วนของผู้ใช้ไฟดำเนินการเอง</b>
-            </td>
-        </tr>
-        <tr>
-            <td colspan="1"></td>
-            <td colspan="11">
-                <span>3.1 แผนกแรงสูง ระบบ</span>
-                <span class="m-0 pl-5 pr-5 red bx-border-bottom"> - </span>
-                <span>เฟส แรงดัน</span>
-                <span class="m-0 pl-5 pr-5 red bx-border-bottom"> - </span>
-                <span>เควี. ปักเสา คอร. ขนาด</span>
-                <span class="m-0 pl-5 pr-5 red bx-border-bottom"> - </span>
-                <span>เมตร จำนวน</span>
-                <span class="m-0 pl-5 pr-5 red bx-border-bottom"> - </span>
-                <span>ต้น</span>
-            </td>
-        </tr>
-        <tr>
-            <td colspan="1"></td>
-            <td colspan="11">
-                <span>พาดสายแรงสูง ด้วยสาย</span>
-                <span class="m-0 pl-5 pr-5 red bx-border-bottom"> - </span>
-                <span>ขนาด</span>
-                <span class="m-0 pl-5 pr-5 red bx-border-bottom"> - </span>
-                <span>ตร. มม. ระยะทาง</span>
-                <span class="m-0 pl-5 pr-5 red bx-border-bottom"> - </span>
-                <span>เมตร</span>
-            </td>
-        </tr>
-        <tr>
-            <td colspan="1"></td>
-            <td colspan="11">
-                <span>3.2 แผนกหม้อแปลงติดตั้งใหม่</span>
-                <span class="m-0 pl-5 pr-5 red bx-border-bottom"> - </span>
-                <span>เควีเอ. ระบบ</span>
-                <span class="m-0 pl-5 pr-5 red bx-border-bottom"> - </span>
-                <span>เฟส จำนวน</span>
-                <span class="m-0 pl-5 pr-5 red bx-border-bottom"> - </span>
-                <span>เครื่อง</span>
-            </td>
-        </tr>
-    </table>
-
-    {{--    <script type="text/php">--}}
-    {{--    if ( isset($pdf) ) {--}}
-    {{--        $w = $pdf->get_width();--}}
-    {{--        $h = $pdf->get_height();--}}
-
-    {{--        $size = 14;--}}
-    {{--        $color = array(0,0,0);--}}
-    {{--        $font = $fontMetrics->getFont("THSarabunNew");--}}
-    {{--        $font_bold = $fontMetrics->getFont("THSarabunNew", "bold");--}}
-    {{--        $text_height = $fontMetrics->getFontHeight($font, $size);--}}
-    {{--        $y = $h - 2 * $text_height - 24;--}}
-
-    {{--        $pdf->text(500, $y, "/5. ทรัพย์สิน...", $font, $size, $color);--}}
-    {{--    }--}}
-    {{--    </script>--}}
-
-    <div style="page-break-inside: avoid;">
-        <b>4. ค่าใช้จ่าย</b><br>
-        <table border="1" cellpadding="0" cellspacing="0" class="table_price" style="page-break-inside: avoid;">
-            <thead>
+    @php($customer_high_voltage_pole = $meter->meter_extra_groups('customer_high_voltage_pole'))
+    @php($customer_high_voltage_cable = $meter->meter_extra_groups('customer_high_voltage_cable'))
+    @php($customer_transformer = $meter->meter_extra_groups('customer_transformer'))
+    @php($topic_index = 0)
+    @if($customer_high_voltage_pole->count() || $customer_high_voltage_cable->count() || $customer_transformer->count())
+        <table border="0" cellpadding="2" cellspacing="0" style="table-layout: fixed; page-break-inside: avoid;">
             <tr>
-                <th>ชื่อประเภทงาน</th>
-                <th class="text-right">กฟภ. ลงทุน (บาท)</th>
-                <th class="text-right">ทำการ (บาท)</th>
-                <th class="text-right">ผู้ใช้ไฟ (บาท)</th>
-                <th class="text-right">รวมทั้งสิ้น (บาท)</th>
+                <td colspan="12">
+                    <b>3. ส่วนของผู้ใช้ไฟดำเนินการเอง</b>
+                </td>
             </tr>
-            </thead>
-            <tbody>
-            @php($i = 1)
-            @php($vat_rate = 7)
-            @php($sum_net_pea_invest = 0)
-            @php($sum_net_action = 0)
-            @php($sum_net_customer = 0)
-            @php($sum_net_summary = 0)
-            @php($payment_manual_net_pea_invest = ($meter_extra['payment_manual_pea_invest_'.$i]?? 0))
-            @php($payment_manual_net_action = ($meter_extra['payment_manual_action_'.$i]?? 0))
-            @php($payment_manual_net_customer = ($meter_extra['payment_manual_customer_'.$i]?? 0))
-            @if($payment_manual_net_summary = ($payment_manual_net_pea_invest + $payment_manual_net_action + $payment_manual_net_customer))
+            @if($customer_high_voltage_pole->count() || $customer_high_voltage_cable->count())
                 <tr>
-                    <td><span>ค่าสมทบก่อสร้างและปรับปรุงระบบจำหน่าย</span><br>(<span
-                                class="m-0 pl-5 pr-5 red bx-border-bottom">@if ($payment_manual_pea_invest_kva = ($meter_extra['payment_manual_pea_invest_kva_'.$i]?? 0)) {{ number_format($payment_manual_pea_invest_kva, 2) }} @endif</span>kVA. X <span
-                                class="m-0 pl-5 pr-5 red bx-border-bottom">@if ($payment_manual_pea_invest_baht = ($meter_extra['payment_manual_pea_invest_baht_'.$i]?? 0)) {{ number_format($payment_manual_pea_invest_baht, 2) }} @endif</span>บาท/kVA.)
+                    <td colspan="1"></td>
+                    <td colspan="11">
+                        <span>3.{{ ++$topic_index }} แผนกแรงสูง ระบบ</span>
+                        <span class="m-0 pl-5 pr-5 red bx-border-bottom"> {{ $meter_extra['customer_high_voltage_phase']?? '-' }} </span>
+                        <span>เฟส แรงดัน</span>
+                        <span class="m-0 pl-5 pr-5 red bx-border-bottom"> {{ $meter_extra['customer_high_voltage']?? '-' }} </span>
+                        <span>เควี.</span>
                     </td>
-                    <td class="text-right">@if ($payment_manual_net_pea_invest) {{ number_format($payment_manual_net_pea_invest, 2) }} @endif</td>
-                    <td class="text-right">@if ($payment_manual_net_action) {{ number_format($payment_manual_net_action, 2) }} @endif</td>
-                    <td class="text-right">@if ($payment_manual_net_customer) {{ number_format($payment_manual_net_customer, 2) }} @endif</td>
-                    <td class="text-right">@if ($payment_manual_net_summary) {{ number_format($payment_manual_net_summary, 2) }} @endif</td>
+                </tr>
+                @foreach($customer_high_voltage_pole as $data)
+                    <tr>
+                        <td colspan="1"></td>
+                        <td colspan="11">
+                            <span>{{ $data['job_type']?? '-' }} คอร. ขนาด</span>
+                            <span class="m-0 pl-5 pr-5 red bx-border-bottom"> {{ $data['core_size']?? '-' }} </span>
+                            <span>เมตร จำนวน</span>
+                            <span class="m-0 pl-5 pr-5 red bx-border-bottom"> {{ $data['quantity']?? '-' }} </span>
+                            <span>ต้น</span>
+                        </td>
+                    </tr>
+                @endforeach
+            @endif
+            @if($customer_transformer->count())
+                <tr>
+                    <td colspan="1"></td>
+                    <td colspan="11">
+                        <span>3.{{ ++$topic_index }} แผนกหม้อแปลง</span>
+                        @foreach($customer_transformer as $data)
+                            <span>{{ $data['job_type']?? '-' }}</span>
+                            <span class="m-0 pl-5 pr-5 red bx-border-bottom"> {{ $data['transformer_size']?? '-' }} </span>
+                            <span>เควีเอ. ระบบ</span>
+                            <span class="m-0 pl-5 pr-5 red bx-border-bottom"> {{ $data['phase']?? '-' }} </span>
+                            <span>เฟส จำนวน</span>
+                            <span class="m-0 pl-5 pr-5 red bx-border-bottom"> {{ $data['quantity']?? '-' }} </span>
+                            <span>เครื่อง</span>
+                        @endforeach
+                    </td>
                 </tr>
             @endif
-            @php($sum_net_pea_invest += $payment_manual_net_pea_invest)
-            @php($sum_net_action += $payment_manual_net_action)
-            @php($sum_net_customer += $payment_manual_net_customer)
-            @php($sum_net_summary += $payment_manual_net_summary)
-            @php($i++)
-
-            @foreach(__('payment_type') as $row)
-                @php($payment_manual_net_pea_invest = ($meter_extra['payment_manual_pea_invest_'.$i]?? 0))
-                @php($payment_manual_net_action = ($meter_extra['payment_manual_action_'.$i]?? 0))
-                @php($payment_manual_net_customer = ($meter_extra['payment_manual_customer_'.$i]?? 0))
-                @if($payment_manual_net_summary = ($payment_manual_net_pea_invest + $payment_manual_net_action + $payment_manual_net_customer))
-                    <tr>
-                        <td>{!! $row !!}</td>
-                        <td class="text-right">@if ($payment_manual_net_pea_invest) {{ number_format($payment_manual_net_pea_invest, 2) }} @endif</td>
-                        <td class="text-right">@if ($payment_manual_net_action) {{ number_format($payment_manual_net_action, 2) }} @endif</td>
-                        <td class="text-right">@if ($payment_manual_net_customer) {{ number_format($payment_manual_net_customer, 2) }} @endif</td>
-                        <td class="text-right">@if ($payment_manual_net_summary) {{ number_format($payment_manual_net_summary, 2) }} @endif</td>
-                    </tr>
-                @endif
-
-                @php($sum_net_pea_invest += $payment_manual_net_pea_invest)
-                @php($sum_net_action += $payment_manual_net_action)
-                @php($sum_net_customer += $payment_manual_net_customer)
-                @php($sum_net_summary += $payment_manual_net_summary)
-                @php($i++)
-            @endforeach
-            <tr style="font-weight: bold;">
-                <td>รวมเงินลงทุนทั้งหมด</td>
-                <td class="text-right">{{ number_format($sum_net_pea_invest, 2) }}</td>
-                <td class="text-right">{{ number_format($sum_net_action, 2) }}</td>
-                <td class="text-right">{{ number_format($sum_net_customer, 2) }}</td>
-                <td class="text-right">{{ number_format($sum_net_summary, 2) }}</td>
-            </tr>
-            <tr style="font-weight: bold;">
-                <td>ภาษีมูลค่าเพิ่ม {{ $vat_rate }}%</td>
-                <td class="text-right">{{ number_format($tax_net_pea_invest = $sum_net_pea_invest * $vat_rate / 100, 2) }}</td>
-                <td class="text-right">{{ number_format($tax_net_action = $sum_net_action * $vat_rate / 100, 2) }}</td>
-                <td class="text-right">{{ number_format($tax_net_customer = $sum_net_customer * $vat_rate / 100, 2) }}</td>
-                <td class="text-right">{{ number_format($tax_net_summary = $sum_net_summary * $vat_rate / 100, 2) }}</td>
-            </tr>
-            <tr style="font-weight: bold;">
-                <td>รวมเป็นเงินทั้งสิ้น (รวมภาษีมูลค่าเพิ่มแล้ว)</td>
-                <td class="text-right">{{ number_format($sum_net_pea_invest + $tax_net_pea_invest, 2) }}</td>
-                <td class="text-right">{{ number_format($sum_net_action + $tax_net_action, 2) }}</td>
-                <td class="text-right">{{ number_format($sum_net_customer + $tax_net_customer, 2) }}</td>
-                <td class="text-right">{{ number_format($sum_net_summary + $tax_net_summary, 2) }}</td>
-            </tr>
-            </tbody>
         </table>
-    </div>
+    @endif
+
+{{--    <script type="text/php">--}}
+{{--    if ( isset($pdf) ) {--}}
+{{--        $w = $pdf->get_width();--}}
+{{--        $h = $pdf->get_height();--}}
+
+{{--        $size = 14;--}}
+{{--        $color = array(0,0,0);--}}
+{{--        $font = $fontMetrics->getFont("THSarabunNew");--}}
+{{--        $font_bold = $fontMetrics->getFont("THSarabunNew", "bold");--}}
+{{--        $text_height = $fontMetrics->getFontHeight($font, $size);--}}
+{{--        $y = $h - 2 * $text_height - 24;--}}
+
+{{--        $pdf->text(500, $y, "/5. ทรัพย์สิน...", $font, $size, $color);--}}
+{{--    }--}}
+{{--    </script>--}}
+
+<div style="page-break-inside: avoid;">
+<b>4. ค่าใช้จ่าย</b><br>
+<table border="1" cellpadding="0" cellspacing="0" class="table_price" style="page-break-inside: avoid;">
+<thead>
+<tr>
+<th>ชื่อประเภทงาน</th>
+<th class="text-right">กฟภ. ลงทุน (บาท)</th>
+<th class="text-right">ทำการ (บาท)</th>
+<th class="text-right">ผู้ใช้ไฟ (บาท)</th>
+<th class="text-right">รวมทั้งสิ้น (บาท)</th>
+</tr>
+</thead>
+<tbody>
+@php($i = 1)
+@php($vat_rate = 7)
+@php($sum_net_pea_invest = 0)
+@php($sum_net_action = 0)
+@php($sum_net_customer = 0)
+@php($sum_net_summary = 0)
+@php($payment_manual_net_pea_invest = ($meter_extra['payment_manual_pea_invest_'.$i]?? 0))
+@php($payment_manual_net_action = ($meter_extra['payment_manual_action_'.$i]?? 0))
+@php($payment_manual_net_customer = ($meter_extra['payment_manual_customer_'.$i]?? 0))
+@if($payment_manual_net_summary = ($payment_manual_net_pea_invest + $payment_manual_net_action + $payment_manual_net_customer))
+<tr>
+<td><span>ค่าสมทบก่อสร้างและปรับปรุงระบบจำหน่าย</span><br>(<span
+        class="m-0 pl-5 pr-5 red bx-border-bottom">@if ($payment_manual_pea_invest_kva = ($meter_extra['payment_manual_pea_invest_kva_'.$i]?? 0)) {{ number_format($payment_manual_pea_invest_kva, 2) }} @endif</span>kVA. X <span
+        class="m-0 pl-5 pr-5 red bx-border-bottom">@if ($payment_manual_pea_invest_baht = ($meter_extra['payment_manual_pea_invest_baht_'.$i]?? 0)) {{ number_format($payment_manual_pea_invest_baht, 2) }} @endif</span>บาท/kVA.)
+</td>
+<td class="text-right">@if ($payment_manual_net_pea_invest) {{ number_format($payment_manual_net_pea_invest, 2) }} @endif</td>
+<td class="text-right">@if ($payment_manual_net_action) {{ number_format($payment_manual_net_action, 2) }} @endif</td>
+<td class="text-right">@if ($payment_manual_net_customer) {{ number_format($payment_manual_net_customer, 2) }} @endif</td>
+<td class="text-right">@if ($payment_manual_net_summary) {{ number_format($payment_manual_net_summary, 2) }} @endif</td>
+</tr>
+@endif
+@php($sum_net_pea_invest += $payment_manual_net_pea_invest)
+@php($sum_net_action += $payment_manual_net_action)
+@php($sum_net_customer += $payment_manual_net_customer)
+@php($sum_net_summary += $payment_manual_net_summary)
+@php($i++)
+
+@foreach(__('payment_type') as $row)
+@php($payment_manual_net_pea_invest = ($meter_extra['payment_manual_pea_invest_'.$i]?? 0))
+@php($payment_manual_net_action = ($meter_extra['payment_manual_action_'.$i]?? 0))
+@php($payment_manual_net_customer = ($meter_extra['payment_manual_customer_'.$i]?? 0))
+@if($payment_manual_net_summary = ($payment_manual_net_pea_invest + $payment_manual_net_action + $payment_manual_net_customer))
+<tr>
+<td>{!! $row !!}</td>
+<td class="text-right">@if ($payment_manual_net_pea_invest) {{ number_format($payment_manual_net_pea_invest, 2) }} @endif</td>
+<td class="text-right">@if ($payment_manual_net_action) {{ number_format($payment_manual_net_action, 2) }} @endif</td>
+<td class="text-right">@if ($payment_manual_net_customer) {{ number_format($payment_manual_net_customer, 2) }} @endif</td>
+<td class="text-right">@if ($payment_manual_net_summary) {{ number_format($payment_manual_net_summary, 2) }} @endif</td>
+</tr>
+@endif
+
+@php($sum_net_pea_invest += $payment_manual_net_pea_invest)
+@php($sum_net_action += $payment_manual_net_action)
+@php($sum_net_customer += $payment_manual_net_customer)
+@php($sum_net_summary += $payment_manual_net_summary)
+@php($i++)
+@endforeach
+<tr style="font-weight: bold;">
+<td>รวมเงินลงทุนทั้งหมด</td>
+<td class="text-right">{{ number_format($sum_net_pea_invest, 2) }}</td>
+<td class="text-right">{{ number_format($sum_net_action, 2) }}</td>
+<td class="text-right">{{ number_format($sum_net_customer, 2) }}</td>
+<td class="text-right">{{ number_format($sum_net_summary, 2) }}</td>
+</tr>
+<tr style="font-weight: bold;">
+<td>ภาษีมูลค่าเพิ่ม {{ $vat_rate }}%</td>
+<td class="text-right">{{ number_format($tax_net_pea_invest = $sum_net_pea_invest * $vat_rate / 100, 2) }}</td>
+<td class="text-right">{{ number_format($tax_net_action = $sum_net_action * $vat_rate / 100, 2) }}</td>
+<td class="text-right">{{ number_format($tax_net_customer = $sum_net_customer * $vat_rate / 100, 2) }}</td>
+<td class="text-right">{{ number_format($tax_net_summary = $sum_net_summary * $vat_rate / 100, 2) }}</td>
+</tr>
+<tr style="font-weight: bold;">
+<td>รวมเป็นเงินทั้งสิ้น (รวมภาษีมูลค่าเพิ่มแล้ว)</td>
+<td class="text-right">{{ number_format($sum_net_pea_invest + $tax_net_pea_invest, 2) }}</td>
+<td class="text-right">{{ number_format($sum_net_action + $tax_net_action, 2) }}</td>
+<td class="text-right">{{ number_format($sum_net_customer + $tax_net_customer, 2) }}</td>
+<td class="text-right">{{ number_format($sum_net_summary + $tax_net_summary, 2) }}</td>
+</tr>
+</tbody>
+</table>
+</div>
 
 
 
-    <table border="0" cellpadding="2" cellspacing="0" style="table-layout: fixed;">
-        <tr>
-            <td colspan="12">
-                <p>
-                    <span>ในการดำเนินการดังกล่าว ให้เรียกเก็บเงินจาก</span>
-                    <span class="m-0 pl-5 pr-5 red bx-border-bottom"> ผชฟ. </span>
-                    <span>เป็นจำนวนเงิน</span>
-                    <span class="m-0 pl-5 pr-5 red bx-border-bottom">{{ number_format($sum_net_summary + $tax_net_summary, 2) }}</span>
-                    <span>บาท กำหนดยืนราคาภายใน</span>
-                    <span class="m-0 pl-5 pr-5 red bx-border-bottom"> 3 </span>
-                    <span>เดือน ส่วนค่าธรรมเนียมต่างๆ ให้เรียกเก็บตามระเบียบ กฟภ.</span>
-                </p>
-                @if(isset($meter['has_payment']) && $meter['has_payment'] && $meter['paid_amount'])
-                    <p>
-                        <span>ผู้ใช้ไฟได้</span>
-                        <span class="m-0 pl-5 pr-5 red bx-border-bottom">ชำระ{{ $meter_extra['customer_payment_type']?? 'ค่าตรวจสอบแบบและแผนผัง' }}</span>
-                        <span>ตามคำสั่งที่ {{ $meter->document_number }} ลว. {{ buddhismDate($meter->document_date) }} เป็นเงิน</span>
-                        <span class="m-0 pl-5 pr-5 red bx-border-bottom"> {{ number_format($meter['paid_amount'], 2) }} </span>
-                        <span>บาท <b>(ใบเสร็จรับเงินเลขที่</b></span>
-                        <span class="m-0 pl-5 pr-5 red bx-border-bottom"> {{ $meter['receive_no']?? '-' }} </span>
-                        <span><b>)</b></span>
-                    </p>
-                    <p>
-                        <span>ดังนั้น ขอให้ผู้ใช้ไฟจะต้องชำระค่าใช้จ่ายในการดำเนินการตามข้อ <b>4</b> คงเหลือเป็นเงิน</span>
-                        <span class="m-0 pl-5 pr-5 red bx-border-bottom"> {{ number_format($meter['payment_request'] - $meter['paid_amount'], 2) }} </span>
-                        <span>บาท <b>(</b></span>
-                        <span class="m-0 pl-5 pr-5 red bx-border-bottom"> {{ baht_text($meter['payment_request'] - $meter['paid_amount']) }} </span>
-                        <span><b>)</b> (รวมภาษีมูลค่าเพิ่มแล้ว)</span>
-                    </p>
-                @endif
-            </td>
-        </tr>
-    </table>
+<table border="0" cellpadding="2" cellspacing="0" style="table-layout: fixed;">
+<tr>
+<td colspan="12">
+<p>
+<span>ในการดำเนินการดังกล่าว ให้เรียกเก็บเงินจาก</span>
+<span class="m-0 pl-5 pr-5 red bx-border-bottom"> ผชฟ. </span>
+<span>เป็นจำนวนเงิน</span>
+<span class="m-0 pl-5 pr-5 red bx-border-bottom">{{ number_format($sum_net_summary + $tax_net_summary, 2) }}</span>
+<span>บาท กำหนดยืนราคาภายใน</span>
+<span class="m-0 pl-5 pr-5 red bx-border-bottom"> 3 </span>
+<span>เดือน ส่วนค่าธรรมเนียมต่างๆ ให้เรียกเก็บตามระเบียบ กฟภ.</span>
+</p>
+@if(isset($meter['has_payment']) && $meter['has_payment'] && $meter['paid_amount'])
+<p>
+<span>ผู้ใช้ไฟได้</span>
+<span class="m-0 pl-5 pr-5 red bx-border-bottom">ชำระ{{ $meter_extra['customer_payment_type']?? 'ค่าตรวจสอบแบบและแผนผัง' }}</span>
+<span>ตามคำสั่งที่ {{ $meter->document_number }} ลว. {{ buddhismDate($meter->document_date) }} เป็นเงิน</span>
+<span class="m-0 pl-5 pr-5 red bx-border-bottom"> {{ number_format($meter['paid_amount'], 2) }} </span>
+<span>บาท <b>(ใบเสร็จรับเงินเลขที่</b></span>
+<span class="m-0 pl-5 pr-5 red bx-border-bottom"> {{ $meter['receive_no']?? '-' }} </span>
+<span><b>)</b></span>
+</p>
+<p>
+<span>ดังนั้น ขอให้ผู้ใช้ไฟจะต้องชำระค่าใช้จ่ายในการดำเนินการตามข้อ <b>4</b> คงเหลือเป็นเงิน</span>
+<span class="m-0 pl-5 pr-5 red bx-border-bottom"> {{ number_format($meter['payment_request'] - $meter['paid_amount'], 2) }} </span>
+<span>บาท <b>(</b></span>
+<span class="m-0 pl-5 pr-5 red bx-border-bottom"> {{ baht_text($meter['payment_request'] - $meter['paid_amount']) }} </span>
+<span><b>)</b> (รวมภาษีมูลค่าเพิ่มแล้ว)</span>
+</p>
+@endif
+</td>
+</tr>
+</table>
 
-    <table border="0" cellpadding="2" cellspacing="0" style="table-layout: fixed; page-break-inside: avoid;">
-        <tr>
-            <td colspan="12">
-                <b>5. ทรัพย์สิน</b>
-            </td>
-        </tr>
-        <tr>
-            <td colspan="12">
-                <p>
-                    <span>เมื่อดำเนินการแล้วเสร็จ ระบบไฟฟ้าในที่สาธารณะและเครื่องวัดพร้อมอุปกรณ์ประกอบเป็นทรัพย์สินของ กฟภ. ยกเว้น สายดับ กิ่งโคมไฟ และ/หรือระบบไฟฟ้าในเขตที่ดินของผู้ใช้ไฟ เป็นทรัพย์สินของผู้ใช้ไฟ</span>
-                </p>
-                <p style="padding-bottom: 80px;">
-                    <span>จึงเรียนมาเพื่อโปรดพิจารณาอนุมัติ พร้อมนี้ได้แนบแผนผังเลขที่</span>
-                    <span class="m-0 pl-5 pr-5 red bx-border-bottom"> PB30 017/650038 </span>
-                    <span>จำนวน</span>
-                    <span class="m-0 pl-5 pr-5 red bx-border-bottom"> 1 </span>
-                    <span>แผ่น ประมาณการค่าใช้จ่ายหน้างาน และเรื่องเดิมมาเพื่อประกอบการพิจารณาด้วยแล้ว</span>
-                </p>
-            </td>
-        </tr>
-        <tr>
-            <td colspan="2">@if($request_approval_user = $meter->request_approval_user) <b>ผู้เสนอขออนุมัติ</b> @endif</td>
-            <td colspan="3" class="text-center">@if($request_approval_user) ({{ $request_approval_user->name }}) @endif</td>
-            <td></td>
-            <td colspan="2">@if($approval_user = $meter->approval_user) <b>ผู้อนุมัติ</b> @endif</td>
-            <td colspan="3" class="text-center">@if($approval_user) ({{ $approval_user->name }}) @endif</td>
-            <td></td>
-        </tr>
-        <tr>
-            <td colspan="2"></td>
-            <td colspan="3" class="text-center">@if($request_approval_user) {{ $request_approval_user->job_title }} @endif</td>
-            <td></td>
-            <td colspan="2"></td>
-            <td colspan="3" class="text-center">@if($approval_user) {{ $approval_user->job_title }} @endif</td>
-            <td></td>
-        </tr>
-        <tr>
-            <td colspan="2"></td>
-            <td colspan="3" class="text-center">@if($request_approval_user) {{ $request_approval_user->position }} @endif</td>
-            <td></td>
-            <td colspan="2"></td>
-            <td colspan="3" class="text-center">@if($approval_user) {{ $approval_user->position }} @endif</td>
-            <td></td>
-        </tr>
-    </table>
+<table border="0" cellpadding="2" cellspacing="0" style="table-layout: fixed; page-break-inside: avoid;">
+<tr>
+<td colspan="12">
+<b>5. ทรัพย์สิน</b>
+</td>
+</tr>
+<tr>
+<td colspan="12">
+<p>
+<span>เมื่อดำเนินการแล้วเสร็จ ระบบไฟฟ้าในที่สาธารณะและเครื่องวัดพร้อมอุปกรณ์ประกอบเป็นทรัพย์สินของ กฟภ. ยกเว้น สายดับ กิ่งโคมไฟ และ/หรือระบบไฟฟ้าในเขตที่ดินของผู้ใช้ไฟ เป็นทรัพย์สินของผู้ใช้ไฟ</span>
+</p>
+<p style="padding-bottom: 80px;">
+<span>จึงเรียนมาเพื่อโปรดพิจารณาอนุมัติ พร้อมนี้ได้แนบแผนผังเลขที่</span>
+<span class="m-0 pl-5 pr-5 red bx-border-bottom"> PB30 017/650038 </span>
+<span>จำนวน</span>
+<span class="m-0 pl-5 pr-5 red bx-border-bottom"> 1 </span>
+<span>แผ่น ประมาณการค่าใช้จ่ายหน้างาน และเรื่องเดิมมาเพื่อประกอบการพิจารณาด้วยแล้ว</span>
+</p>
+</td>
+</tr>
+<tr>
+<td colspan="2">@if($request_approval_user = $meter->request_approval_user) <b>ผู้เสนอขออนุมัติ</b> @endif</td>
+<td colspan="3" class="text-center">@if($request_approval_user) ({{ $request_approval_user->name }}) @endif</td>
+<td></td>
+<td colspan="2">@if($approval_user = $meter->approval_user) <b>ผู้อนุมัติ</b> @endif</td>
+<td colspan="3" class="text-center">@if($approval_user) ({{ $approval_user->name }}) @endif</td>
+<td></td>
+</tr>
+<tr>
+<td colspan="2"></td>
+<td colspan="3" class="text-center">@if($request_approval_user) {{ $request_approval_user->job_title }} @endif</td>
+<td></td>
+<td colspan="2"></td>
+<td colspan="3" class="text-center">@if($approval_user) {{ $approval_user->job_title }} @endif</td>
+<td></td>
+</tr>
+<tr>
+<td colspan="2"></td>
+<td colspan="3" class="text-center">@if($request_approval_user) {{ $request_approval_user->position }} @endif</td>
+<td></td>
+<td colspan="2"></td>
+<td colspan="3" class="text-center">@if($approval_user) {{ $approval_user->position }} @endif</td>
+<td></td>
+</tr>
+</table>
 
 </main>
 </body>
