@@ -8,5 +8,6 @@ return [
         'approve' => 'Approval',
         'payment' => 'Payment process'
     ],
-    'no_record' => 'No record'
+    'no_record' => 'No record',
+    'select_survey_user_id' => 'Please select survey staff'
 ];

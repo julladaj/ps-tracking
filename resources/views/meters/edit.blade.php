@@ -5,6 +5,7 @@
 @section('page-styles')
     <link rel="stylesheet" type="text/css" href="{{asset('css/plugins/forms/wizard.css')}}">
     <link rel="stylesheet" type="text/css" href="{{asset('css/plugins/forms/validation/form-validation.css')}}">
+    <link rel="stylesheet" type="text/css" href="{{asset('vendors/css/extensions/toastr.css')}}">
     <style>
         .vertical-middle {
             margin: auto 0;

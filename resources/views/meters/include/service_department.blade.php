@@ -95,7 +95,7 @@
             <label>ชื่อผู้สำรวจ</label>
         </div>
         <div class="col-md-4 form-group vertical-middle">
-            <select class="form-control" name="meters[survey_user_id]">
+            <select class="form-control" id="survey_user_id" name="meters[survey_user_id]">
                 <option></option>
                 @forelse($pea_staffs as $pea_staff)
                     <option value="{{ $pea_staff->id }}" {{ ((isset($meter->survey_user_id) && $meter->survey_user_id === $pea_staff->id) || old('meters.survey_user_id') === $pea_staff->id)? 'selected':'' }}>{{ $pea_staff->name }}</option>
@@ -202,6 +202,10 @@
     </div>
 </div>
 
+@push('scripts')
+    <script src="{{asset('vendors/js/extensions/toastr.min.js')}}"></script>
+@endpush
+
 {{-- page scripts --}}
 @section('page-scripts')
     <script>
@@ -212,6 +216,9 @@
             });
 
             $(document).on('change', '#job_status_id', function () {
+                if (!check_selected_survey_user()) {
+                    return false;
+                }
                 toggle_show_on_approve($(this).val());
             });
 
@@ -245,6 +252,27 @@
             $(document).on('change', '#approve_date', function () {
                 update_credit_term($('option:selected', '#requested_place_id').attr('credit_terms'));
             });
+
+            $(document).on('change', '#survey_user_id', function () {
+                check_selected_survey_user();
+            });
+
+            function check_selected_survey_user() {
+                const survey_user_id = $('#survey_user_id').val();
+                if (!survey_user_id) {
+                    toastr['warning']('{{ __('meter.select_survey_user_id') }}', {
+                        closeButton: true,
+                        tapToDismiss: false
+                    });
+                    $('#job_status_id').val(1);
+                    return false;
+                }
+                const job_status_id = $('#job_status_id').val();
+                if (job_status_id === '1') {
+                    $('#job_status_id').val(2);
+                }
+                return true;
+            }
 
             function check_job_type_id(job_type_id) {
                 if (job_type_id === "4" || job_type_id === "5") {
@@ -299,7 +327,7 @@
             check_job_type_id($('#job_type_id').val());
             toggle_show_on_approve($('#job_status_id').val());
             update_credit_term($('option:selected', '#requested_place_id').attr('credit_terms'));
-
+            check_selected_survey_user();
         });
     </script>
 @endsection
