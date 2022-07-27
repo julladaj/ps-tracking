@@ -121,7 +121,7 @@
             <label>สถานะงาน</label>
         </div>
         <div class="col-md-4 form-group vertical-middle">
-            <select class="form-control" name="meters[job_status_id]" id="job_status_id" onchange="job_status_id_condition(this, event);">
+            <select class="form-control" name="meters[job_status_id]" id="job_status_id">
                 @forelse($job_statuses as $job_status)
                     <option value="{{ $job_status->id }}" {{ ((isset($meter->job_status_id) && $meter->job_status_id === $job_status->id) || old('meters.survey_user_id') === $job_status->id)? 'selected':'' }}>{{ $job_status->description }}</option>
                 @empty
@@ -215,24 +215,22 @@
                 check_job_type_id($(this).val());
             });
 
-            let previous_job_status_id_value = document.getElementById("job_status_id").value;
-            job_status_id_condition = function job_status_id_condition(this_select, event) {
+            const job_status_id = document.getElementById("job_status_id");
+            let previous_job_status_id_value = job_status_id.value;
+
+            job_status_id.addEventListener('change', (e) => {
                 if (!check_job_status_id()) {
-                    this_select.value = previous_job_status_id_value;
+                    e.target.value = previous_job_status_id_value;
                 } else {
-                    previous_job_status_id_value = this_select.value;
+                    previous_job_status_id_value = e.target.value;
                 }
 
-                toggle_show_on_approve(this_select.value);
-            }
+                toggle_show_on_approve(e.target.value);
+            });
 
-            // $(document).on('change', '#job_status_id', function () {
-            //     if (!check_job_status_id()) {
-            //         console.log('joe');
-            //         return false;
-            //     }
-            //     toggle_show_on_approve($(this).val());
-            // });
+            $(document).on('change', '#approve_location', function () {
+                toggle_overdue_date();
+            });
 
             $(document).on('change', '#approve_location', function () {
                 toggle_overdue_date();
@@ -270,8 +268,8 @@
             });
 
             function check_job_status_id() {
-                switch ($('#job_status_id').val()) {
-                    case '1':
+                switch (job_status_id.value) {
+                    case '2':
                         return check_selected_survey_user();
                     case '3':
                         if (!$('#job_number').val()) {
@@ -293,12 +291,12 @@
                         closeButton: true,
                         tapToDismiss: false
                     });
-                    $('#job_status_id').val(1);
+                    job_status_id.value = 1;
                     return false;
                 }
-                const job_status_id = $('#job_status_id').val();
-                if (job_status_id === '1') {
-                    $('#job_status_id').val(2);
+                if (job_status_id.value === '1') {
+                    job_status_id.value = 2;
+                    previous_job_status_id_value = 2;
                 }
                 return true;
             }
