@@ -27,3 +27,4 @@ composer.lock
 /log/
 /storage/
 /public/public.zip
+/public/assets/
