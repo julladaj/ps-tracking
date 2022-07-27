@@ -9,5 +9,6 @@ return [
         'payment' => 'ส่งงานให้นักบัญชี'
     ],
     'no_record' => 'ไม่มีข้อมูล',
-    'select_survey_user_id' => 'กรุณาระบุชื่อผู้สำรวจ'
+    'please_select_survey_user_id' => 'กรุณาระบุชื่อผู้สำรวจ',
+    'please_input_job_number' => 'กรุณาระบุหมายเลขงาน'
 ];

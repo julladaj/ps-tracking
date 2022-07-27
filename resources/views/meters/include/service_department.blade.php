@@ -89,7 +89,7 @@
             <label>หมายเลขงาน</label>
         </div>
         <div class="col-md-4 form-group vertical-middle">
-            <input type="text" class="form-control" name="meters[job_number]" placeholder="หมายเลขงาน" value="{{ $meter->job_number?? old('meters.job_number') }}">
+            <input type="text" class="form-control" id="job_number" name="meters[job_number]" placeholder="หมายเลขงาน" value="{{ $meter->job_number?? old('meters.job_number') }}">
         </div>
         <div class="col-md-2 text-right vertical-middle">
             <label>ชื่อผู้สำรวจ</label>
@@ -121,7 +121,7 @@
             <label>สถานะงาน</label>
         </div>
         <div class="col-md-4 form-group vertical-middle">
-            <select class="form-control" name="meters[job_status_id]" id="job_status_id">
+            <select class="form-control" name="meters[job_status_id]" id="job_status_id" onchange="job_status_id_condition(this, event);">
                 @forelse($job_statuses as $job_status)
                     <option value="{{ $job_status->id }}" {{ ((isset($meter->job_status_id) && $meter->job_status_id === $job_status->id) || old('meters.survey_user_id') === $job_status->id)? 'selected':'' }}>{{ $job_status->description }}</option>
                 @empty
@@ -215,12 +215,24 @@
                 check_job_type_id($(this).val());
             });
 
-            $(document).on('change', '#job_status_id', function () {
-                if (!check_selected_survey_user()) {
-                    return false;
+            let previous_job_status_id_value = document.getElementById("job_status_id").value;
+            job_status_id_condition = function job_status_id_condition(this_select, event) {
+                if (!check_job_status_id()) {
+                    this_select.value = previous_job_status_id_value;
+                } else {
+                    previous_job_status_id_value = this_select.value;
                 }
-                toggle_show_on_approve($(this).val());
-            });
+
+                toggle_show_on_approve(this_select.value);
+            }
+
+            // $(document).on('change', '#job_status_id', function () {
+            //     if (!check_job_status_id()) {
+            //         console.log('joe');
+            //         return false;
+            //     }
+            //     toggle_show_on_approve($(this).val());
+            // });
 
             $(document).on('change', '#approve_location', function () {
                 toggle_overdue_date();
@@ -257,10 +269,27 @@
                 check_selected_survey_user();
             });
 
+            function check_job_status_id() {
+                switch ($('#job_status_id').val()) {
+                    case '1':
+                        return check_selected_survey_user();
+                    case '3':
+                        if (!$('#job_number').val()) {
+                            toastr['warning']('{{ __('meter.please_input_job_number') }}', {
+                                closeButton: true,
+                                tapToDismiss: false
+                            });
+                            return false;
+                        }
+                        break;
+                }
+                return true;
+            }
+
             function check_selected_survey_user() {
                 const survey_user_id = $('#survey_user_id').val();
                 if (!survey_user_id) {
-                    toastr['warning']('{{ __('meter.select_survey_user_id') }}', {
+                    toastr['warning']('{{ __('meter.please_select_survey_user_id') }}', {
                         closeButton: true,
                         tapToDismiss: false
                     });

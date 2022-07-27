@@ -9,5 +9,6 @@ return [
         'payment' => 'Payment process'
     ],
     'no_record' => 'No record',
-    'select_survey_user_id' => 'Please select survey staff'
+    'please_select_survey_user_id' => 'Please select survey staff',
+    'please_input_job_number' => 'Please input job number'
 ];
