@@ -60,8 +60,6 @@ class MetersController extends Controller
             session()->forget('meters-filter');
         }
 
-//        dd($meters->toSql(), $meters->getBindings());
-
         if ($search) {
             $meters
                 ->where('meters.document_number', 'like', '%' . $search . '%')
@@ -173,14 +171,14 @@ class MetersController extends Controller
     {
         $seconds = 24 * 60 * 60;
 
+        $job_statuses = JobStatuses::where('id', 1)->get();
+
         return view('meters.edit', [
             'isCreate' => true,
             'job_amounts' => Cache::remember('job_amounts', $seconds, function () {
                 return JobAmounts::all();
             }),
-            'job_statuses' => Cache::remember('job_statuses', $seconds, function () {
-                return JobStatuses::all();
-            }),
+            'job_statuses' => $job_statuses,
             'job_types' => Cache::remember('job_types', $seconds, function () {
                 return JobTypes::all();
             }),
@@ -306,6 +304,15 @@ class MetersController extends Controller
         Cache::forget('job_statuses');
         Cache::forget('pea_staffs');
 
+        if (!empty($meter->job_status_id)) {
+            $job_statuses = JobStatuses::whereIn('id', [
+                $meter->job_status_id,
+                $meter->job_status_id + 1
+            ])->get();
+        } else {
+            $job_statuses = JobStatuses::where('id', 1)->get();
+        }
+
         return view('meters.edit', [
             'isCreate' => false,
             'meter' => $meter,
@@ -314,9 +321,7 @@ class MetersController extends Controller
             'job_amounts' => Cache::remember('job_amounts', $seconds, function () {
                 return JobAmounts::all();
             }),
-            'job_statuses' => Cache::remember('job_statuses', $seconds, function () {
-                return JobStatuses::all();
-            }),
+            'job_statuses' => $job_statuses,
             'job_types' => Cache::remember('job_types', $seconds, function () {
                 return JobTypes::all();
             }),
@@ -414,11 +419,6 @@ class MetersController extends Controller
                         'key_name' => $key_name,
                         'key_value' => $key_value
                     ]);
-//                    MeterExtraKeys::upsert([
-//                        'meter_id' => $meter->id,
-//                        'key_name' => $key_name,
-//                        'key_value' => $key_value
-//                    ], ['key_value', 'meter_id'], ['key_value']);
                 }
             }
         }

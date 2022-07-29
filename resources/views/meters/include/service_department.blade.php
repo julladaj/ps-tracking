@@ -146,6 +146,22 @@
                    data-placement="top" data-original-title="{{ buddhismDate($meter->approve_date?? old('meters.approve_date')) }}">
         </div>
     </div>
+    <div class="row mt-1 show_on_approve">
+        <div class="col-md-2 text-right vertical-middle">
+            <label>เลขที่หนังสือแจ้งค่าใช้จ่าย</label>
+        </div>
+        <div class="col-md-4 form-group vertical-middle">
+            <input type="text" class="form-control" name="meter_extra[approve_letter_no]" id="approve_letter_no" placeholder="เลขที่หนังสือแจ้งค่าใช้จ่าย" value="{{ $meter_extra['approve_letter_no']?? '' }}">
+        </div>
+        <div class="col-md-2 text-right vertical-middle">
+            <label>วันที่แจ้งค่าใช้จ่าย</label>
+        </div>
+        <div class="col-md-4 form-group vertical-middle">
+            <input type="date" class="form-control" name="meter_extra[approve_letter_date]" id="approve_letter_date" placeholder="วันที่แจ้งค่าใช้จ่าย" value="{{ $meter_extra['approve_letter_date']?? null }}"
+                   data-toggle="tooltip"
+                   data-placement="top" data-original-title="{{ $meter_extra['approve_letter_date']?? null }}">
+        </div>
+    </div>
     <div class="row mt-1 show_on_approve_date">
         <div class="col-md-2 text-right vertical-middle">
             <label>หมดกำหนดยืนราคา</label>
@@ -177,7 +193,8 @@
             <label>ผบค. ส่งงาน</label>
         </div>
         <div class="col-md-4 form-group vertical-middle show_on_no_pending_payment">
-            <input type="date" class="form-control" name="meters[service_final_date]" placeholder="ผบค. ส่งงาน" value="{{ $meter->service_final_date?? old('meters.service_final_date') }}" data-toggle="tooltip"
+            <input type="date" class="form-control" name="meters[service_final_date]" placeholder="ผบค. ส่งงาน" id="service_final_date"
+                   value="{{ $meter->service_final_date?? old('meters.service_final_date') }}" data-toggle="tooltip"
                    data-placement="top" data-original-title="{{ buddhismDate($meter->service_final_date?? old('meters.service_final_date')) }}">
         </div>
     </div>
@@ -219,10 +236,26 @@
             let previous_job_status_id_value = job_status_id.value;
 
             job_status_id.addEventListener('change', (e) => {
+                const value = parseInt(e.target.value);
                 if (!check_job_status_id()) {
                     e.target.value = previous_job_status_id_value;
                 } else {
-                    previous_job_status_id_value = e.target.value;
+                    previous_job_status_id_value = value;
+                }
+
+                clearAllAppendedRequired();
+                if (value > 1) {
+                    document.getElementById("survey_user_id").setAttribute("required", "required");
+                }
+                if (value > 2) {
+                    document.getElementById("job_number").setAttribute("required", "required");
+                }
+                if (value > 3) {
+                    document.getElementById("approve_location").setAttribute("required", "required");
+                    document.getElementById("approve_date").setAttribute("required", "required");
+                }
+                if (value > 4) {
+                    document.getElementById("service_final_date").setAttribute("required", "required");
                 }
 
                 toggle_show_on_approve(e.target.value);
@@ -266,6 +299,14 @@
             $(document).on('change', '#survey_user_id', function () {
                 check_selected_survey_user();
             });
+
+            function clearAllAppendedRequired() {
+                document.getElementById("survey_user_id").removeAttribute("required");
+                document.getElementById("job_number").removeAttribute("required");
+                document.getElementById("approve_location").removeAttribute("required");
+                document.getElementById("approve_date").removeAttribute("required");
+                document.getElementById("service_final_date").removeAttribute("required");
+            }
 
             function check_job_status_id() {
                 switch (job_status_id.value) {
