@@ -4,6 +4,9 @@ namespace App\Helpers;
 
 use App\Models\JobStatusDurations;
 use App\Models\Meters;
+use Carbon\Carbon;
+use DateInterval;
+use DatePeriod;
 use Illuminate\Support\Facades\DB;
 
 class MeterHelper
@@ -38,7 +41,7 @@ LIMIT 1;";
 
         $avg = DB::select($sql_command);
 
-        $duration = isset($avg[0]) ? round($avg[0]->avg_duration_of_status / 60 / 60 / 24, 2) : 0;
+        $duration = isset($avg[0]) ? $avg[0]->avg_duration_of_status : 0;
         if (!$duration && $meter && $meter->job_status_id === $job_status_id) {
             $last_step = JobStatusDurations::select('created_at')
                 ->where('meter_id', $meter->id)
@@ -47,12 +50,88 @@ LIMIT 1;";
                 ->first();
 
             if ($last_step) {
-                $duration = round(optional($last_step->created_at)->diffInSeconds(now()) / 60 / 60 / 24, 2);
+                $duration = self::calculateDurationWithoutWeekend($last_step->created_at, now());
             } else {
-                $duration = round(optional($meter->created_at)->diffInSeconds(now()) / 60 / 60 / 24, 2);
+                $duration = self::calculateDurationWithoutWeekend($meter->created_at, now());
             }
         }
-        return $duration;
+        return round($duration / 60 / 60 / 24, 2);
+    }
+
+    public static function recalculateJobStatusDurations()
+    {
+        $rowEffected = 0;
+        $meters = Meters::all('id');
+
+        foreach ($meters as $meter) {
+            $jobStatusDurations = JobStatusDurations::where('meter_id', $meter->id)
+                ->orderBy('id')
+                ->get(['id', 'created_at']);
+
+            $dtStart = null;
+            $dtEnd = null;
+            $lastRecordId = null;
+
+            foreach ($jobStatusDurations as $jobStatusDuration) {
+                if (!$dtStart) {
+                    $dtStart = $jobStatusDuration->created_at;
+                    $lastRecordId = $jobStatusDuration->id;
+                    continue;
+                }
+                $dtEnd = $jobStatusDuration->created_at;
+                $duration = self::calculateDurationWithoutWeekend($dtStart, $dtEnd);
+                JobStatusDurations::where('id', $lastRecordId)
+                    ->update(['duration' => $duration]);
+                $rowEffected++;
+                $dtStart = $dtEnd;
+                $lastRecordId = $jobStatusDuration->id;
+            }
+        }
+        return $rowEffected;
+    }
+
+    /**
+     * @param  Carbon  $dtStart
+     * @param  Carbon  $dtEnd
+     * @return int
+     */
+    private static function calculateDurationWithoutWeekend(Carbon $dtStart, Carbon $dtEnd): int
+    {
+        $secondDuration = 0;
+        $dStart = $dtStart->format('Y-m-d');
+        $dEnd = $dtEnd->format('Y-m-d');
+        // addDays modify origin, so make copy of origin and then using it.
+        $dEndAddDay = $dtEnd->copy();
+        $period = new DatePeriod($dtStart, new DateInterval('P1D'), $dEndAddDay->addDays(1));
+
+        foreach ($period as $dt) {
+            if (!self::isWeekday($dt)) {
+                continue;
+            }
+
+            $startDateTime = new Carbon($dt->format('Y-m-d 00:00'));
+            $endDateTime = new Carbon($dt->copy()->addDays(1)->format('Y-m-d 00:00'));
+            if ($dt->format('Y-m-d') === $dStart) {
+                $startDateTime = $dtStart;
+            }
+            if ($dt->format('Y-m-d') === $dEnd) {
+                $endDateTime = $dtEnd;
+                $secondDuration += $startDateTime->diffInSeconds($endDateTime);
+                break;
+            }
+
+            $secondDuration += $startDateTime->diffInSeconds($endDateTime);
+        }
+        return $secondDuration;
+    }
+
+    /**
+     * @param  \DateTime  $date
+     * @return bool
+     */
+    public static function isWeekday(\DateTime $date): bool
+    {
+        return $date->format('N') < 6;
     }
 
     /**

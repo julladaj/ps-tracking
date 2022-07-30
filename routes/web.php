@@ -30,6 +30,11 @@ Route::get('/', function() {
     return redirect(route('meters.index'));
 });
 
+Route::get('/recalculateJobStatusDurations', function() {
+    $rowEffected = \App\Helpers\MeterHelper::recalculateJobStatusDurations();
+    return 'SUCCESS with ' . $rowEffected . ' rows effected.';
+});
+
 Route::post('meters-filter', function(\Illuminate\Http\Request $request) {
     session(['meters-filter' => $request->all()]);
     return redirect(route('meters.index'));

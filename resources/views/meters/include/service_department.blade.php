@@ -189,10 +189,10 @@
                 </div>
             </fieldset>
         </div>
-        <div class="col-md-2 text-right vertical-middle show_on_no_pending_payment">
+        <div class="col-md-2 text-right vertical-middle">
             <label>ผบค. ส่งงาน</label>
         </div>
-        <div class="col-md-4 form-group vertical-middle show_on_no_pending_payment">
+        <div class="col-md-4 form-group vertical-middle">
             <input type="date" class="form-control" name="meters[service_final_date]" placeholder="ผบค. ส่งงาน" id="service_final_date"
                    value="{{ $meter->service_final_date?? old('meters.service_final_date') }}" data-toggle="tooltip"
                    data-placement="top" data-original-title="{{ buddhismDate($meter->service_final_date?? old('meters.service_final_date')) }}">
@@ -337,6 +337,7 @@
                 }
                 if (job_status_id.value === '1') {
                     job_status_id.value = 2;
+                    // job_status_id.fireEvent("onchange");
                     previous_job_status_id_value = 2;
                 }
                 return true;

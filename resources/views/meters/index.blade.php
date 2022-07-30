@@ -69,7 +69,7 @@
                         <div class="d-flex justify-content-between align-items-center mb-1">
                             <div class="sales-item-name">
                                 <p class="mb-0">ระยะเวลาเฉลี่ย</p>
-                                <small class="text-muted">ที่ใช้ในการดำเนินการแต่ละขั้นตอน (วัน)</small>
+                                <small class="text-muted">ที่ใช้ในการดำเนินการแต่ละขั้นตอน<br>(วันทำการ)</small>
                             </div>
                             <h6 class="mb-0">{{ $over_report['job_status_avg'] }}</h6>
                         </div>
@@ -93,7 +93,7 @@
                             <div class="d-flex justify-content-between align-items-center mb-1">
                                 <div class="sales-item-name">
                                     <p class="mb-0">ระยะเวลาเฉลี่ย</p>
-                                    <small class="text-muted">ที่ใช้ในการดำเนินการแต่ละขั้นตอน (วัน)</small>
+                                    <small class="text-muted">ที่ใช้ในการดำเนินการแต่ละขั้นตอน<br>(วันทำการ)</small>
                                 </div>
                                 <h6 class="mb-0">{{ $value['avg'] }}</h6>
                             </div>
