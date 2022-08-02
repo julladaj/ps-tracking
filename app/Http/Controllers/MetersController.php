@@ -311,8 +311,17 @@ class MetersController extends Controller
                     $job_status_id,
                     $job_status_id + 1
                 ]);
-                if ($job_status_id <= 3) {
-                    $query->orWhere('id', 98);
+                switch ($job_status_id) {
+                    case 1:
+                    case 2:
+                    case 3:
+                        $query->orWhere('id', 98);
+                        break;
+                    case 98:
+                        $query->where('id', '<', $job_status_id);
+                        break;
+                    case 99:
+                        break;
                 }
             })
                 ->orWhere('id', 99)
