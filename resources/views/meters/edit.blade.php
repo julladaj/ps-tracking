@@ -42,52 +42,6 @@
 @section('content')
     <!-- Basic Horizontal form layout section start -->
     <section id="basic-horizontal-layouts">
-        @if(!$isCreate)
-            <div class="row match-height">
-                <div class="col-sm-6 col-xl-2 col-12 mb-3">
-                    <div class="card mb-0">
-                        <div class="card-header pb-50">
-                            <h4 class="card-title">สถานะทั้งหมด</h4>
-                        </div>
-                        <div class="card-body py-1">
-                            <div class="d-flex justify-content-between align-items-center mb-1">
-                                <div class="sales-item-name">
-                                    <p class="mb-0">ระยะเวลารวม</p>
-                                    <small class="text-muted">ที่ใช้ในการดำเนินการแต่ละขั้นตอน<br>(วันทำการ)</small>
-                                </div>
-                                <h6 class="mb-0">{{ $over_report['job_status_avg'] }}</h6>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                @foreach($job_status_report as $key => $value)
-                    <div class="col-sm-6 col-xl-2 col-12 mb-3">
-                        <div class="card mb-0">
-                            <div class="card-header pb-50">
-                                <h4 class="card-title">{{ __('meter.job_status.' . $key) }}</h4>
-                            </div>
-                            <div class="card-body py-1">
-                                <div class="d-flex justify-content-between align-items-center mb-1">
-                                    <div class="sales-item-name">
-                                        <p class="mb-0">ระยะเวลา</p>
-                                        <small class="text-muted">ที่ใช้ในการดำเนินการ<br>(วันทำการ)</small>
-                                    </div>
-                                    <h6 class="mb-0">{{ $value['avg'] }}</h6>
-                                </div>
-                            </div>
-                            <div class="card-footer border-top">
-                                <div class="progress progress-bar-{{ $value['color'] }} progress-sm mt-50 mb-md-50">
-                                    <div class="progress-bar" role="progressbar" aria-valuenow="{{ ($over_report['job_status_avg'])? $value['avg'] / $over_report['job_status_avg'] * 100 : 0 }}"
-                                         style="width:{{ ($over_report['job_status_avg'])? $value['avg'] / $over_report['job_status_avg'] * 100 : 0 }}%"></div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                @endforeach
-            </div>
-        @endif
-
         <form class="form form-horizontal" id="form_meter" method="POST" action="{{ ($isCreate)? route('meters.store') : route('meters.update', $meter) }}">
             @if(!$isCreate)
                 <div class="wizard">

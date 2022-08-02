@@ -94,6 +94,11 @@ class MetersController extends Controller
             'overdue_url' => MeterHelper::buildJobStatusFilterUrl($meter_index_url, [
                 'overdue' => 1
             ]),
+            // @TODO: Change this.
+            'overdue_quotation' => Meters::where('expires_quote_date', '<', now())->where('job_status_id', 4)->count(),
+            'overdue_quotation_url' => MeterHelper::buildJobStatusFilterUrl($meter_index_url, [
+                'overdue' => 1
+            ]),
             'color' => 'danger'
         ];
 
@@ -106,6 +111,15 @@ class MetersController extends Controller
                 'count' => Meters::where('job_status_id', 1)->count(),
                 'avg' => MeterHelper::getStatusAverageDay(1),
                 'color' => 'success'
+            ],
+            'wait_for_paper' => [
+                'id' => 98,
+                'url' => MeterHelper::buildJobStatusFilterUrl($meter_index_url, [
+                    'job_status_id' => 98
+                ]),
+                'count' => Meters::where('job_status_id', 98)->count(),
+                'avg' => MeterHelper::getStatusAverageDay(98),
+                'color' => 'warning'
             ],
             'survey' => [
                 'id' => 2,
