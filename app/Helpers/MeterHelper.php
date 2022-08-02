@@ -18,6 +18,10 @@ class MeterHelper
      */
     public static function getStatusAverageDay(int $job_status_id, ?Meters $meter = null): float
     {
+//        $ds = new Carbon('2022-05-25 02:41:47');
+//        $de = new Carbon('2022-06-24 02:35:24');
+//        dd($ds->diffInSeconds($de));
+
         $sql_command = "
 SELECT 
     `meter_id`, 

@@ -305,12 +305,20 @@ class MetersController extends Controller
         Cache::forget('pea_staffs');
 
         if (!empty($meter->job_status_id)) {
-            $job_statuses = JobStatuses::whereIn('id', [
-                $meter->job_status_id,
-                $meter->job_status_id + 1
-            ])->get();
+            $job_status_id = $meter->job_status_id;
+            $job_statuses = JobStatuses::where(function ($query) use ($job_status_id) {
+                $query->whereIn('id', [
+                    $job_status_id,
+                    $job_status_id + 1
+                ]);
+                if ($job_status_id <= 3) {
+                    $query->orWhere('id', 98);
+                }
+            })
+                ->orWhere('id', 99)
+                ->get();
         } else {
-            $job_statuses = JobStatuses::where('id', 1)->get();
+            $job_statuses = JobStatuses::whereIn('id', [1, 99])->get();
         }
 
         return view('meters.edit', [
