@@ -28,11 +28,6 @@ use Illuminate\Support\Facades\Cache;
 
 class MetersController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function index(Request $request): \Illuminate\Contracts\View\View
     {
         $pageSize = (int)$request->query('page_size', 10);
@@ -176,11 +171,6 @@ class MetersController extends Controller
         ]);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|\Illuminate\Http\Response
-     */
     public function create()
     {
         $seconds = 24 * 60 * 60;
@@ -208,12 +198,6 @@ class MetersController extends Controller
         ]);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Http\RedirectResponse|\Illuminate\Http\Response|\Illuminate\Routing\Redirector
-     */
     public function store(StoreMeterRequest $request)
     {
         if (!$request->has('meters')) {
@@ -230,23 +214,11 @@ class MetersController extends Controller
         return redirect(route('meters.edit', $meter))->with('success', 'บันทึกข้อมูลสำเร็จ');
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\Meters  $meters
-     * @return \Illuminate\Http\Response
-     */
     public function show(Meters $meters)
     {
         //
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\Meters  $meter
-     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|\Illuminate\Http\Response
-     */
     public function edit(Meters $meter)
     {
         $meter->with(['job_type', 'job_status', 'job_amount', 'transformer', 'pea_staff', 'electric_expand']);
@@ -393,13 +365,6 @@ class MetersController extends Controller
         ]);
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Meters  $meter
-     * @return \Illuminate\Http\RedirectResponse
-     */
     public function update(UpdateMeterRequest $request, Meters $meter)
     {
         if (!$request->has('meters')) {
@@ -481,12 +446,6 @@ class MetersController extends Controller
         return back()->with('success', 'บันทึกข้อมูลสำเร็จ');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\Meters  $meters
-     * @return \Illuminate\Http\Response
-     */
     public function destroy(Meters $meters)
     {
         //

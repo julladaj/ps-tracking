@@ -45,7 +45,7 @@ LIMIT 1;";
 
         $avg = DB::select($sql_command);
 
-        $duration = isset($avg[0]) ? $avg[0]->avg_duration_of_status : 0;
+        $duration = isset($avg[0]) ? round($avg[0]->avg_duration_of_status, 2) : 0;
         if (!$duration && $meter && $meter->job_status_id === $job_status_id) {
             $last_step = JobStatusDurations::select('created_at')
                 ->where('meter_id', $meter->id)
