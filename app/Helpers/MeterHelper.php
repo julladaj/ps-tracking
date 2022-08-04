@@ -59,7 +59,7 @@ LIMIT 1;";
                 $duration = self::calculateDurationWithoutWeekend($meter->created_at, now());
             }
         }
-        return round($duration / 60 / 60 / 24, 2);
+        return round($duration / 60 / 60 / 24, 0);
     }
 
     public static function recalculateJobStatusDurations()

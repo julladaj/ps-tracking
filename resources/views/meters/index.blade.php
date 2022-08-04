@@ -20,14 +20,13 @@
                 <div class="card">
                     <div class="card-body d-flex align-items-center justify-content-between" style="position: relative;">
                         <div class="d-flex align-items-center">
-                            <div class="avatar bg-rgba-{{ $over_report['color'] }} m-0 p-25 mr-75 mr-xl-2">
+                            <div class="avatar bg-rgba-success m-0 p-25 mr-75 mr-xl-2">
                                 <div class="avatar-content">
-                                    <i class="bx bxs-error text-{{ $over_report['color'] }} font-medium-2"></i>
+                                    <i class="bx bxs-zap text-success font-medium-2"></i>
                                 </div>
                             </div>
                             <div class="total-amount">
-                                <h5 class="mb-0">0 คำร้องทั้งหมด</h5>
-                                <small class="text-muted">จัดทำแผนผัง/ประมาณการค่าใช้จ่าย <code>เกินกำหนด</code></small>
+                                <h5 class="mb-0">{{ $meterCount }} คำร้องทั้งหมด</h5>
                             </div>
                         </div>
                     </div>
@@ -56,9 +55,9 @@
                 <div class="card">
                     <div class="card-body d-flex align-items-center justify-content-between" style="position: relative;">
                         <div class="d-flex align-items-center">
-                            <div class="avatar bg-rgba-{{ $over_report['color'] }} m-0 p-25 mr-75 mr-xl-2">
+                            <div class="avatar bg-rgba-warning m-0 p-25 mr-75 mr-xl-2">
                                 <div class="avatar-content">
-                                    <i class="bx bxs-error text-{{ $over_report['color'] }} font-medium-2"></i>
+                                    <i class="bx bxs-error text-warning font-medium-2"></i>
                                 </div>
                             </div>
                             <div class="total-amount">

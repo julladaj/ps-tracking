@@ -158,6 +158,7 @@ class MetersController extends Controller
 
         return view('meters.index', [
             'meters' => $meters->sortable()->paginate($pageSize),
+            'meterCount' => Meters::count(),
             'pageSize' => $pageSize,
             'search' => $search,
             'over_report' => $over_report,

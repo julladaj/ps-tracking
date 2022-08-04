@@ -59,7 +59,7 @@
                                            aria-controls="steps-uid-3-p-{{ $value['id'] }}"
                                         >
                                             <span class="step"><i class="@if ($is_current) step-icon bx bx-time-five @elseif($meter->job_status_id > $value['id']) step-icon bx-check-circle bx @else step-icon @endif"></i></span>
-                                            <span>{{ __('meter.job_status.' . $key) }} {{ $value['avg'] }} วัน<br><small>เวลามาตรฐาน {{ $value['standard_days'] }} วันทำการ</small></span>
+                                            <span>{{ __('meter.job_status.' . $key) }} {{ $value['avg'] }} วันทำการ<br><small>เวลามาตรฐาน {{ $value['standard_days'] }} วันทำการ</small></span>
                                         </a>
                                     </li>
                                 @endif
