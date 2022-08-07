@@ -59,7 +59,9 @@
         <div class="col-md-4 form-group vertical-middle meter-transformer">
             <select class="form-control" name="meters[transformer_id]">
                 @forelse($transformers as $transformer)
-                    <option value="{{ $transformer->id }}" {{ ((isset($meter->transformer_id) && $meter->transformer_id === $transformer->id) || old('meters.transformer_id') === $transformer->id)? 'selected':'' }}>{{ $transformer->description }} kVA</option>
+                    <option value="{{ $transformer->id }}" {{ ((isset($meter->transformer_id) && $meter->transformer_id === $transformer->id) || old('meters.transformer_id') === $transformer->id)? 'selected':'' }}>{{ $transformer->description }}
+                        kVA
+                    </option>
                 @empty
                     <option></option>
                 @endforelse
@@ -109,7 +111,7 @@
             <label>ปริมาณงาน</label>
         </div>
         <div class="col-md-4 form-group vertical-middle">
-            <select class="form-control" name="meters[job_amount_id]">
+            <select class="form-control" name="meters[job_amount_id]" id="job_amount_id">
                 @forelse($job_amounts as $job_amount)
                     <option value="{{ $job_amount->id }}" {{ ((isset($meter->job_amount_id) && $meter->job_amount_id === $job_amount->id) || old('meters.job_amount_id') === $job_amount->id)? 'selected':'' }}>{{ $job_amount->description }}</option>
                 @empty
@@ -261,6 +263,10 @@
                 toggle_show_on_approve(e.target.value);
             });
 
+            $(document).on('change', '#job_amount_id', function () {
+                coloringProgressBar();
+            });
+
             $(document).on('change', '#approve_location', function () {
                 toggle_overdue_date();
             });
@@ -386,6 +392,66 @@
                 }
             }
 
+            function coloringProgressBar() {
+                const job_amount_id = document.getElementById("job_amount_id");
+                const job_standard_duration = {
+                    "1": {
+                        "wait_for_action" : 1,
+                        "survey" : 3,
+                        "estimate" : 2,
+                        "approve" : 1,
+                        "payment" : 1
+                    },
+                    "2": {
+                        "wait_for_action" : 1,
+                        "survey" : 4,
+                        "estimate" : 4,
+                        "approve" : 1,
+                        "payment" : 1
+                    },
+                    "3": {
+                        "wait_for_action" : 1,
+                        "survey" : 6,
+                        "estimate" : 6,
+                        "approve" : 2,
+                        "payment" : 1
+                    },
+                    "4": {
+                        "wait_for_action" : 1,
+                        "survey" : 11,
+                        "estimate" : 11,
+                        "approve" : 2,
+                        "payment" : 1
+                    }
+                };
+                const calculated_job_duration = {!! json_encode($job_status_report) !!};
+                const job_status_standard_duration = job_standard_duration[job_amount_id.value];
+
+                $('.steps ul li').removeClass("overdue");
+
+                let total_standard_duration = 0;
+                $.each(job_status_standard_duration, function(job_status_name, job_status_standard_duration) {
+                    $("#pgb_standard_" + job_status_name).text(job_status_standard_duration);
+                    if (job_status_name !== "payment") {
+                        total_standard_duration += job_status_standard_duration;
+                    }
+                });
+                $('#pgb_standard_total').text(total_standard_duration);
+
+                let total_duration = 0;
+                $.each(calculated_job_duration, function(job_status_name, summary_value) {
+                    if (summary_value["avg"] > job_status_standard_duration[job_status_name]) {
+                        $(".pgb_status_" + job_status_name).addClass("overdue");
+                    }
+                    if (job_status_name !== "payment") {
+                        total_duration += summary_value["avg"];
+                    }
+                });
+                if (total_duration > total_standard_duration) {
+                    $(".pgb_status_total").addClass("overdue");
+                }
+            }
+
             Date.prototype.toInputFormat = function () {
                 const yyyy = this.getFullYear().toString();
                 const mm = (this.getMonth() + 1).toString(); // getMonth() is zero-based
@@ -397,6 +463,7 @@
             toggle_show_on_approve($('#job_status_id').val());
             update_credit_term($('option:selected', '#requested_place_id').attr('credit_terms'));
             check_selected_survey_user();
+            coloringProgressBar();
         });
     </script>
 @endsection

@@ -47,6 +47,11 @@
             position: relative;
             top: -4rem;
         }
+        .wizard > .steps > ul > li > a > span.step_job {
+            display: block;
+            position: relative;
+            top: -1rem;
+        }
     </style>
 @endsection
 
@@ -59,22 +64,21 @@
                     <div class="steps clearfix">
                         <ul role="tablist">
                             @php($total_duration = 0)
-                            @php($total_standard_time = 0)
                             @foreach($job_status_report as $key => $value)
                                 @if ($key === 'payment')
-                                    <li role="tab" class="done disabled {{ ($total_duration > $total_standard_time)? 'overdue' : '' }}" aria-disabled="true" aria-selected="false">
+                                    <li role="tab" class="pgb_status_total done disabled" aria-disabled="true" aria-selected="false">
                                         <a id="steps-uid-3-t-{{ $value['id'] }}"
                                            href="#steps-uid-3-h-{{ $value['id'] }}"
                                            aria-controls="steps-uid-3-p-{{ $value['id'] }}"
                                         >
                                             <span class="step"><i class="step-icon"></i></span>
-                                            <small><b>เวลามาตรฐาน {{ $total_standard_time }} วันทำการ</b></small>
-                                            <span><b>รวมวันดำเนินการ</b></span>
+                                            <small><b>เวลามาตรฐาน <span id="pgb_standard_total">0</span> วันทำการ</b></small>
+                                            <span class="step_job"><b>รวมวันดำเนินการ</b></span>
                                         </a>
                                     </li>
                                 @endif
                                 <li role="tab"
-                                    class="{{ ($value['id'] === 1)? 'first' : '' }} {{ ($value['id'] === 4)? 'last' : '' }} {{ ($value['avg'] > $value['standard_days'])? 'overdue' : '' }} {{ ($is_current = ($meter->job_status_id === $value['id']))? 'current' : '' }} {{ ($is_pass = ($meter->job_status_id > $value['id']))? 'done' : '' }} {{ (!$is_current && !$is_pass)? 'disabled' : '' }}"
+                                    class="pgb_status_{{ $key }} {{ ($value['id'] === 1)? 'first' : '' }} {{ ($value['id'] === 4)? 'last' : '' }} {{ ($value['avg'] > $value['standard_days'])? 'overdue' : '' }} {{ ($is_current = ($meter->job_status_id === $value['id']))? 'current' : '' }} {{ ($is_pass = ($meter->job_status_id > $value['id']))? 'done' : '' }} {{ (!$is_current && !$is_pass)? 'disabled' : '' }}"
                                     aria-disabled="{{ ($meter->job_status_id >= $value['id'])? 'false' : 'true' }}"
                                     aria-selected="{{ ($meter->job_status_id >= $value['id'])? 'true' : 'false' }}"
                                 >
@@ -83,13 +87,11 @@
                                        aria-controls="steps-uid-3-p-{{ $value['id'] }}"
                                     >
                                         <span class="step"><i class="@if ($is_current) step-icon bx bx-time-five @elseif($meter->job_status_id > $value['id']) step-icon bx-check-circle bx @else step-icon @endif"></i></span>
-                                        <small>เวลามาตรฐาน {{ $value['standard_days'] }} วันทำการ</small>
-                                        <span>{{ __('meter.job_status.' . $key) }}</span>
+                                        <small>เวลามาตรฐาน <span id="pgb_standard_{{ $key }}">0</span> วันทำการ</small>
+                                        <span class="step_job">{{ __('meter.job_status.' . $key) }}</span>
                                         @php($total_duration += $value['avg'])
-                                        @php($total_standard_time += $value['standard_days'])
                                     </a>
                                 </li>
-
                             @endforeach
                         </ul>
                     </div>
@@ -101,13 +103,12 @@
                     <div class="steps clearfix">
                         <ul role="tablist">
                             @php($total_duration = 0)
-                            @php($total_standard_time = 0)
                             @foreach($job_status_report as $key => $value)
                                 @if ($key === 'payment')
-                                    <li role="tab" class="done disabled {{ ($total_duration > $total_standard_time)? 'overdue' : '' }}" aria-disabled="true" aria-selected="false">
-                                        <a id="steps-uid-3-t-{{ $value['id'] }}"
-                                           href="#steps-uid-3-h-{{ $value['id'] }}"
-                                           aria-controls="steps-uid-3-p-{{ $value['id'] }}"
+                                    <li role="tab" class="pgb_status_total done disabled" aria-disabled="true" aria-selected="false">
+                                        <a id="steps-uid-4-t-{{ $value['id'] }}"
+                                           href="#steps-uid-4-h-{{ $value['id'] }}"
+                                           aria-controls="steps-uid-4-p-{{ $value['id'] }}"
                                         >
                                             <span class="step"><i class="step-icon"></i></span>
                                             <span><b>{{ $total_duration }} วันทำการ</b></span>
@@ -115,18 +116,17 @@
                                     </li>
                                 @endif
                                 <li role="tab"
-                                    class="{{ ($value['id'] === 1)? 'first' : '' }} {{ ($value['id'] === 4)? 'last' : '' }} {{ ($value['avg'] > $value['standard_days'])? 'overdue' : '' }} {{ ($is_current = ($meter->job_status_id === $value['id']))? 'current' : '' }} {{ ($is_pass = ($meter->job_status_id > $value['id']))? 'done' : '' }} {{ (!$is_current && !$is_pass)? 'disabled' : '' }}"
+                                    class="pgb_status_{{ $key }} {{ ($value['id'] === 1)? 'first' : '' }} {{ ($value['id'] === 4)? 'last' : '' }} {{ ($value['avg'] > $value['standard_days'])? 'overdue' : '' }} {{ ($is_current = ($meter->job_status_id === $value['id']))? 'current' : '' }} {{ ($is_pass = ($meter->job_status_id > $value['id']))? 'done' : '' }} {{ (!$is_current && !$is_pass)? 'disabled' : '' }}"
                                     aria-disabled="{{ ($meter->job_status_id >= $value['id'])? 'false' : 'true' }}"
                                     aria-selected="{{ ($meter->job_status_id >= $value['id'])? 'true' : 'false' }}"
                                 >
-                                    <a id="steps-uid-3-t-{{ $value['id'] }}"
-                                       href="#steps-uid-3-h-{{ $value['id'] }}"
-                                       aria-controls="steps-uid-3-p-{{ $value['id'] }}"
+                                    <a id="steps-uid-4-t-{{ $value['id'] }}"
+                                       href="#steps-uid-4-h-{{ $value['id'] }}"
+                                       aria-controls="steps-uid-4-p-{{ $value['id'] }}"
                                     >
                                         <span class="step"><i class="@if ($is_current) step-icon bx bx-time-five @elseif($meter->job_status_id > $value['id']) step-icon bx-check-circle bx @else step-icon @endif"></i></span>
                                         <span>{{ $value['avg'] }} วันทำการ</span>
                                         @php($total_duration += $value['avg'])
-                                        @php($total_standard_time += $value['standard_days'])
                                     </a>
                                 </li>
 
