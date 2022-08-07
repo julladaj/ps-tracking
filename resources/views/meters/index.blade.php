@@ -44,7 +44,6 @@
                             </div>
                             <div class="total-amount">
                                 <h5 class="mb-0"><a href="{{ $over_report['overdue_url'] }}">{{ $over_report['overdue'] }} เกินกำหนด</a></h5>
-                                <small class="text-muted"><code>หมดกำหนด</code> ยืนราคา @if($request->get('overdue')) ( <a href="{{ route('meters.index') }}">แสดงทั้งหมด</a> ) @endif</small>
                             </div>
                         </div>
                     </div>
@@ -62,7 +61,6 @@
                             </div>
                             <div class="total-amount">
                                 <h5 class="mb-0"><a href="{{ $over_report['overdue_quotation_url'] }}">{{ $over_report['overdue_quotation'] }} หมดกำหนดยืนราคา</a></h5>
-                                <small class="text-muted"><code>หมดกำหนด</code> ยืนราคา @if($request->get('overdue')) ( <a href="{{ route('meters.index') }}">แสดงทั้งหมด</a> ) @endif</small>
                             </div>
                         </div>
                     </div>

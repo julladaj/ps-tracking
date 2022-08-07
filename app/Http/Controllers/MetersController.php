@@ -272,7 +272,7 @@ class MetersController extends Controller
                 'avg' => MeterHelper::getStatusAverageDay(4, $meter),
                 'color' => 'primary',
                 'standard_days' => 3,
-                'payment' => true
+                'payment' => false
             ],
             'payment' => [
                 'id' => 5,
