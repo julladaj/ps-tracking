@@ -78,7 +78,7 @@
                                     </li>
                                 @endif
                                 <li role="tab"
-                                    class="pgb_status_{{ $key }} {{ ($value['id'] === 1)? 'first' : '' }} {{ ($value['id'] === 4)? 'last' : '' }} {{ ($value['avg'] > $value['standard_days'])? 'overdue' : '' }} {{ ($is_current = ($meter->job_status_id === $value['id']))? 'current' : '' }} {{ ($is_pass = ($meter->job_status_id > $value['id']))? 'done' : '' }} {{ (!$is_current && !$is_pass)? 'disabled' : '' }}"
+                                    class="pgb_status_{{ $value['id'] }} {{ ($value['id'] === 1)? 'first' : '' }} {{ ($value['id'] === 4)? 'last' : '' }} {{ ($value['avg'] > $value['standard_days'])? 'overdue' : '' }} {{ ($is_current = ($meter->job_status_id === $value['id']))? 'current' : '' }} {{ ($is_pass = ($meter->job_status_id > $value['id']))? 'done' : '' }} {{ (!$is_current && !$is_pass)? 'disabled' : '' }}"
                                     aria-disabled="{{ ($meter->job_status_id >= $value['id'])? 'false' : 'true' }}"
                                     aria-selected="{{ ($meter->job_status_id >= $value['id'])? 'true' : 'false' }}"
                                 >
@@ -87,7 +87,7 @@
                                        aria-controls="steps-uid-3-p-{{ $value['id'] }}"
                                     >
                                         <span class="step"><i class="@if ($is_current) step-icon bx bx-time-five @elseif($meter->job_status_id > $value['id']) step-icon bx-check-circle bx @else step-icon @endif"></i></span>
-                                        <small>เวลามาตรฐาน <span id="pgb_standard_{{ $key }}">0</span> วันทำการ</small>
+                                        <small>เวลามาตรฐาน <span id="pgb_standard_{{ $value['id'] }}">0</span> วันทำการ</small>
                                         <span class="step_job">{{ __('meter.job_status.' . $key) }}</span>
                                         @php($total_duration += $value['avg'])
                                     </a>

@@ -394,45 +394,16 @@
 
             function coloringProgressBar() {
                 const job_amount_id = document.getElementById("job_amount_id");
-                const job_standard_duration = {
-                    "1": {
-                        "wait_for_action" : 1,
-                        "survey" : 3,
-                        "estimate" : 2,
-                        "approve" : 1,
-                        "payment" : 1
-                    },
-                    "2": {
-                        "wait_for_action" : 1,
-                        "survey" : 4,
-                        "estimate" : 4,
-                        "approve" : 1,
-                        "payment" : 1
-                    },
-                    "3": {
-                        "wait_for_action" : 1,
-                        "survey" : 6,
-                        "estimate" : 6,
-                        "approve" : 2,
-                        "payment" : 1
-                    },
-                    "4": {
-                        "wait_for_action" : 1,
-                        "survey" : 11,
-                        "estimate" : 11,
-                        "approve" : 2,
-                        "payment" : 1
-                    }
-                };
+                const job_standard_duration = {!! json_encode($standardDurations) !!};
                 const calculated_job_duration = {!! json_encode($job_status_report) !!};
                 const job_status_standard_duration = job_standard_duration[job_amount_id.value];
 
                 $('.steps ul li').removeClass("overdue");
 
                 let total_standard_duration = 0;
-                $.each(job_status_standard_duration, function(job_status_name, job_status_standard_duration) {
-                    $("#pgb_standard_" + job_status_name).text(job_status_standard_duration);
-                    if (job_status_name !== "payment") {
+                $.each(job_status_standard_duration, function(job_status_id, job_status_standard_duration) {
+                    $("#pgb_standard_" + job_status_id).text(job_status_standard_duration);
+                    if (job_status_id !== "5") {
                         total_standard_duration += job_status_standard_duration;
                     }
                 });

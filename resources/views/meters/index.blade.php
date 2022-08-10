@@ -26,7 +26,7 @@
                                 </div>
                             </div>
                             <div class="total-amount">
-                                <h5 class="mb-0">{{ $meterCount }} คำร้องทั้งหมด</h5>
+                                <h5 class="mb-0"><a href="{{  route('meters.index') }}">{{ $meterCount }} คำร้องทั้งหมด</a></h5>
                             </div>
                         </div>
                     </div>
@@ -69,29 +69,6 @@
         </div>
 
         <div class="row match-height">
-{{--            <div class="col-sm-6 col-lg-3 col-xl-2 col-12 mb-3">--}}
-{{--                <div class="card mb-0">--}}
-{{--                    <div class="card-header pb-50">--}}
-{{--                        <h4 class="card-title"><a href="{{ $over_report['job_status_url'] }}">สถานะทั้งหมด</a></h4>--}}
-{{--                    </div>--}}
-{{--                    <div class="card-body py-1">--}}
-{{--                        <div class="d-flex justify-content-between align-items-center mb-2">--}}
-{{--                            <div class="sales-item-name">--}}
-{{--                                <p class="mb-0">จำนวนคำร้อง</p>--}}
-{{--                            </div>--}}
-{{--                            <h6 class="mb-0"><a href="{{ $over_report['job_status_url'] }}">{{ $over_report['count'] }}</a></h6>--}}
-{{--                        </div>--}}
-{{--                        <div class="d-flex justify-content-between align-items-center mb-1">--}}
-{{--                            <div class="sales-item-name">--}}
-{{--                                <p class="mb-0">ระยะเวลาเฉลี่ย</p>--}}
-{{--                                <small class="text-muted">ที่ใช้ในการดำเนินการแต่ละขั้นตอน<br>(วันทำการ)</small>--}}
-{{--                            </div>--}}
-{{--                            <h6 class="mb-0">{{ $over_report['job_status_avg'] }}</h6>--}}
-{{--                        </div>--}}
-{{--                    </div>--}}
-{{--                </div>--}}
-{{--            </div>--}}
-
             @foreach($job_status_report as $key => $value)
                 <div class="col-sm-6 col-lg-3 col-xl-2 col-12 mb-3">
                     <div class="card mb-0">

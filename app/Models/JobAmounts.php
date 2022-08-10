@@ -10,4 +10,11 @@ class JobAmounts extends Model
     use HasFactory;
 
     protected $fillable = ['description'];
+
+
+    public function jobStatuses()
+    {
+        return $this->belongsToMany(JobStatuses::class)
+            ->withPivot('standard_duration');
+    }
 }

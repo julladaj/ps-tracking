@@ -25,6 +25,7 @@ use App\Models\Stations;
 use App\Models\Transformers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\DB;
 
 class MetersController extends Controller
 {
@@ -73,11 +74,69 @@ class MetersController extends Controller
             $meters->where('job_status_id', $job_status_id);
         }
 
-        if ($request->has('overdue') && $request->get('overdue')) {
+        if ($request->get('quotation_overdue')) {
             $meters->where('expires_quote_date', '<', now())->where('job_status_id', 4);
         }
 
         $meter_index_url = route('meters.index');
+
+        $sql_command = <<<SQL
+SELECT m.`id`
+FROM `meters` m
+LEFT JOIN (
+    SELECT `job_amounts_id`, SUM(`standard_duration`) AS `sum_standard_duration`
+    FROM `job_amounts_job_statuses` 
+    WHERE `job_statuses_id` < 5
+    GROUP BY `job_amounts_id`
+) AS sd
+	ON sd.`job_amounts_id` = m.`job_amount_id`
+LEFT JOIN (
+    SELECT `meter_id`, SUM(CEILING(`duration` / 60 / 60 / 24)) AS `sum_job_duration`
+    FROM `job_status_durations`
+    WHERE `job_status_id` < 5
+    GROUP BY `meter_id`
+) AS jd
+	ON jd.`meter_id` = m.`id`
+WHERE 
+	jd.`sum_job_duration` IS NOT NULL AND
+	jd.`sum_job_duration` > sd.`sum_standard_duration`;
+SQL;
+
+        $overdue = DB::select($sql_command);
+
+        if ($request->get('overdue')) {
+            $raw_job_amounts_job_statuses = <<<SQL
+(
+    SELECT `job_amounts_id`, SUM(`standard_duration`) AS `sum_standard_duration`
+    FROM `job_amounts_job_statuses` 
+    WHERE `job_statuses_id` < 5
+    GROUP BY `job_amounts_id`
+) AS sd
+SQL;
+            $raw_job_status_durations = <<<SQL
+(
+    SELECT `meter_id`, SUM(CEILING(`duration` / 60 / 60 / 24)) AS `sum_job_duration`
+    FROM `job_status_durations`
+    WHERE `job_status_id` < 5
+    GROUP BY `meter_id`
+) AS jd
+SQL;
+
+            $meters
+                ->leftJoin(
+                DB::raw($raw_job_amounts_job_statuses),
+                'meters.job_amount_id',
+                '=',
+                'sd.job_amounts_id'
+            )
+                ->leftJoin(
+                    DB::raw($raw_job_status_durations),
+                    'meters.id',
+                    '=',
+                    'jd.meter_id'
+                )
+            ->whereRaw('jd.`sum_job_duration` IS NOT NULL AND jd.`sum_job_duration` > sd.`sum_standard_duration`');
+        }
 
         $over_report = [
             'job_status_url' => MeterHelper::buildJobStatusFilterUrl($meter_index_url, [
@@ -85,15 +144,12 @@ class MetersController extends Controller
             ]),
             'count' => Meters::count(),
             'job_status_avg' => MeterHelper::getStatusAverageDay(0),
-            'overdue' => Meters::where('expires_quote_date', '<', now())->where('job_status_id', 4)->count(),
-            'overdue_url' => MeterHelper::buildJobStatusFilterUrl($meter_index_url, [
-                'overdue' => 1
-            ]),
-            // @TODO: Change this.
+
+            'overdue' => count($overdue),
+            'overdue_url' => route('meters.index', ['overdue' => 1]),
+
             'overdue_quotation' => Meters::where('expires_quote_date', '<', now())->where('job_status_id', 4)->count(),
-            'overdue_quotation_url' => MeterHelper::buildJobStatusFilterUrl($meter_index_url, [
-                'overdue' => 1
-            ]),
+            'overdue_quotation_url' => route('meters.index', ['quotation_overdue' => 1]),
             'color' => 'danger'
         ];
 
@@ -103,25 +159,16 @@ class MetersController extends Controller
                 'url' => MeterHelper::buildJobStatusFilterUrl($meter_index_url, [
                     'job_status_id' => 1
                 ]),
-                'count' => Meters::where('job_status_id', 1)->count(),
+                'count' => (clone $meters)->where('job_status_id', 1)->count(),
                 'avg' => MeterHelper::getStatusAverageDay(1),
                 'color' => 'success'
-            ],
-            'wait_for_paper' => [
-                'id' => 98,
-                'url' => MeterHelper::buildJobStatusFilterUrl($meter_index_url, [
-                    'job_status_id' => 98
-                ]),
-                'count' => Meters::where('job_status_id', 98)->count(),
-                'avg' => MeterHelper::getStatusAverageDay(98),
-                'color' => 'warning'
             ],
             'survey' => [
                 'id' => 2,
                 'url' => MeterHelper::buildJobStatusFilterUrl($meter_index_url, [
                     'job_status_id' => 2
                 ]),
-                'count' => Meters::where('job_status_id', 2)->count(),
+                'count' => (clone $meters)->where('job_status_id', 2)->count(),
                 'avg' => MeterHelper::getStatusAverageDay(2),
                 'color' => 'info'
             ],
@@ -130,7 +177,7 @@ class MetersController extends Controller
                 'url' => MeterHelper::buildJobStatusFilterUrl($meter_index_url, [
                     'job_status_id' => 3
                 ]),
-                'count' => Meters::where('job_status_id', 3)->count(),
+                'count' => (clone $meters)->where('job_status_id', 3)->count(),
                 'avg' => MeterHelper::getStatusAverageDay(3),
                 'color' => 'warning'
             ],
@@ -139,7 +186,7 @@ class MetersController extends Controller
                 'url' => MeterHelper::buildJobStatusFilterUrl($meter_index_url, [
                     'job_status_id' => 4
                 ]),
-                'count' => Meters::where('job_status_id', 4)->count(),
+                'count' => (clone $meters)->where('job_status_id', 4)->count(),
                 'avg' => MeterHelper::getStatusAverageDay(4),
                 'color' => 'primary'
             ],
@@ -148,9 +195,18 @@ class MetersController extends Controller
                 'url' => MeterHelper::buildJobStatusFilterUrl($meter_index_url, [
                     'job_status_id' => 5
                 ]),
-                'count' => Meters::where('job_status_id', 5)->count(),
+                'count' => (clone $meters)->where('job_status_id', 5)->count(),
                 'avg' => MeterHelper::getStatusAverageDay(5),
                 'color' => 'danger'
+            ],
+            'wait_for_paper' => [
+                'id' => 98,
+                'url' => MeterHelper::buildJobStatusFilterUrl($meter_index_url, [
+                    'job_status_id' => 98
+                ]),
+                'count' => (clone $meters)->where('job_status_id', 98)->count(),
+                'avg' => MeterHelper::getStatusAverageDay(98),
+                'color' => 'warning'
             ]
         ];
 
@@ -317,6 +373,13 @@ class MetersController extends Controller
             $job_statuses = JobStatuses::whereIn('id', [1, 99])->get();
         }
 
+        $standardDurations = [];
+        foreach (JobAmounts::all(['id']) as $jobAmount) {
+            foreach($jobAmount->jobStatuses()->get() as $jobStatus) {
+                $standardDurations[$jobAmount->id][$jobStatus->id] = $jobStatus->pivot->standard_duration;
+            }
+        }
+
         return view('meters.edit', [
             'isCreate' => false,
             'meter' => $meter,
@@ -362,7 +425,9 @@ class MetersController extends Controller
             'over_report' => $over_report,
             'job_status_report' => $job_status_report,
 
-            'payment_rates' => PaymentRates::all()
+            'payment_rates' => PaymentRates::all(),
+
+            'standardDurations' => $standardDurations
         ]);
     }
 
