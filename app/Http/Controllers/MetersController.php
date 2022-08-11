@@ -98,6 +98,7 @@ LEFT JOIN (
 ) AS jd
 	ON jd.`meter_id` = m.`id`
 WHERE 
+    m.`job_status_id` < 5 AND
 	jd.`sum_job_duration` IS NOT NULL AND
 	jd.`sum_job_duration` > sd.`sum_standard_duration`;
 SQL;
@@ -124,18 +125,19 @@ SQL;
 
             $meters
                 ->leftJoin(
-                DB::raw($raw_job_amounts_job_statuses),
-                'meters.job_amount_id',
-                '=',
-                'sd.job_amounts_id'
-            )
+                    DB::raw($raw_job_amounts_job_statuses),
+                    'meters.job_amount_id',
+                    '=',
+                    'sd.job_amounts_id'
+                )
                 ->leftJoin(
                     DB::raw($raw_job_status_durations),
                     'meters.id',
                     '=',
                     'jd.meter_id'
                 )
-            ->whereRaw('jd.`sum_job_duration` IS NOT NULL AND jd.`sum_job_duration` > sd.`sum_standard_duration`');
+                ->where('job_status_id', '<', 5)
+                ->whereRaw('jd.`sum_job_duration` IS NOT NULL AND jd.`sum_job_duration` > sd.`sum_standard_duration`');
         }
 
         $over_report = [
@@ -375,7 +377,7 @@ SQL;
 
         $standardDurations = [];
         foreach (JobAmounts::all(['id']) as $jobAmount) {
-            foreach($jobAmount->jobStatuses()->get() as $jobStatus) {
+            foreach ($jobAmount->jobStatuses()->get() as $jobStatus) {
                 $standardDurations[$jobAmount->id][$jobStatus->id] = $jobStatus->pivot->standard_duration;
             }
         }
