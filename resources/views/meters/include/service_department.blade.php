@@ -394,8 +394,8 @@
 
             function coloringProgressBar() {
                 const job_amount_id = document.getElementById("job_amount_id");
-                const job_standard_duration = {!! json_encode($standardDurations) !!};
-                const calculated_job_duration = {!! json_encode($job_status_report) !!};
+                const job_standard_duration = {!! json_encode($standardDurations ?? []) !!};
+                const calculated_job_duration = {!! json_encode($job_status_report ?? []) !!};
                 const job_status_standard_duration = job_standard_duration[job_amount_id.value];
 
                 $('.steps ul li').removeClass("overdue");
