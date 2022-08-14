@@ -28,9 +28,9 @@ class AuthenticationController extends Controller
     //Register page
     public function registerPage()
     {
-        $pageConfigs = ['bodyCustomClass' => 'bg-full-screen-image'];
-//        return view('pages.auth-register', ['pageConfigs' => $pageConfigs]);
-        return view('auth.register', ['pageConfigs' => $pageConfigs]);
+        return redirect(route('auth-login'));
+//        $pageConfigs = ['bodyCustomClass' => 'bg-full-screen-image'];
+//        return view('auth.register', ['pageConfigs' => $pageConfigs]);
     }
 
     //forget Password page

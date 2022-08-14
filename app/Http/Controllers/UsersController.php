@@ -35,14 +35,26 @@ class UsersController extends Controller
     {
         $pageSize = (int)$request->query('page_size', 10);
         $search = (string)$request->query('search', '');
-        $role = (string)$request->query('role', '');
+        $roleName = (string)$request->query('role', '');
         $direction = $request->query('direction') ?: 'desc';
         $sort = $request->query('sort') ?: 'users.id';
 
-        $users = User::select('id', 'name', 'email')->with('profiles');
+        $pea_id = auth()->user()->pea_id;
 
-        if ($role) {
-            $users->role($role);
+        $users = User::select('id', 'name', 'email')
+            ->with('profiles')
+            ->where('id', '>', 1);
+
+        $isSuperAdmin = optional(auth()->user())->hasRole('super-admin');
+        if (!$isSuperAdmin) {
+            $users->where('pea_id', $pea_id);
+        }
+
+        if ($roleName) {
+            $users->whereHas('roles', function ($query) use ($roleName) {
+                $query->where('roles.name', '=', $roleName); // or whatever constraint you need here
+            });
+//            $users->role($role);
         }
 
 //        $users->with([
@@ -65,8 +77,8 @@ class UsersController extends Controller
             'users' => $users->sortable()->paginate($pageSize),
             'pageSize' => $pageSize,
             'search' => $search,
-            'role' => $role,
-            'roles' => Role::all()
+            'role' => $roleName,
+            'roles' => Role::where('id', '>', 1)->get()
         ]);
     }
 

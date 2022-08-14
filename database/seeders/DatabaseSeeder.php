@@ -26,7 +26,8 @@ class DatabaseSeeder extends Seeder
 //            ReservedForestsSeeder::class,
 //            StationsSeeder::class,
 //            RequestedPlacesSeeder::class
-            PaymentRatesSeeder::class
+//            PaymentRatesSeeder::class
+            PeasSeeder::class
         ]);
     }
 }

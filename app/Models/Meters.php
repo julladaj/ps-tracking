@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Kyslik\ColumnSortable\Sortable;
@@ -17,6 +18,19 @@ class Meters extends Model
 //    ];
 
 //    protected $dateFormat = 'Y-m-d';
+
+    protected static function boot()
+    {
+        parent::boot();
+
+        self::creating(function ($model) {
+            $model->pea_id = auth()->user()->pea_id;
+        });
+
+        self::addGlobalScope(function (Builder $builder) {
+            $builder->where('pea_id', auth()->user()->pea_id);
+        });
+    }
 
     public function job_type()
     {

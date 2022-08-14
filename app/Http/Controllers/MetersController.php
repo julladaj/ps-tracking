@@ -80,49 +80,41 @@ class MetersController extends Controller
 
         $meter_index_url = route('meters.index');
 
-        $sql_command = <<<SQL
-SELECT m.`id`
-FROM `meters` m
-LEFT JOIN (
+        $raw_job_amounts_job_statuses = <<<SQL
+(
     SELECT `job_amounts_id`, SUM(`standard_duration`) AS `sum_standard_duration`
     FROM `job_amounts_job_statuses` 
     WHERE `job_statuses_id` < 5
     GROUP BY `job_amounts_id`
 ) AS sd
-	ON sd.`job_amounts_id` = m.`job_amount_id`
-LEFT JOIN (
+SQL;
+        $raw_job_status_durations = <<<SQL
+(
     SELECT `meter_id`, SUM(CEILING(`duration` / 60 / 60 / 24)) AS `sum_job_duration`
     FROM `job_status_durations`
     WHERE `job_status_id` < 5
     GROUP BY `meter_id`
 ) AS jd
-	ON jd.`meter_id` = m.`id`
-WHERE 
-    m.`job_status_id` < 5 AND
-	jd.`sum_job_duration` IS NOT NULL AND
-	jd.`sum_job_duration` > sd.`sum_standard_duration`;
 SQL;
 
-        $overdue = DB::select($sql_command);
+        $overdueCount = Meters::query()
+            ->leftJoin(
+                DB::raw($raw_job_amounts_job_statuses),
+                'meters.job_amount_id',
+                '=',
+                'sd.job_amounts_id'
+            )
+            ->leftJoin(
+                DB::raw($raw_job_status_durations),
+                'meters.id',
+                '=',
+                'jd.meter_id'
+            )
+            ->where('job_status_id', '<', 5)
+            ->whereRaw('jd.`sum_job_duration` IS NOT NULL AND jd.`sum_job_duration` > sd.`sum_standard_duration`')
+            ->count();
 
         if ($request->get('overdue')) {
-            $raw_job_amounts_job_statuses = <<<SQL
-(
-    SELECT `job_amounts_id`, SUM(`standard_duration`) AS `sum_standard_duration`
-    FROM `job_amounts_job_statuses` 
-    WHERE `job_statuses_id` < 5
-    GROUP BY `job_amounts_id`
-) AS sd
-SQL;
-            $raw_job_status_durations = <<<SQL
-(
-    SELECT `meter_id`, SUM(CEILING(`duration` / 60 / 60 / 24)) AS `sum_job_duration`
-    FROM `job_status_durations`
-    WHERE `job_status_id` < 5
-    GROUP BY `meter_id`
-) AS jd
-SQL;
-
             $meters
                 ->leftJoin(
                     DB::raw($raw_job_amounts_job_statuses),
@@ -147,7 +139,7 @@ SQL;
             'count' => Meters::count(),
             'job_status_avg' => MeterHelper::getStatusAverageDay(0),
 
-            'overdue' => count($overdue),
+            'overdue' => $overdueCount,
             'overdue_url' => route('meters.index', ['overdue' => 1]),
 
             'overdue_quotation' => Meters::where('expires_quote_date', '<', now())->where('job_status_id', 4)->count(),

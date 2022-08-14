@@ -5,7 +5,8 @@
       "slug": "meters.index",
       "icon": "bx bx-grid",
       "roles": [
-        "visitor"
+        "visitor",
+        "admin"
       ]
     },
     {
@@ -13,7 +14,8 @@
       "slug": "meters.index",
       "icon": "bx bx-grid",
       "roles": [
-        "visitor"
+        "visitor",
+        "admin"
       ]
     },
     {
@@ -21,7 +23,8 @@
       "slug": "meters.index",
       "icon": "bx bx-grid",
       "roles": [
-        "visitor"
+        "visitor",
+        "admin"
       ]
     },
     {
@@ -29,7 +32,8 @@
       "slug": "meters.index",
       "icon": "bx bx-grid",
       "roles": [
-        "visitor"
+        "visitor",
+        "admin"
       ]
     },
     {
@@ -37,16 +41,20 @@
       "slug": "meters.index",
       "icon": "bx bx-grid",
       "roles": [
-        "visitor"
+        "visitor",
+        "admin"
       ]
     },
     {
       "name": "User",
       "slug": "users.index",
-      "icon": "bx bx-user-plus"
+      "icon": "bx bx-user-plus",
+      "roles": [
+        "admin"
+      ]
     },
     {
-      "navheader": "Super Admin"
+      "navheader": "Admin"
     },
     {
       "url": "index",

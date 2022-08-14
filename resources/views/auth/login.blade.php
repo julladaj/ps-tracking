@@ -62,19 +62,19 @@
                       </label>
                     </div>
                   </div>
-                  <div class="text-right">
-                    <a href="{{ route('auth-forgot-password') }}" class="card-link"><small>{{ __('auth.forget_password') }}</small></a>
-                  </div>
+{{--                  <div class="text-right">--}}
+{{--                    <a href="{{ route('auth-forgot-password') }}" class="card-link"><small>{{ __('auth.forget_password') }}</small></a>--}}
+{{--                  </div>--}}
                 </div>
                 <button type="submit" class="btn btn-primary glow w-100 position-relative">{{ __('locale.Login') }}
                   <i id="icon-arrow" class="bx bx-right-arrow-alt"></i>
                 </button>
               </form>
-              <hr>
-              <div class="text-center">
-                <small class="mr-25">{{ __('auth.dont_have_account') }}</small>
-                <a href="{{ route('auth-register') }}"><small>{{ __('auth.sign_up') }}</small></a>
-              </div>
+{{--              <hr>--}}
+{{--              <div class="text-center">--}}
+{{--                <small class="mr-25">{{ __('auth.dont_have_account') }}</small>--}}
+{{--                <a href="{{ route('auth-register') }}"><small>{{ __('auth.sign_up') }}</small></a>--}}
+{{--              </div>--}}
             </div>
           </div>
         </div>
