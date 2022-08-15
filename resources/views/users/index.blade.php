@@ -26,9 +26,9 @@
                             <thead>
                             <tr>
                                 <th>@sortablelink('id', '#', null,  ['rel' => 'nofollow'])</th>
-                                <th>@sortablelink('profiles.pea_no', 'PEA NO', null,  ['rel' => 'nofollow'])</th>
+                                <th>@sortablelink('email', 'Email', null,  ['rel' => 'nofollow'])</th>
                                 <th>@sortablelink('name', 'Name', null,  ['rel' => 'nofollow'])</th>
-                                <th>Phone No.</th>
+                                <th>PEA</th>
                                 <th>Roles</th>
                                 <th>Actions</th>
                             </tr>
@@ -37,9 +37,9 @@
                             @forelse($users as $user)
                                 <tr>
                                     <td>{{ $user->id }}</td>
-                                    <td><a href="{{ route('users.edit', $user) }}">{{ $user->profiles->pea_no?? '' }}</a></td>
+                                    <td><a href="{{ route('users.edit', $user) }}">{{ $user->email }}</a></td>
                                     <td><a href="{{ route('users.edit', $user) }}">{{ $user->name }}</a></td>
-                                    <td>{{ $user->telephone }}</td>
+                                    <td>{{ $user->pea->name }}</td>
                                     <td>
                                         @foreach ($user->getRoleNames() as $role)
                                             <div class="badge badge-light-primary">{{ $role }}</div>

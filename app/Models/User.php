@@ -18,6 +18,7 @@ class User extends Authenticatable implements MustVerifyEmail
         'name',
         'email',
         'password',
+        'pea_id'
     ];
 
     protected $hidden = [
@@ -32,5 +33,10 @@ class User extends Authenticatable implements MustVerifyEmail
     public function profiles()
     {
         return $this->hasOne(Profiles::class);
+    }
+
+    public function pea()
+    {
+        return $this->belongsTo(Peas::class, 'pea_id', 'id');
     }
 }

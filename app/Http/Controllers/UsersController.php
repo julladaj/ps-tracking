@@ -2,8 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StoreUserRequest;
+use App\Http\Requests\UpdateUserRequest;
+use App\Models\Peas;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\ValidationException;
 use Spatie\Permission\Models\Role;
 
 class UsersController extends Controller
@@ -41,8 +46,8 @@ class UsersController extends Controller
 
         $pea_id = auth()->user()->pea_id;
 
-        $users = User::select('id', 'name', 'email')
-            ->with('profiles')
+        $users = User::select('id', 'name', 'email', 'pea_id')
+            ->with(['profiles', 'pea'])
             ->where('id', '>', 1);
 
         $isSuperAdmin = optional(auth()->user())->hasRole('super-admin');
@@ -54,14 +59,7 @@ class UsersController extends Controller
             $users->whereHas('roles', function ($query) use ($roleName) {
                 $query->where('roles.name', '=', $roleName); // or whatever constraint you need here
             });
-//            $users->role($role);
         }
-
-//        $users->with([
-//            'profiles' => function ($query) {
-//                $query->get(['pea_no', 'telephone']);
-//            }
-//        ]);
 
         if ($search) {
             $users
@@ -98,7 +96,7 @@ class UsersController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(StoreUserRequest $request)
     {
         //
     }
@@ -122,7 +120,10 @@ class UsersController extends Controller
      */
     public function edit($id)
     {
-        //
+        return view('users.edit', [
+            'user' => User::findOrFail($id),
+            'peas' => Peas::all()
+        ]);
     }
 
     /**
@@ -131,10 +132,23 @@ class UsersController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @param  int  $id
      * @return \Illuminate\Http\Response
+     * @throws ValidationException
      */
-    public function update(Request $request, $id)
+    public function update(UpdateUserRequest $request, $id)
     {
-        //
+        // Extra validation for update unique.
+        $validation = Validator::make($request->all(), [
+            'email' => 'unique:users,email,' . $id
+        ]);
+        if ($validation->fails()) {
+            throw new ValidationException($validation);
+        }
+
+        if (User::findOrFail($id)->update($request->validated())) {
+            return redirect(route('users.index'))->with(['success' => 'Update success!']);
+        }
+
+        return redirect(route('users.index'))->with(['error' => 'Update fail!']);
     }
 
     /**

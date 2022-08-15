@@ -14,4 +14,9 @@ class Peas extends Model
         'short_name',
         'address',
     ];
+
+    public function users()
+    {
+        return $this->hasMany(User::class);
+    }
 }
