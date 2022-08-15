@@ -26,6 +26,9 @@ use App\Models\Transformers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\Rule;
+use Illuminate\Validation\ValidationException;
 
 class MetersController extends Controller
 {
@@ -425,8 +428,19 @@ SQL;
         ]);
     }
 
+    /**
+     * @throws ValidationException
+     */
     public function update(UpdateMeterRequest $request, Meters $meter)
     {
+        // Extra validation for update unique.
+        $validation = Validator::make($request->all(), [
+            'meters.document_number' => 'unique:meters,document_number,' . $meter->id
+        ]);
+        if ($validation->fails()) {
+            throw new ValidationException($validation);
+        }
+
         if (!$request->has('meters')) {
             return back()->with('error', 'ข้อมูลไม่ครบถ้วน');
         }

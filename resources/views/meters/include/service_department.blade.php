@@ -8,8 +8,8 @@
             <label>เลขที่คำร้อง</label>
         </div>
         <div class="col-md-4 form-group vertical-middle">
-            <input type="text" class="form-control @error('meters.document_number') error @enderror" id="document_number" name="meters[document_number]" placeholder="เลขที่คำร้อง"
-                   value="{{ $meter->document_number?? old('meters.document_number') }}">
+            <input type="text" class="form-control @error('meters.document_number') error @enderror" id="document_number" name="meters[document_number]" placeholder="เลขที่คำร้อง" maxlength="12"
+                   value="{{ old('meters.document_number', $meter->document_number ?? '') }}">
             @error('meters.document_number')<span class="error">{{ $message }}</span>@enderror
         </div>
 
@@ -19,7 +19,7 @@
         <div class="col-md-4 form-group vertical-middle">
             <input type="date" class="form-control @error('meters.document_date') error @enderror" name="meters[document_date]" placeholder="วันที่ยื่นคำร้อง" value="{{ $meter->document_date?? old('meters.document_date') }}"
                    data-toggle="tooltip" data-placement="top"
-                   data-original-title="{{ buddhismDate($meter->document_date?? old('meters.document_date')) }}">
+                   data-original-title="{{ buddhismDate(old('meters.document_date', $meter->document_date ?? '')) }}">
             @error('meters.document_date')<span class="error">{{ $message }}</span>@enderror
         </div>
     </div>
@@ -29,7 +29,7 @@
         </div>
         <div class="col-md-4 form-group vertical-middle">
             <input type="text" class="form-control @error('meters.customer_name') error @enderror" id="customer_name" name="meters[customer_name]" placeholder="ชื่อ-นามสกุล"
-                   value="{{ $meter->customer_name?? old('meters.customer_name') }}">
+                   value="{{ old('meters.customer_name', $meter->customer_name ?? '') }}">
             @error('meters.customer_name')<span class="error">{{ $message }}</span>@enderror
         </div>
 
@@ -37,7 +37,7 @@
             <label>เบอร์โทรศัพท์</label>
         </div>
         <div class="col-md-4 form-group vertical-middle">
-            <input type="text" class="form-control" name="meters[customer_phone]" placeholder="เบอร์โทรศัพท์" value="{{ $meter->customer_phone?? old('meters.customer_phone') }}">
+            <input type="text" class="form-control" name="meters[customer_phone]" placeholder="เบอร์โทรศัพท์" value="{{ old('meters.customer_phone', $meter->customer_phone ?? '') }}">
         </div>
     </div>
     <div class="row mt-1">
@@ -47,7 +47,7 @@
         <div class="col-md-4 form-group vertical-middle">
             <select class="form-control" name="meters[job_type_id]" id="job_type_id">
                 @forelse($job_types as $job_type)
-                    <option value="{{ $job_type->id }}" {{ ((isset($meter->job_type_id) && $meter->job_type_id === $job_type->id) || old('meters.job_type_id') === $job_type->id)? 'selected':'' }}>{{ $job_type->description }}</option>
+                    <option value="{{ $job_type->id }}" {{ ((int)old('meters.job_type_id', $meter->job_type_id ?? 0) === $job_type->id) ? 'selected' : '' }}>{{ $job_type->description }}</option>
                 @empty
                     <option></option>
                 @endforelse
@@ -59,7 +59,7 @@
         <div class="col-md-4 form-group vertical-middle meter-transformer">
             <select class="form-control" name="meters[transformer_id]">
                 @forelse($transformers as $transformer)
-                    <option value="{{ $transformer->id }}" {{ ((isset($meter->transformer_id) && $meter->transformer_id === $transformer->id) || old('meters.transformer_id') === $transformer->id)? 'selected':'' }}>{{ $transformer->description }}
+                    <option value="{{ $transformer->id }}" {{ ((int)old('meters.transformer_id', $meter->transformer_id ?? 0) === $transformer->id) ? 'selected' : '' }}>{{ $transformer->description }}
                         kVA
                     </option>
                 @empty
