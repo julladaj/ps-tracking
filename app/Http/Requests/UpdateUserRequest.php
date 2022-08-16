@@ -26,7 +26,8 @@ class UpdateUserRequest extends FormRequest
         return [
             'email' => 'required|email',
             'name' => 'required|string',
-            'pea_id' => 'required'
+            'pea_id' => 'required',
+            'new_password' => 'confirmed'
         ];
     }
 }

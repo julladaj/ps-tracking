@@ -1,5 +1,5 @@
 <div class="row p-1">
-    <div class="col-sm-1">
+    <div class="col-sm-2">
         <label for="pageSize" class="col-form-label">{{ __('locale.page_size') }}</label>
         <select name="pageSize" aria-controls="" class="form-control" id="pageSizeSelect">
             <option value="10" @if($pageSize === 10) selected @endif>10</option>
@@ -14,6 +14,15 @@
             <option value="" @if($role === '') selected @endif>{{ __('locale.any') }}</option>
             @foreach($roles as $value)
                 <option value="{{ $value->name }}" @if($value->name === $role) selected @endif>{{ $value->name }}</option>
+            @endforeach
+        </select>
+    </div>
+    <div class="col-sm-2">
+        <label for="peaFilter" class="col-form-label">การไฟฟ้า</label>
+        <select name="peaFilter" aria-controls="" class="form-control" id="peaFilterSelect">
+            <option value="">{{ __('locale.any') }}</option>
+            @foreach($peas as $pea)
+                <option value="{{ $pea->id }}" @if($pea->id === (int)request()->get('pea_id')) selected @endif>{{ $pea->name }}</option>
             @endforeach
         </select>
     </div>
@@ -35,6 +44,7 @@
             const select = document.getElementById('pageSizeSelect');
             const search = document.getElementById('search');
             const role = document.getElementById('roleFilterSelect');
+            const pea = document.getElementById('peaFilterSelect');
             const searchBtn = document.getElementById('applySearch');
 
             const getQueryString = function () {
@@ -43,6 +53,7 @@
                 };
                 search.value.length > 0 ? params.search = search.value : null;
                 role.value.length > 0 ? params.role = role.value : null;
+                pea.value.length > 0 ? params.pea_id = pea.value : null;
 
                 let queryString = Object.keys(params).reduce(function (accu, key) {
                     return accu + key + '=' + encodeURIComponent(params[key]) + '&';
@@ -52,12 +63,12 @@
 
             const refreshPage = function () {
                 const currentUrl = '{{ url()->current() }}';
-                // console.log(getQueryString());
                 window.location.href = currentUrl + getQueryString();
             };
 
             select.addEventListener('change', refreshPage);
             role.addEventListener('change', refreshPage);
+            pea.addEventListener('change', refreshPage);
             searchBtn.addEventListener('click', refreshPage);
             search.addEventListener('keydown', function (event) {
                 if (event.keyCode === 13) {

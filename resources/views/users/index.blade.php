@@ -16,6 +16,12 @@
     <section class="users-list-wrapper">
         <div class="users-list-table">
             <div class="card">
+                <div class="card-header border-bottom">
+                    <h5 class="card-title">ข้อมูลผู้ใช้</h5>
+                    <div class="heading-elements">
+                        <a href="{{ route('users.create') }}" class="btn btn-primary"><i class="bx bx-plus"></i> เพิ่มข้อมูล</a>
+                    </div>
+                </div>
                 <div class="card-body">
                     <!-- datatable start -->
                     <div class="table-responsive">
@@ -28,7 +34,7 @@
                                 <th>@sortablelink('id', '#', null,  ['rel' => 'nofollow'])</th>
                                 <th>@sortablelink('email', 'Email', null,  ['rel' => 'nofollow'])</th>
                                 <th>@sortablelink('name', 'Name', null,  ['rel' => 'nofollow'])</th>
-                                <th>PEA</th>
+                                <th>@sortablelink('pea_id', 'PEA', null,  ['rel' => 'nofollow'])</th>
                                 <th>Roles</th>
                                 <th>Actions</th>
                             </tr>
@@ -56,7 +62,7 @@
                         </table>
                     </div>
                     <!-- datatable ends -->
-{{--                    {{ $users->withQueryString()->links('components.pagination') }}--}}
+                    {{ $users->withQueryString()->links('components.pagination') }}
                 </div>
             </div>
         </div>

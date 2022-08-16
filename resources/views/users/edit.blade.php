@@ -29,16 +29,18 @@
                 </div>
                 <!-- users edit media object ends -->
                 <!-- users edit account form start -->
-                <form class="form-validate" action="{{ route('users.update', $user) }}" method="POST">
+                <form class="form-validate" action="{{ empty($user)? route('users.store') : route('users.update', $user) }}" method="POST" autocomplete="off">
                     @csrf
-                    @method('PUT')
+                    @if (!empty($user))
+                        @method('PUT')
+                    @endif
                     <div class="row">
                         <div class="col-12 col-sm-6">
                             <div class="form-group">
                                 <div class="controls">
                                     <label>Name</label>
                                     <input type="text" class="form-control" placeholder="Name"
-                                           value="{{ $user->name }}"
+                                           value="{{ old('name', $user->name ?? '') }}"
                                            name="name" required>
                                 </div>
                             </div>
@@ -46,7 +48,7 @@
                                 <div class="controls">
                                     <label>E-mail</label>
                                     <input type="email" class="form-control" placeholder="Email"
-                                           value="{{ $user->email }}"
+                                           value="{{ old('email', $user->email ?? '') }}"
                                            name="email" required>
                                 </div>
                             </div>
@@ -56,9 +58,23 @@
                                 <label>PEAs</label>
                                 <select class="form-control" name="pea_id" required>
                                     @foreach($peas as $pea)
-                                        <option value="{{ $pea->id }}" {{ ((int)old('pea_id', $user->pea_id) === $pea->id) ? 'selected' : '' }}>{{ $pea->name }}</option>
+                                        <option value="{{ $pea->id }}" {{ ((int)old('pea_id', $user->pea_id ?? 0) === $pea->id) ? 'selected' : '' }}>{{ $pea->name }}</option>
                                     @endforeach
                                 </select>
+                            </div>
+                            <div class="form-group">
+                                <div class="controls">
+                                    <label>รหัสผ่าน</label>
+                                    <input type="password" class="form-control" placeholder="Password"
+                                           autocomplete="off" name="new_password">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="controls">
+                                    <label>ยืนยันรหัสผ่าน</label>
+                                    <input type="password" class="form-control" placeholder="Password Confirmation"
+                                           autocomplete="off" name="new_password_confirmation">
+                                </div>
                             </div>
                         </div>
                         <div class="col-12 d-flex flex-sm-row flex-column justify-content-end mt-1">

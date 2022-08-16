@@ -41,18 +41,21 @@ class UsersController extends Controller
         $pageSize = (int)$request->query('page_size', 10);
         $search = (string)$request->query('search', '');
         $roleName = (string)$request->query('role', '');
+        $pea_id = $request->query('pea_id');
         $direction = $request->query('direction') ?: 'desc';
         $sort = $request->query('sort') ?: 'users.id';
-
-        $pea_id = auth()->user()->pea_id;
 
         $users = User::select('id', 'name', 'email', 'pea_id')
             ->with(['profiles', 'pea'])
             ->where('id', '>', 1);
 
-        $isSuperAdmin = optional(auth()->user())->hasRole('super-admin');
-        if (!$isSuperAdmin) {
+        if ($pea_id) {
             $users->where('pea_id', $pea_id);
+        }
+
+        $isAdmin = (optional(auth()->user())->hasRole('super-admin') || optional(auth()->user())->hasRole('admin'));
+        if (!$isAdmin) {
+            $users->where('pea_id', auth()->user()->pea_id);
         }
 
         if ($roleName) {
@@ -76,7 +79,8 @@ class UsersController extends Controller
             'pageSize' => $pageSize,
             'search' => $search,
             'role' => $roleName,
-            'roles' => Role::where('id', '>', 1)->get()
+            'roles' => Role::where('id', '>', 1)->get(),
+            'peas' => Peas::all()
         ]);
     }
 
@@ -87,7 +91,9 @@ class UsersController extends Controller
      */
     public function create()
     {
-        //
+        return view('users.edit', [
+            'peas' => Peas::all()
+        ]);
     }
 
     /**
@@ -98,7 +104,13 @@ class UsersController extends Controller
      */
     public function store(StoreUserRequest $request)
     {
-        //
+        $data = $request->validated();
+        $data['password'] = bcrypt($request->get('new_password'));
+        if (User::create($data)) {
+            return redirect(route('users.index'))->with(['success' => 'Insert user success!']);
+        }
+
+        return redirect(route('users.index'))->with(['error' => 'Insert user fail!']);
     }
 
     /**
@@ -144,11 +156,17 @@ class UsersController extends Controller
             throw new ValidationException($validation);
         }
 
-        if (User::findOrFail($id)->update($request->validated())) {
-            return redirect(route('users.index'))->with(['success' => 'Update success!']);
+        if ($user = User::findOrFail($id)) {
+            $user->update($request->validated());
+            if ($request->get('new_password')) {
+                $user->password = bcrypt($request->get('new_password'));
+                $user->save();
+            }
+
+            return redirect(route('users.index'))->with(['success' => 'Update user success!']);
         }
 
-        return redirect(route('users.index'))->with(['error' => 'Update fail!']);
+        return redirect(route('users.index'))->with(['error' => 'Update user fail!']);
     }
 
     /**
