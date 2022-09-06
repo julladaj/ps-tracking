@@ -173,7 +173,7 @@ data-bgcolor="@if(isset($configData['navbarBgColor'])){{$configData['navbarBgCol
                 <span class="user-name">{{ auth()->user()->name }}</span>
                 <span class="user-status text-muted">Available</span>
               </div>
-              <span><img class="round" src="{{asset('images/portrait/small/avatar-s-11.jpg')}}" alt="avatar" height="40" width="40"></span>
+              <span><img class="round" src="{{asset('images/profile/pea.png')}}" alt="PEA" height="40" width="40"></span>
             </a>
             <div class="dropdown-menu dropdown-menu-right pb-0">
               <a class="dropdown-item" href="{{asset('page/user/profile')}}">
