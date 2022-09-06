@@ -148,7 +148,7 @@
                    data-placement="top" data-original-title="{{ buddhismDate($meter->approve_date?? old('meters.approve_date')) }}">
         </div>
     </div>
-    <div class="row mt-1 show_on_approve">
+    <div class="row mt-1 show_on_approve hide_on_no_payment">
         <div class="col-md-2 text-right vertical-middle">
             <label>เลขที่หนังสือแจ้งค่าใช้จ่าย</label>
         </div>
@@ -164,7 +164,7 @@
                    data-placement="top" data-original-title="{{ $meter_extra['approve_letter_date']?? null }}">
         </div>
     </div>
-    <div class="row mt-1 show_on_approve_date">
+    <div class="row mt-1 show_on_approve_date hide_on_no_payment">
         <div class="col-md-2 text-right vertical-middle">
             <label>หมดกำหนดยืนราคา</label>
         </div>
@@ -281,11 +281,13 @@
 
             $(document).on('change', '#has_no_payment', function () {
                 $('#has_payment').prop('checked', !$(this).is(':checked'));
+                toggle_payment();
                 toggle_service_final_date();
             });
 
             $(document).on('change', '#has_payment', function () {
                 $('#has_no_payment').prop('checked', !$(this).is(':checked'));
+                toggle_payment();
                 toggle_service_final_date();
             });
 
@@ -305,6 +307,15 @@
             $(document).on('change', '#survey_user_id', function () {
                 check_selected_survey_user();
             });
+
+            function toggle_payment() {
+                console.log($('#has_no_payment').is(':checked'));
+                if ($('#has_no_payment').is(':checked')) {
+                    $('.hide_on_no_payment').hide();
+                } else {
+                    $('.hide_on_no_payment').show();
+                }
+            }
 
             function clearAllAppendedRequired() {
                 document.getElementById("survey_user_id").removeAttribute("required");
@@ -435,6 +446,7 @@
             update_credit_term($('option:selected', '#requested_place_id').attr('credit_terms'));
             check_selected_survey_user();
             coloringProgressBar();
+            toggle_payment();
         });
     </script>
 @endsection
