@@ -473,7 +473,7 @@ SQL;
             ]);
         }
 
-        $request_meter['has_payment'] = $request_meter['has_payment'] ?? 0;
+        $request_meter['has_payment'] = !empty($request_meter['has_payment'])? (int)$request_meter['has_payment'] : 0;
         $request_meter['paid'] = $request_meter['paid'] ?? 0;
 
         $meter->update($request_meter);

@@ -11,6 +11,7 @@
             <input type="text" class="form-control @error('meters.document_number') error @enderror" id="document_number" name="meters[document_number]" placeholder="เลขที่คำร้อง" maxlength="12"
                    value="{{ old('meters.document_number', $meter->document_number ?? '') }}">
             @error('meters.document_number')<span class="error">{{ $message }}</span>@enderror
+
         </div>
 
         <div class="col-md-2 text-right vertical-middle">
@@ -22,6 +23,10 @@
                    data-original-title="{{ buddhismDate(old('meters.document_date', $meter->document_date ?? '')) }}">
             @error('meters.document_date')<span class="error">{{ $message }}</span>@enderror
         </div>
+    </div>
+    <div class="row mt-0">
+        <div class="col-md-2"></div>
+        <div class="col-md-10"><small class="form-text text-muted">ตัวอย่าง เลขที่คำร้อง: ABCD00000000, 120000000000</small></div>
     </div>
     <div class="row mt-1">
         <div class="col-md-2 text-right vertical-middle">
@@ -186,7 +191,7 @@
         <div class="col-md-4 form-group vertical-middle">
             <fieldset>
                 <div class="checkbox">
-                    <input type="checkbox" class="checkbox-input" id="has_no_payment" {{ ((isset($meter->has_payment) && !$meter->has_payment) || !old('meters.has_payment'))? 'checked' : '' }}>
+                    <input type="checkbox" class="checkbox-input" id="has_no_payment" {{ (isset($meter->has_payment) && !$meter->has_payment)? 'checked' : '' }}>
                     <label for="has_no_payment">ไม่มีค่าใช้จ่ายเรียกเก็บ</label>
                 </div>
             </fieldset>
@@ -281,13 +286,11 @@
 
             $(document).on('change', '#has_no_payment', function () {
                 $('#has_payment').prop('checked', !$(this).is(':checked'));
-                toggle_payment();
                 toggle_service_final_date();
             });
 
             $(document).on('change', '#has_payment', function () {
                 $('#has_no_payment').prop('checked', !$(this).is(':checked'));
-                toggle_payment();
                 toggle_service_final_date();
             });
 
@@ -307,15 +310,6 @@
             $(document).on('change', '#survey_user_id', function () {
                 check_selected_survey_user();
             });
-
-            function toggle_payment() {
-                console.log($('#has_no_payment').is(':checked'));
-                if ($('#has_no_payment').is(':checked')) {
-                    $('.hide_on_no_payment').hide();
-                } else {
-                    $('.hide_on_no_payment').show();
-                }
-            }
 
             function clearAllAppendedRequired() {
                 document.getElementById("survey_user_id").removeAttribute("required");
@@ -401,6 +395,12 @@
                 } else {
                     $('.show_on_no_pending_payment').hide();
                 }
+
+                if ($('#has_no_payment').is(':checked')) {
+                    $('.hide_on_no_payment').hide();
+                } else {
+                    $('.hide_on_no_payment').show();
+                }
             }
 
             function coloringProgressBar() {
@@ -446,7 +446,7 @@
             update_credit_term($('option:selected', '#requested_place_id').attr('credit_terms'));
             check_selected_survey_user();
             coloringProgressBar();
-            toggle_payment();
+            toggle_service_final_date();
         });
     </script>
 @endsection
