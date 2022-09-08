@@ -114,7 +114,7 @@ SQL;
                 'jd.meter_id'
             )
             ->where('job_status_id', '<', 5)
-            ->whereRaw('jd.`sum_job_duration` IS NOT NULL AND jd.`sum_job_duration` > sd.`sum_standard_duration`')
+            ->whereRaw('jd.`sum_job_duration` IS NOT NULL AND jd.`sum_job_duration` > sd.`sum_standard_duration` AND (meters.approve_location IS NULL OR meters.approve_location = \'\')')
             ->count();
 
         if ($request->get('overdue')) {
@@ -132,7 +132,7 @@ SQL;
                     'jd.meter_id'
                 )
                 ->where('job_status_id', '<', 5)
-                ->whereRaw('jd.`sum_job_duration` IS NOT NULL AND jd.`sum_job_duration` > sd.`sum_standard_duration`');
+                ->whereRaw('jd.`sum_job_duration` IS NOT NULL AND jd.`sum_job_duration` > sd.`sum_standard_duration` AND (meters.approve_location IS NULL OR meters.approve_location = \'\')');
         }
 
         $over_report = [
