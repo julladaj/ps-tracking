@@ -109,6 +109,9 @@ LIMIT 1;";
         $period = new DatePeriod($dtStart, new DateInterval('P1D'), $dEndAddDay->addDays(1));
 
         foreach ($period as $dt) {
+            if (!$dt instanceof \Illuminate\Support\Carbon) {
+                $dt = \Illuminate\Support\Carbon::parse($dt);
+            }
             if (!self::isWeekday($dt)) {
                 continue;
             }
