@@ -6,7 +6,7 @@
                 <li class="nav-item mr-auto">
                     <a class="navbar-brand" href="{{ \App\Providers\RouteServiceProvider::HOME }}">
                         <div class="brand-logo">
-                            <img class="logo" src="assets/logo-pea.png" width="26px" height="26px" />
+                            <img class="logo" src="/assets/logo-pea.png" width="26px" height="26px" />
                         </div>
                         <h2 class="brand-text mb-0">
                             @if(!empty($configData['templateTitle']) && isset($configData['templateTitle']))
