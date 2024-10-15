@@ -1,7 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
-  <component name="PublishConfigData" serverName="ps-tracking.pea-meter.com" remoteFilesAllowedToDisappearOnAutoupload="false">
+  <component name="PublishConfigData" serverName="202.129.207.233" remoteFilesAllowedToDisappearOnAutoupload="false">
     <serverData>
+      <paths name="202.129.207.233">
+        <serverdata>
+          <mappings>
+            <mapping deploy="/ps-tracking.pea-meter.com" local="$PROJECT_DIR$" web="/" />
+          </mappings>
+        </serverdata>
+      </paths>
       <paths name="ps-tracking.pea-meter.com">
         <serverdata>
           <mappings>
