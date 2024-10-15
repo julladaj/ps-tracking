@@ -264,6 +264,9 @@
                 if (value > 4) {
                     document.getElementById("service_final_date").setAttribute("required", "required");
                 }
+                if (value > 90) {
+                    document.getElementById("job_number").removeAttribute("required");
+                }
 
                 toggle_show_on_approve(e.target.value);
             });
@@ -373,10 +376,22 @@
             }
 
             function toggle_show_on_approve(job_status_id) {
-                if (job_status_id === "4" || job_status_id === "5") {
-                    $('.show_on_approve').show();
-                } else {
-                    $('.show_on_approve').hide();
+                switch (job_status_id) {
+                    case "4":
+                    case "5":
+                        $('.show_on_approve').show();
+                        document.getElementById("approve_location").setAttribute("required", "required");
+                        document.getElementById("approve_date").setAttribute("required", "required");
+                        document.getElementById("service_final_date").setAttribute("required", "required");
+                        break;
+                    case "98":
+                    case "99":
+                        document.getElementById("approve_location").removeAttribute("required");
+                    default:
+                        $('.show_on_approve').hide();
+                        document.getElementById("approve_location").removeAttribute("required");
+                        document.getElementById("approve_date").removeAttribute("required");
+                        document.getElementById("service_final_date").removeAttribute("required");
                 }
                 toggle_overdue_date();
             }
