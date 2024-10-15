@@ -1,6 +1,62 @@
 {
   "menu": [
     {
+      "name": "Meters",
+      "slug": "meters.index",
+      "icon": "bx bx-grid",
+      "roles": [
+        "visitor",
+        "admin"
+      ]
+    },
+    {
+      "name": "Services",
+      "slug": "meters.index",
+      "icon": "bx bx-grid",
+      "roles": [
+        "visitor",
+        "admin"
+      ]
+    },
+    {
+      "name": "Accountings",
+      "slug": "meters.index",
+      "icon": "bx bx-grid",
+      "roles": [
+        "visitor",
+        "admin"
+      ]
+    },
+    {
+      "name": "Managements",
+      "slug": "meters.index",
+      "icon": "bx bx-grid",
+      "roles": [
+        "visitor",
+        "admin"
+      ]
+    },
+    {
+      "name": "Implementations",
+      "slug": "meters.index",
+      "icon": "bx bx-grid",
+      "roles": [
+        "visitor",
+        "admin"
+      ]
+    },
+    {
+      "name": "User",
+      "slug": "users.index",
+      "icon": "bx bx-user-plus",
+      "roles": [
+        "admin"
+      ]
+    },
+    {
+      "navheader": "Admin"
+    },
+    {
       "url": "index",
       "name": "Dashboard",
       "slug": "dashboard",
@@ -9,7 +65,7 @@
       "tagcustom": "badge badge-light-danger badge-pill badge-round float-right mr-50",
       "submenu": [
         {
-          "url": "/",
+          "url": "dashboard/ecommerce",
           "name": "eCommerce",
           "icon": "bx bx-right-arrow-alt",
           "slug": "dashboard-ecommerce"
@@ -97,7 +153,7 @@
      {
       "url": "#",
       "name": "User",
-      "slug": "user",
+      "slug": "app-user",
       "icon": "bx bx-user-plus",
       "submenu": [
         {
