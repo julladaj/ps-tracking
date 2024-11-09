@@ -231,6 +231,8 @@ SQL;
 
         $job_statuses = JobStatuses::where('id', 1)->get();
 
+        $pea_id = auth()->user()->pea_id ?? 0;
+
         return view('meters.edit', [
             'isCreate' => true,
             'job_amounts' => Cache::remember('job_amounts', $seconds, function () {
@@ -240,7 +242,7 @@ SQL;
             'job_types' => Cache::remember('job_types', $seconds, function () {
                 return JobTypes::all();
             }),
-            'pea_staffs' => Cache::remember('pea_staffs', $seconds, function () {
+            'pea_staffs' => Cache::remember('pea_staffs_' . $pea_id, $seconds, function () {
                 return PeaStaffs::all();
             }),
             'transformers' => Cache::remember('transformers', $seconds, function () {
@@ -377,6 +379,8 @@ SQL;
             }
         }
 
+        $pea_id = auth()->user()->pea_id ?? 0;
+
         return view('meters.edit', [
             'isCreate' => false,
             'meter' => $meter,
@@ -389,7 +393,7 @@ SQL;
             'job_types' => Cache::remember('job_types', $seconds, function () {
                 return JobTypes::all();
             }),
-            'pea_staffs' => Cache::remember('pea_staffs', $seconds, function () {
+            'pea_staffs' => Cache::remember('pea_staffs_' . $pea_id, $seconds, function () {
                 return PeaStaffs::all();
             }),
             'transformers' => Cache::remember('transformers', $seconds, function () {
