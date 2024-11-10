@@ -18,29 +18,26 @@ class MeterHelper
      */
     public static function getStatusAverageDay(int $job_status_id, ?Meters $meter = null): float
     {
-//        $ds = new Carbon('2022-05-25 02:41:47');
-//        $de = new Carbon('2022-06-24 02:35:24');
-//        dd($ds->diffInSeconds($de));
-
         $sql_command = "
 SELECT 
-    `meter_id`, 
-    SUM(`duration`) AS `sum_of_duration`, 
-    AVG(SUM(`duration`)) over () AS `avg_duration_of_status`
+    `job_status_durations`.`meter_id`, 
+    SUM(`job_status_durations`.`duration`) AS `sum_of_duration`, 
+    AVG(SUM(`job_status_durations`.`duration`)) over () AS `avg_duration_of_status`
 FROM `job_status_durations`
-WHERE 1";
+LEFT JOIN `meters` ON `job_status_durations`.`meter_id` = `meters`.`id`
+WHERE `meters`.`pea_id` = '".auth()->user()->pea_id."'";
 
         if ($job_status_id) {
-            $sql_command .= " AND `job_status_id` = {$job_status_id}";
+            $sql_command .= " AND `job_status_durations`.`job_status_id` = {$job_status_id}";
         }
 
         if ($meter_id = optional($meter)->id) {
-            $sql_command .= " AND `meter_id` = {$meter_id}";
+            $sql_command .= " AND `job_status_durations`.`meter_id` = {$meter_id}";
         }
 
         $sql_command .= "
-GROUP BY `meter_id`
-ORDER BY SUM(`duration`) DESC
+GROUP BY `job_status_durations`.`meter_id`
+ORDER BY SUM(`job_status_durations`.`duration`) DESC
 LIMIT 1;";
 
         $avg = DB::select($sql_command);
