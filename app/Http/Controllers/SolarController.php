@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\Amphure;
 use App\Models\District;
 use App\Models\Province;
+use DateTime;
+use DateTimeZone;
 use Illuminate\Http\Request;
 
 class SolarController extends Controller
@@ -22,7 +24,9 @@ class SolarController extends Controller
 
     public function lineNotify(Request $request)
     {
-        $now = date("F j, Y, G:i");
+        $datetime = new DateTime('now', new DateTimeZone('Asia/Bangkok'));
+
+        $now = $datetime->format("F j, Y, G:i");
         $name = $request->get('name', '');
 
         $fullAddress = [];
@@ -64,27 +68,27 @@ class SolarController extends Controller
         $available = implode(', ', $availableList);
 
         $message = <<<TXT
-PEA Solar support:     
-    วันที่ลงทะเบียน: 
-    {$now}
-    
-    👤 ชื่อลูกค้า: 
-    {$name}
-    
-    🏠 สถานที่ติดตั้ง: 
-    {$address}
-    
-    📱 เบอร์ติดต่อ: 
-    {$telephone}
-    
-    ⏰ เวลาที่สะดวกให้ติดต่อกลับ: 
-    {$available}
-    
-    📝 รายละเอียด: 
-    {$description}
-    
-    👇 ดูรายละเอียดเพิ่มเติม: 
-    https://peasolar.pea.co.th/nocodb/
+PEA Solar support:
+วันที่ลงทะเบียน:
+{$now}
+
+👤 ชื่อลูกค้า:
+{$name}
+
+🏠 สถานที่ติดตั้ง:
+{$address}
+
+📱 เบอร์ติดต่อ:
+{$telephone}
+
+⏰ เวลาที่สะดวกให้ติดต่อกลับ:
+{$available}
+
+📝 รายละเอียด: 
+{$description}
+
+👇 ดูรายละเอียดเพิ่มเติม: 
+https://peasolar.pea.co.th/nocodb/
 TXT;
 
         // https://developers.line.biz/console/channel/2006578353/messaging-api
@@ -96,7 +100,7 @@ TOKEN;
         $groupId = 'C0571d8e5425bf052811bda3e2065cf7e';
 
         // Build data structure as array
-        $data = [
+        $dataStructure = [
             "to" => $groupId,
             "messages" => [
                 [
@@ -107,22 +111,13 @@ TOKEN;
         ];
 
         // Convert to JSON safely
-        $json = json_encode($data, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
+        $json = json_encode($dataStructure, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
 
         $command = <<<EOD
 curl -v -X POST https://api.line.me/v2/bot/message/push \
 -H 'Content-Type: application/json' \
 -H 'Authorization: Bearer {$token}' \
 -d '{$json}'
-EOD;
-
-        exec($command, $result);
-
-        $command = <<<EOD
-curl -v -X POST https://api.line.me/v2/bot/message/push \
--H 'Content-Type: application/json' \
--H 'Authorization: Bearer {$token}' \
--d '{$data}'
 EOD;
 
         exec($command, $result);
