@@ -96,6 +96,18 @@ TXT;
 LXD5D9D9JlMM0qf/yfciJ6nukQbn4L6F1JoGFscKXHLYuh4X/wusqil7qNl7aKH7+jPV3YRSExrb50J5YqG2vVLaJkaAakpCqLeELcjwmkqZ9S6CrpPLTkT+LXqiD1wLMK1ycRDkWEIbEvoGSuCgTgdB04t89/1O/w1cDnyilFU=
 TOKEN;
 
+        /**
+         * Account Information (Business Account)
+         * https://developers.line.biz/console/channel/2006578353/messaging-api
+         *
+         * Email: peacm001@gmail.com
+         * Password: Chai449521
+         */
+        $tokenBackup = <<<TOKEN
+GQ9LJb4h+wiSvPx/X/8jiRqMz2I3F3XPzuJiEVEofX/86BE8cUyUTXKHqaUu1/28l9rsBSZpW6jwuIXfhXuIRe7NJ+shibntd5qBNiOpL/vBtMFMjbsajVYwmj9+uAMXf9LFQ544bhNuV0OYV2mBGgdB04t89/1O/w1cDnyilFU=
+TOKEN;
+
+
         // Checking from "line-log.txt"
         $groupId = 'C0571d8e5425bf052811bda3e2065cf7e';
 
