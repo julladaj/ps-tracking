@@ -55,6 +55,15 @@ class SolarController extends Controller
         $telephone = $request->get('telephone', '');
         $description = $request->get('description', '');
 
+        $customerNeedsList = [];
+        if ($request->get('install_solar_rooftop')) {
+            $customerNeedsList[] = 'สนใจติดตั้ง';
+        }
+        if ($request->get('clean_solar_panels')) {
+            $customerNeedsList[] = 'สนใจล้างแผง';
+        }
+        $customerNeeds = implode(', ', $customerNeedsList);
+
         $availableList = [];
         if ($request->get('available_morning')) {
             $availableList[] = 'ช่วงเช้า (9:00 - 12:00 น.)';
@@ -83,6 +92,9 @@ PEA Solar support:
 
 ⏰ เวลาที่สะดวกให้ติดต่อกลับ:
 {$available}
+
+📝 ความต้องการ:
+{$customerNeeds}
 
 📝 รายละเอียด: 
 {$description}

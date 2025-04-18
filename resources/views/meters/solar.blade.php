@@ -87,6 +87,22 @@
                 </div>
 
                 <div class="form-group mb-50">
+                  <label class="text-bold-600">ความต้องการ</label>
+                  <fieldset>
+                    <div class="checkbox">
+                      <input type="checkbox" class="checkbox-input" id="install_solar_rooftop" name="install_solar_rooftop" value="1">
+                      <label for="install_solar_rooftop">สนใจติดตั้ง/Install Solar Rooftop</label>
+                    </div>
+                  </fieldset>
+                  <fieldset>
+                    <div class="checkbox">
+                      <input type="checkbox" class="checkbox-input" id="clean_solar_panels" name="clean_solar_panels" value="1">
+                      <label for="clean_solar_panels">สนใจล้างแผง/Clean The Solar panels</label>
+                    </div>
+                  </fieldset>
+                </div>
+
+                <div class="form-group mb-50">
                   <label class="text-bold-600">ช่วงเวลาที่สะดวกให้ติดต่อกลับ</label>
                   <fieldset>
                     <div class="checkbox">
